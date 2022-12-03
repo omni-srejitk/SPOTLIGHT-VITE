@@ -1,5 +1,4 @@
 import React from "react";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router-dom";
 
@@ -12,18 +11,19 @@ export const Carousal = ({ data }) => {
   modifiedStory.splice(0, 2);
 
   return (
-    <div className=" text-[black] text-[1.05rem] p-2 flex h-[250px] w-[93%] justify-start overflow-x-auto gap-4 no-scrollbar m-[2%] bg-[black]">
-      {/* <Carousel swipeable  emulateTouch showThumbs={false} showIndicators={false} showStatus={false} showArrows={true} infiniteLoop={true} className=' w-[28rem] m-auto  rounded-xl'> */}
-
+    <div className=" text-[black] text-[1.05rem] p-2 flex h-[250px] w-[93%]  justify-start overflow-x-auto gap-4 no-scrollbar m-[2%] bg-[black]">
       <div className="h-[100%] min-w-[70%] bg-[#FAE77D] text-center z-10 border-0 outline-none rounded-xl relative">
         <div className="absolute top-0 right-0 w-auto z-0">
           <img src="/images/Union Rings.png" />
         </div>
-        <div className="ml-[10%] mt-[7%] w-[80%] h-[27%] flex flex-row mb-[5%] items-center">
-          <div className="w-[33%] h-[100%] p-[3px] bg-white rounded-[50%] border-[1px] border-black mr-4">
-            <img className="w-[100%] h-[100%]" src={data?.brandLogo} alt="/" />
+        <div className="ml-[10%] mt-[7%] w-[80%] h-[27%] flex flex-row mb-[5%] items-center justify-start">
+          <div className="w-[70px] h-[70px] bg-white flex justify-center items-center  rounded-[35px] border-[1px] border-black z-10 ">
+            <img className=" w-[40px] h-[40px] " src={data.brandLogo} alt="/" />
           </div>
-          <p className="text-[1.25rem] text-[black] font-bold z-10">
+          {/* <div className="w-[33%] h-[100%] p-[3px] bg-white rounded-[50%] border-[1px] border-black mr-4">
+            <img className="w-[100%] h-[100%]" src={data?.brandLogo} alt="/" />
+          </div> */}
+          <p className="text-[1.25rem] text-[black] font-semibold z-10 ml-3">
             {brand.brandName}
           </p>
         </div>
@@ -33,6 +33,10 @@ export const Carousal = ({ data }) => {
         </div>
       </div>
 
+      {/* <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
+        
+        <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
+      </div> */}
       {/* <div className='p-10 pr-16 pt-6 h-[100%] bg-[#FAE77D] z-10 border-0 outline-none rounded-xl'>
           <div className='absolute top-0 right-0 w-[7rem] z-0'>
             <img src='/images/Union Rings.png'/>

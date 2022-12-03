@@ -99,11 +99,11 @@ const NewLocCard = ({ distance }) => {
 
   return (
     //rendering store not found card component
-    <div className="h-[100vh] w-[100%] bg-[#000000] py-[2%]">
-      <p className="text-[1.5rem] ml-[5%]">We've found this store.</p>
+    <div className=" w-[100%] bg-[#000000] ">
+      <p className="text-[1.5rem] p-4 ml-0">Oops! You're too far</p>
       {card.view === "form" ? (
         distance ? (
-          <div className="card bg-[#5E5BF2] rounded-xl m-[5%] h-[95%] relative">
+          <div className="card bg-[#5E5BF2] rounded-xl mx-[5%] h-[80%] relative">
             {/* <img
               src="/images/loc deny form design.png"
               className="absolute bottom-[0%] left-0"

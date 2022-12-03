@@ -41,11 +41,12 @@ const LocationDenyPage = (props) => {
     console.log("entered getplace for sign");
   };
 
+  // console.log("props.data", props.data);
   return (
     //rendering location deny page
     <div className="bg-black">
       {!newLocation ? (
-        props.data ? (
+        props.data?.brandLogo ? (
           <>
             <Header />
             <NewLocationDenyCard data={props.data} onSubmit={getPlace} />

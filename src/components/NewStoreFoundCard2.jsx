@@ -3,19 +3,13 @@ import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
 
-const NewStoreFoundCard = ({ distance, storeName, showButton }) => {
+// const NewStoreFoundCard2 = ({ data }) => {
+const NewStoreFoundCard2 = ({ showButton, distance, storeName }) => {
+  const [brandData, setBrandData] = useState(null);
+
   // //N-> declaring variables to get curr lat and curr long
   // let currLat;
   // let currLong;
-
-  // let [collection, setCollection] = useState(null);
-  // // console.log("distance", distance);
-  // if (!collection) {
-  //   if (distance) {
-  //     // console.log("distance", distance);
-  //     setCollection(distance);
-  //   }
-  // }
 
   // //initializing new data as object
   // var newData = {};
@@ -25,6 +19,8 @@ const NewStoreFoundCard = ({ distance, storeName, showButton }) => {
   //   navigator.geolocation.getCurrentPosition((Location) => {
   //     currLat = Location.coords.latitude;
   //     currLong = Location.coords.longitude;
+  //     console.log("currLat", currLat);
+  //     console.log("currLong", currLong);
 
   //     //intializing dist as object and first input as key-value pair of storeDistance with empty string
   //     const dist = { storeDistance: "" };
@@ -80,7 +76,7 @@ const NewStoreFoundCard = ({ distance, storeName, showButton }) => {
     //rendering store found card component
     <div className="bg-black">
       {/* {brandData && brandData.stores ? ( */}
-      <div className="bg-[#E37353] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
+      <div className="bg-[#E37353] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] sm:h-[27rem] text-[black]">
         <img
           src="/new left dots.svg"
           className="absolute left-[2%] top-[2%] h-[93%] z-10"
@@ -119,18 +115,9 @@ const NewStoreFoundCard = ({ distance, storeName, showButton }) => {
         </p>
 
         {showButton}
-
-        {/* <button
-            className="bg-[#FCD439] text-black px-4 py-4 block w-[65%] m-auto rounded-lg text-center top-[70.5%] left-[17.5%]  absolute z-10"
-            onClick={openGoogleByMethod}
-          >
-            Find a store near me
-          </button> */}
       </div>
-      {/* ) : (
-        <LoadComponent />
-      )} */}
     </div>
   );
 };
-export default NewStoreFoundCard;
+export default NewStoreFoundCard2;
+// {storeName}

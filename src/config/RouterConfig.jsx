@@ -5,7 +5,6 @@ import Brand from "../Brands/Brand";
 import BrandStores from "../conditions/iflocationallow/brandsStore/BrandStores";
 import LocationDenyPage from "../conditions/iflocationdeny/LocationDenyPage";
 import StoreNotFound from "../conditions/iflocationallow/brandsStoreNotFound/StoreNotFound";
-// import { useState } from "react";
 
 export const RouterConfig = () => {
   const [data, setData] = useState({});

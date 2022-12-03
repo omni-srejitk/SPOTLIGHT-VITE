@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
+import { Modal } from "./Modal";
 
 export const MainButton = ({ data }) => {
   const brand = useParams();
-  console.log("data", data);
+  // console.log("data", data);
 
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
@@ -80,67 +81,131 @@ export const MainButton = ({ data }) => {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
+  let [isOpen, setIsOpen] = useState(true);
+  let [modalcondition, setModalCondition] = useState(false);
+
+  function showModal() {
+    return (
+      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        <img src="/newLoc.svg" className="w-[30%] h-[30%] my-6 block mx-auto" />
+        <p className="text-[1.15rem] font-medium text-center m-2">
+          You're just a few seconds away
+        </p>
+        <p className="text-[0.75rem] text-center font-normal p-2">
+          We ask for location permission to locate stores near you. Click
+          “Allow” once you see a popup. Grant permission
+        </p>
+        <button
+          className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        >
+          Grant Permission
+        </button>
+      </Modal>
+    );
+  }
+
   return (
     <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
       <img
-        src="/images/Left Dots.png"
-        className="absolute left-[2%] top-[2%] h-[93%]"
+        src="/new left dots.svg"
+        className="absolute left-[0%] top-[2%] h-[93%]"
       />
       <img
-        src="/images/Right Dots.png"
-        className="absolute right-[2%] top-[2%] h-[93%]"
+        src="/new right dots.svg"
+        className="absolute right-[0%] top-[2%] h-[93%]"
       />
       <img
-        src="/images/star.png"
+        src="/new star.svg"
         className="absolute left-[-4%] top-[-3%] w-[17%]"
       />
       <img
-        src="/images/2 stars.png"
+        src="/new 2 stars.svg"
         className="absolute right-[15%] top-[2%] w-[13%]"
       />
 
-      <div className="w-[25%] h-[18%] bg-white p-[3.5%] rounded-[50%] border-[1px] border-black left-[30%] top-[10.5%] absolute sm:w-[22%]">
-        <img
-          className=" w-[100%] h-[100%]"
-          src="/images/new Logo.png"
-          alt="/"
-        />
+      <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] flex justify-center items-center rounded-[50px] sm:mx-[30%]">
+        <div className="bg-black w-[64px] h-[64px] flex justify-center items-center rounded-[32px]">
+          <img
+            className=" w-[34px] h-[34px]"
+            src="/spotlight white.svg"
+            alt="/"
+          />
+        </div>
+      </div>
+      {/* flex justify-center items-center */}
+      <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
+        {/* <div className=" w-[64px] h-[64px] bg-black rounded-[32px]"> */}
+        <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
+        {/* </div> */}
       </div>
 
-      <div className="w-[25%] h-[18%] bg-white p-[3%] rounded-[50%] border-[1px] border-black z-10 absolute left-[49%] top-[10.5%] sm:w-[22%]">
-        <img className=" w-[100%] h-[100%] " src={data.brandLogo} alt="/" />
-      </div>
-
-      <p className="text-[1.2rem] text-center absolute top-[36%] left-[30%] sm:left-[35%]">
+      <p className="text-[1.45rem] text-center mt-8">
         <span className="font-bold">{brand.brandName} </span> is now
       </p>
-      <p className="text-center text-[1.2rem] absolute top-[43%] left-[32%] sm:left-[37%]">
+      <p className="text-center text-[1.45rem] mt-[-0.45rem]">
         on <span className=" font-bold">Spotlight</span>
       </p>
 
-      <hr className=" rounded border-t-4 border-[white] absolute top-[51%] left-[25%] bg-gray-200 dark:bg-white" />
-      <p className=" relative top-[54%] w-[80%] m-auto text-center">
+      <hr className=" rounded border-t-2 w-[50%] mx-auto mt-2 border-[white]" />
+
+      <p className="mt-4 w-[80%] m-auto text-center text-[1.1rem]">
         Visit the nearest store
       </p>
-      <p className="w-[80%] m-auto text-center relative top-[54%]">
+      <p className="w-[80%] m-auto text-center mt-[-0.2rem]">
         for exclusive deals
       </p>
-      {/* <p className="w-[50%] m-auto relative top-[58%] left-[25%] sm:left-[35%]">
-        Visit the nearest store left-[25%] sm:left-[50%]
-      </p> */}
-      {/* <p className="w-[50%] m-auto absolute top-[63%] left-[28%]">
-        for exclusive deals
-      </p> */}
-
       <button
-        className="bg-[]  text-black px-4 py-4 block w-[65%] m-auto rounded-lg text-center absolute top-[78%] left-[17.5%] "
-        onClick={ShowLocationPopUp}
+        className="bg-[#FCD439] text-black px-3 py-4 block w-[65%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.1rem]"
+        onClick={() => {
+          // showModal();
+          // setModalCondition(true);
+          // {
+          //   modalcondition ? showModal() : ShowLocationPopUp();
+          // }
+          ShowLocationPopUp();
+        }}
         id="button"
       >
-        Take me there
-        <ArrowForwardIcon fontSize="small" />
+        Find a store near me
+        <img src="/Find a store near me.svg" className="inline ml-2" />
         {/* <ButtonAnimationComponent /> */}
       </button>
+      {/* {modalcondition ? showModal() : ""} */}
     </div>
   );
 };
+
+// onClick={() => {
+//   showModal();
+//   ShowLocationPopUp
+// }}
+{
+  /* <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[20%] top-[10.5%] sm:w-[22%] p-[13px] rounded-[50px]">
+  onClick={ShowLocationPopUp}
+        <div className="bg-black w-[74px] h-[74px] p-[10px] rounded-[37px]">
+          <img
+            className=" w-[54px] h-[54px]"
+            src="/spotlight white.svg"
+            alt="/"
+          />
+        </div>
+      </div> */
+}
+{
+  /* <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] top-[10.5%] p-[18px] rounded-[50px] sm:mx-[30%]">
+        <div className="bg-black w-[64px] h-[64px] p-[15px] rounded-[32px]">
+          <img
+            className=" w-[34px] h-[34px]"
+            src="/spotlight white.svg"
+            alt="/"
+          />
+        </div>
+      </div>
+
+      <div className="w-[100px] h-[100px] bg-white p-[18px] rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
+        <img className=" w-[100%] h-[100%] " src={data.brandLogo} alt="/" />
+      </div> */
+}
