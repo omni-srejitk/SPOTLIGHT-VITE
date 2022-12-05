@@ -8,10 +8,10 @@ import { LoadComponent } from "./LoadComponent";
 
 const NewStoreNotFoundCard = ({ data }) => {
   const brand = useParams();
-  const [setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
   let [isOpen, setIsOpen] = useState(true);
-  const [fullname, setFullName] = useState("");
+  const [name, setName] = useState("");
 
   const [setPhoneMessage] = useState("");
   const [phoneError, setPhoneError] = useState(null);
@@ -132,12 +132,9 @@ const NewStoreNotFoundCard = ({ data }) => {
   //submitting and sending all the form data on backend and database
   const handleClick = async () => {
     let response = await formInput(input);
-    setFullName(response?.data?.data?.fullname);
+    setName(response?.data?.data?.fullname);
     console.log(response);
-    console.log(
-      "response?.data?.data?.fullname",
-      response?.data?.data?.fullname
-    );
+    console.log("response?.data?.data?.name", response?.data?.data?.fullname);
 
     toggleCard(cardInitialValues.thanks);
   };
@@ -145,106 +142,139 @@ const NewStoreNotFoundCard = ({ data }) => {
   return (
     //rendering store not found card component
     <div className=" bg-[#000000] py-[2%]">
-      <p className="text-[1.5rem] ml-[5%]">We've found this store.</p>
+      {card.view === "form" ? (
+        <p className="text-[1.35rem] ml-[5%]">Oops! The store is too far</p>
+      ) : (
+        <p className="text-[1.35rem] ml-[5%]">
+          Thanks for using ShopOnSpotlight
+        </p>
+      )}
       {card.view === "form" ? (
         brandData && brandData.stores ? (
-          <div className="card bg-[#5E5BF2] rounded-xl m-[5%] pb-[5%]">
-            <img
-              src="/images/arrow.png"
-              className="w-[30%] sm:w-[20%] m-auto py-[10%]"
-            />
-            <p className="store text-[1rem] tracking-[4px] text-center">
-              THE NEAREST STORE IS
-            </p>
-            <p className="text-center font-bold text-[2.5rem] mt-4 leading-[3rem] text-[#FFFFFF]">
-              {brandData.stores[0].storeDistance} km Away
-            </p>
-            {/* <hr className="hr2" /> */}
-            <p className="text-center font-medium text-[1.25rem] leading-6 mt-4">
-              How Far Will You Go for Love?
-            </p>
-            <p className="text-center text-[0.9rem] leading-6 mt-4">
-              Instead, let us Notify you when
-              <br />
-              we launch near you.
-            </p>
-            <input
-              id="outlined-basic"
-              onChange={(e) => onInputChange(e)}
-              name="fullname"
-              placeholder="Full Name"
-              /*label="Full name"*/ variant="outlined"
-              size="small"
-              className="bg-[#2D2C73] block w-[80%] m-auto my-4 mt-8 p-[0.5rem] rounded-lg"
-            />
-            <input
-              id="outlined-basic"
-              onChange={(e) => {
-                onInputChange(e);
-                handlePhoneChange(e);
-              }}
-              name="phone"
-              placeholder="Phone number"
-              /*label="Phone number"*/ variant="outlined"
-              size="small"
-              className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
-            />
-            {phoneError && (
-              <p style={{ color: "red", margin: 0, padding: 0 }}>
-                {phoneError}
+          <div>
+            <div className="card bg-[#5E5BF2] rounded-xl m-[5%] pb-[5%]">
+              <img
+                src="/images/arrow.png"
+                className="w-[30%] sm:w-[20%] m-auto py-[10%]"
+              />
+              <p className="store text-[1rem] tracking-[4px] text-center">
+                THE NEAREST STORE IS
               </p>
-            )}
-            <input
-              id="outlined-basic"
-              onChange={(e) => {
-                onInputChange(e);
-                handleEmailChange(e);
-              }}
-              name="email"
-              placeholder="Email"
-              /*label="Email"*/ variant="outlined"
-              size="small"
-              className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
-            />
-            {error && (
-              <p style={{ color: "red", margin: 0, padding: 0 }}>{error}</p>
-            )}
-            <button
-              className="bg-[#FCD439] text-[#000000] w-[85%] p-[0.75rem] my-6 rounded-lg block mx-auto mb-4"
-              onClick={() => {
-                handleClick();
-              }}
-            >
-              <span>Get 25% off on Launch</span>
-              <img src="../images/discount.svg" alt="icon" className="inline" />
-            </button>
+              <p className="text-center font-bold text-[2.5rem] mt-4 leading-[3rem] text-[#FFFFFF]">
+                {brandData.stores[0].storeDistance} km Away
+              </p>
+              {/* <hr className="hr2" /> */}
+              <p className="text-center font-medium text-[1.25rem] leading-6 mt-4">
+                How Far Will You Go for Love?
+              </p>
+              <p className="text-center text-[0.9rem] leading-6 mt-4">
+                Instead, let us Notify you when
+                <br />
+                we launch near you.
+              </p>
+              <input
+                id="outlined-basic"
+                onChange={(e) => {
+                  onInputChange(e);
+                  setName(e.target.value);
+                }}
+                name="fullname"
+                placeholder="Full Name"
+                /*label="Full name"*/ variant="outlined"
+                size="small"
+                className="bg-[#2D2C73] block w-[80%] m-auto my-4 mt-8 p-[0.5rem] rounded-lg"
+              />
+              <input
+                id="outlined-basic"
+                onChange={(e) => {
+                  onInputChange(e);
+                  handlePhoneChange(e);
+                }}
+                name="phone"
+                placeholder="Phone number"
+                /*label="Phone number"*/ variant="outlined"
+                size="small"
+                className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
+              />
+              {phoneError && (
+                <p style={{ color: "red", margin: 0, padding: 0 }}>
+                  {phoneError}
+                </p>
+              )}
+              <input
+                id="outlined-basic"
+                onChange={(e) => {
+                  onInputChange(e);
+                  handleEmailChange(e);
+                }}
+                name="email"
+                placeholder="Email"
+                /*label="Email"*/ variant="outlined"
+                size="small"
+                className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
+              />
+              {error && (
+                <p style={{ color: "red", margin: 0, padding: 0 }}>{error}</p>
+              )}
+              <button
+                className="bg-[#FCD439] text-[#000000] w-[85%] p-[0.75rem] my-6 rounded-lg block mx-auto mb-4"
+                onClick={() => {
+                  handleClick();
+                }}
+              >
+                <span>Get 25% off on Launch</span>
+                <img
+                  src="../images/discount.svg"
+                  alt="icon"
+                  className="inline"
+                />
+              </button>
+            </div>
           </div>
         ) : (
           <LoadComponent />
         )
       ) : (
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        <div className="card bg-[#7E2AE2] rounded-xl m-[5%] pb-[5%] min-h-[80vh] relative">
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <img
+              src="/Success.svg"
+              className="w-[60%] h-[30%] my-6 block mx-auto"
+            />
+            <p className="text-[2rem] font-bold text-center m-2">
+              Congratulations! {name}
+            </p>
+            <p className="text-[1.25rem] text-center font-semibold p-2">
+              You’ll be the first one to be notified when we launch in Bangalore
+            </p>
+            <button
+              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              <a href="https://www.instagram.com/shoponspotlight/">
+                <span className="">Follow us on Instagram</span>
+              </a>
+            </button>
+          </Modal>
+
+          <img src="/new 2 stars.svg" className="block pt-[3rem] pl-[30%]" />
           <img
-            src="/images/Success.png"
-            className="w-[60%] h-[30%] my-6 block mx-auto"
+            src="/not found design.svg"
+            className=" absolute bottom-0 left-0 z-0"
           />
-          <p className="text-[2rem] font-bold text-center m-2">
-            Congratulations! {fullname}
+          <p className="text-[1.5rem] text-center mt-[10rem] mb-4 w-[80%] mx-auto">
+            Follow us on instagram for more exclusive deals
           </p>
-          <p className="text-[1.25rem] text-center font-semibold p-2">
-            You’ll be the first one to be notified when we launch in Bangalore
+          <p className="text-[1rem] text-center w-[60%] mx-auto">
+            You'll be the first one to get exclusive notifications
           </p>
-          <button
-            className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
-            <a href="https://www.instagram.com/shoponspotlight/">
-              <span className="">Follow us on Instagram</span>
-            </a>
+          <button className="block w-[70%] my-8 z-[15] mx-auto p-[0.8rem] bg-white text-[1rem] text-black relative rounded-lg">
+            Follow us on instagram{" "}
+            <img className="inline ml-2" src="/insta.svg" />
           </button>
-        </Modal>
+        </div>
       )}
     </div>
   );

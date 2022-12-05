@@ -28,16 +28,9 @@ const ManualLocation = ({ location, data }) => {
         // console.log("location is : ", location);
         currLat = res.data.results[0].lat;
         currLong = res.data.results[0].lon;
-        // console.log(
-        //   "lat in manual location is : ",
-        //   currLat,
-        //   "type of data is : ",
-        //   typeof currLat
-        // );
         console.log("long in manual location is : ", currLong);
         // })/
         const dist = { storeDistance: "" };
-        // console.log(data);
         if (data && data.stores) {
           console.log(
             "entered if statement, ie data and data.stores available"
@@ -81,14 +74,7 @@ const ManualLocation = ({ location, data }) => {
   });
   findDistance.then(function (value) {
     newData = data;
-    //updating the state of brand data with new data as input
     setBrandData(newData);
-    // console.log("2");
-    // console.log("newData", newData);
-    // console.log(
-    //   "brandData.stores[0].storeDistance",
-    //   brandData.stores[0].storeDistance
-    // );
   });
   console.log("manualLocation data", data);
   function openGoogleByMethod() {

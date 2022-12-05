@@ -7,7 +7,7 @@ export const Modal = ({ open, children, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 m-0 p-0 backdrop-blur-sm text-white"
+      className="fixed inset-0 z-[100] m-0 p-0 backdrop-blur-[1px] text-white"
       onClick={onClose}
     >
       <div

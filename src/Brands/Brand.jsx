@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Carousal } from "../components/Carousal";
 import { LoadComponent } from "../components/LoadComponent";
+import { NewModalLocationDeny } from "../components/NewModalLocationDeny";
 
 const Brand = (props) => {
   const brand = useParams();
@@ -21,18 +22,29 @@ const Brand = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let [isOpen, setIsOpen] = useState(true);
+  const [locDeny, setLocDeny] = useState(false);
 
   return (
     //Rendering the Brand Page
-    <div style={{ backgroundColor: "#000000" }}>
+    <div className="bg-[#000000]">
       <div>
         {props.data.brandLogo ? (
           <>
-            <Header />
-            <MainButton data={props.data} />
-            <Carousal data={props.data} />
-            {/* <LoadComponent /> */}
-            <Footer />
+            {locDeny ? (
+              <NewModalLocationDeny />
+            ) : (
+              <>
+                <Header />
+                <MainButton
+                  data={props.data}
+                  locDeny={locDeny}
+                  setLocDeny={setLocDeny}
+                />
+                <Carousal data={props.data} />
+                {/* <LoadComponent /> */}
+                <Footer />
+              </>
+            )}
           </>
         ) : (
           <LoadComponent />

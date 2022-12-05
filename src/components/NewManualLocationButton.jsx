@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import axios from "axios";
 const ManualLocation = ({ location, data }) => {
@@ -20,7 +19,6 @@ const ManualLocation = ({ location, data }) => {
       )
       .then((res) => {
         const dist = { storeDistance: "" };
-        // console.log(data);
         if (data && data.stores) {
           console.log(
             "entered if statement, ie data and data.stores available"
@@ -65,11 +63,11 @@ const ManualLocation = ({ location, data }) => {
     setBrandData(newData);
     console.log("2");
   });
-  function openGoogleByMethod() {
-    window.open(
-      `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
-    );
-  }
+  // function openGoogleByMethod() {
+  //   window.open(
+  //     `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
+  //   );
+  // }
 
   const ShowLocationPopUp = () => {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -132,19 +130,3 @@ const ManualLocation = ({ location, data }) => {
   );
 };
 export default ManualLocation;
-
-// {brandData && brandData.stores ? (
-//   <div className="card">
-//     <p className="distance">{brandData.stores[0].storeDistance}km Away</p>
-//     <p className="name">{brandData.stores[0].storeName}</p>
-//     <p className="location">Bengaluru</p>
-//     <Button onClick={openGoogleByMethod}>
-//       <img src="../images/location.svg" alt="icon" />
-//       <span>Take me there</span>
-//     </Button>
-//   </div>
-// ) : (
-//   <div className="card">
-//     <p>Just a second</p>
-//   </div>
-// )}

@@ -12,13 +12,11 @@ export const ButtonAnimationComponent = ({ text }) => {
       animationData: ButtonAnimate,
       // animationData: require("../Loading/ButtonAnimation.json"),
     });
-    // return ( => instance.destroy();
+    // return () => instance.destroy()
   }, []);
   return (
     <>
-      <button className="button top-0 left-0" id="button">
-        hvdkgcfu
-      </button>
+      <div className="button top-0 left-0 w-[100%]" id="button"></div>
       {/* <LottieView source={require('../Animations/74468-rocket.json')} autoPlay loop></LottieView> */}
     </>
   );

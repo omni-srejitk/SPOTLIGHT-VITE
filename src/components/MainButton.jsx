@@ -1,14 +1,15 @@
 // import React from 'react'
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
-import { styled, Button } from "@mui/material";
+// import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
+import { NewModalLocationDeny } from "./NewModalLocationDeny";
 
-export const MainButton = ({ data }) => {
+export const MainButton = ({ data, locDeny, setLocDeny }) => {
   const brand = useParams();
   // console.log("data", data);
 
@@ -81,131 +82,138 @@ export const MainButton = ({ data }) => {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   };
 
-  let [isOpen, setIsOpen] = useState(true);
-  let [modalcondition, setModalCondition] = useState(false);
+  let [isOpen, setIsOpen] = useState(false);
+  // const [locDeny, setLocDeny] = useState(false);
+  // let [modalcondition, setModalCondition] = useState(false);
 
-  function showModal() {
-    return (
-      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <img src="/newLoc.svg" className="w-[30%] h-[30%] my-6 block mx-auto" />
-        <p className="text-[1.15rem] font-medium text-center m-2">
-          You're just a few seconds away
-        </p>
-        <p className="text-[0.75rem] text-center font-normal p-2">
-          We ask for location permission to locate stores near you. Click
-          “Allow” once you see a popup. Grant permission
-        </p>
-        <button
-          className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        >
-          Grant Permission
-        </button>
-      </Modal>
-    );
-  }
+  // function showModal() {
+  // return (
+  // <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+  //   <img src="/newLoc.svg" className="w-[30%] h-[30%] my-6 block mx-auto" />
+  //   <p className="text-[1.15rem] font-medium text-center m-2">
+  //     You're just a few seconds away
+  //   </p>
+  //   <p className="text-[0.75rem] text-center font-normal p-2">
+  //     We ask for location permission to locate stores near you. Click
+  //     “Allow” once you see a popup. Grant permission
+  //   </p>
+  //   <button
+  //     className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+  //     onClick={() => {
+  //       // ShowLocationPopUp();
+  //       setIsOpen(false);
+  //     }}
+  //   >
+  //     Grant Permission
+  //   </button>
+  // </Modal>
+  // );
+  // }
 
   return (
-    <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
-      <img
-        src="/new left dots.svg"
-        className="absolute left-[0%] top-[2%] h-[93%]"
-      />
-      <img
-        src="/new right dots.svg"
-        className="absolute right-[0%] top-[2%] h-[93%]"
-      />
-      <img
-        src="/new star.svg"
-        className="absolute left-[-4%] top-[-3%] w-[17%]"
-      />
-      <img
-        src="/new 2 stars.svg"
-        className="absolute right-[15%] top-[2%] w-[13%]"
-      />
+    <div>
+      {/* {locDeny ? (
+        <NewModalLocationDeny />
+      ) : ( */}
+      <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
+        <img
+          src="/new left dots.svg"
+          className="absolute left-[0%] top-[2%] h-[93%]"
+        />
+        <img
+          src="/new right dots.svg"
+          className="absolute right-[0%] top-[2%] h-[93%]"
+        />
+        <img
+          src="/new star.svg"
+          className="absolute left-[-4%] top-[-3%] w-[17%]"
+        />
+        <img
+          src="/new 2 stars.svg"
+          className="absolute right-[15%] top-[2%] w-[13%]"
+        />
 
-      <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] flex justify-center items-center rounded-[50px] sm:mx-[30%]">
-        <div className="bg-black w-[64px] h-[64px] flex justify-center items-center rounded-[32px]">
-          <img
-            className=" w-[34px] h-[34px]"
-            src="/spotlight white.svg"
-            alt="/"
-          />
+        <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] flex justify-center items-center rounded-[50px] sm:mx-[30%]">
+          <div className="bg-black w-[64px] h-[64px] flex justify-center items-center rounded-[32px]">
+            <img
+              className=" w-[34px] h-[34px]"
+              src="/spotlight white.svg"
+              alt="/"
+            />
+          </div>
         </div>
+        {/* flex justify-center items-center */}
+        <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
+          {/* <div className=" w-[64px] h-[64px] bg-black rounded-[32px]"> */}
+          <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
+          {/* </div> */}
+        </div>
+
+        <p className="text-[1.45rem] text-center mt-8">
+          <span className="font-bold">{brand.brandName} </span> is now
+        </p>
+        <p className="text-center text-[1.45rem] mt-[-0.45rem]">
+          on <span className=" font-bold">Spotlight</span>
+        </p>
+
+        <hr className=" rounded border-t-2 w-[50%] mx-auto mt-2 border-[white]" />
+
+        <p className="mt-4 w-[80%] m-auto text-center text-[1.1rem]">
+          Visit the nearest store
+        </p>
+        <p className="w-[80%] m-auto text-center mt-[-0.2rem]">
+          for exclusive deals
+        </p>
+        <button
+          className=" relative text-black block w-[80%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
+          // className="bg-[#FCD439] relative text-black px-3 py-4 block w-[85%] m-auto rounded-lg text-center mt-12 font-semibold text-[1rem]"
+          onClick={() => {
+            // ShowLocationPopUp();
+            setIsOpen(true);
+            console.log("button clicked");
+          }}
+          id="button"
+        >
+          <div className="absolute top-[35%] z-[50] left-[15%] lg:top-[40%] lg:left-[25%]">
+            Find a store near me
+            <img src="/Find a store near me.svg" className="inline ml-2" />
+          </div>
+          <ButtonAnimationComponent />
+        </button>
+        {/* {modalcondition ? showModal() : ""} */}
+        <button
+          onClick={() => {
+            console.log("set to false");
+            setIsOpen(false);
+            setLocDeny(true);
+          }}
+        >
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <img
+              src="/newLoc.svg"
+              className="w-[30%] h-[30%] my-6 block mx-auto"
+            />
+            <p className="text-[1.15rem] font-medium text-center m-2">
+              You're just a few seconds away
+            </p>
+            <p className="text-[0.75rem] text-center font-normal p-2">
+              We ask for location permission to locate stores near you. Click
+              “Allow” once you see a popup. Grant permission
+            </p>
+            <button
+              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+              onClick={() => {
+                console.log("set to false inside ");
+                ShowLocationPopUp();
+                setIsOpen(false);
+              }}
+            >
+              Grant Permission
+            </button>
+          </Modal>
+        </button>
       </div>
-      {/* flex justify-center items-center */}
-      <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
-        {/* <div className=" w-[64px] h-[64px] bg-black rounded-[32px]"> */}
-        <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
-        {/* </div> */}
-      </div>
-
-      <p className="text-[1.45rem] text-center mt-8">
-        <span className="font-bold">{brand.brandName} </span> is now
-      </p>
-      <p className="text-center text-[1.45rem] mt-[-0.45rem]">
-        on <span className=" font-bold">Spotlight</span>
-      </p>
-
-      <hr className=" rounded border-t-2 w-[50%] mx-auto mt-2 border-[white]" />
-
-      <p className="mt-4 w-[80%] m-auto text-center text-[1.1rem]">
-        Visit the nearest store
-      </p>
-      <p className="w-[80%] m-auto text-center mt-[-0.2rem]">
-        for exclusive deals
-      </p>
-      <button
-        className="bg-[#FCD439] text-black px-3 py-4 block w-[65%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.1rem]"
-        onClick={() => {
-          // showModal();
-          // setModalCondition(true);
-          // {
-          //   modalcondition ? showModal() : ShowLocationPopUp();
-          // }
-          ShowLocationPopUp();
-        }}
-        id="button"
-      >
-        Find a store near me
-        <img src="/Find a store near me.svg" className="inline ml-2" />
-        {/* <ButtonAnimationComponent /> */}
-      </button>
-      {/* {modalcondition ? showModal() : ""} */}
+      {/* )} */}
     </div>
   );
 };
-
-// onClick={() => {
-//   showModal();
-//   ShowLocationPopUp
-// }}
-{
-  /* <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[20%] top-[10.5%] sm:w-[22%] p-[13px] rounded-[50px]">
-  onClick={ShowLocationPopUp}
-        <div className="bg-black w-[74px] h-[74px] p-[10px] rounded-[37px]">
-          <img
-            className=" w-[54px] h-[54px]"
-            src="/spotlight white.svg"
-            alt="/"
-          />
-        </div>
-      </div> */
-}
-{
-  /* <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] top-[10.5%] p-[18px] rounded-[50px] sm:mx-[30%]">
-        <div className="bg-black w-[64px] h-[64px] p-[15px] rounded-[32px]">
-          <img
-            className=" w-[34px] h-[34px]"
-            src="/spotlight white.svg"
-            alt="/"
-          />
-        </div>
-      </div>
-
-      <div className="w-[100px] h-[100px] bg-white p-[18px] rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
-        <img className=" w-[100%] h-[100%] " src={data.brandLogo} alt="/" />
-      </div> */
-}

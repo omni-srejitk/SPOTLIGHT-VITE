@@ -1,7 +1,4 @@
 import React from "react";
-import { TextField, Button } from "@mui/material";
-import styled from "@emotion/styled";
-import * as geolib from "geolib";
 import { useState } from "react";
 import { formInput } from "../services/api";
 import { useParams } from "react-router-dom";
@@ -10,11 +7,11 @@ import { LoadComponent } from "./LoadComponent";
 
 const NewLocCard = ({ distance }) => {
   const brand = useParams();
-  const [setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
-  const [fullname, setFullName] = useState("");
+  const [name, setName] = useState("");
 
-  const [setPhoneMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
   const [phoneError, setPhoneError] = useState(null);
 
   //initializing initial input values as object
@@ -23,8 +20,6 @@ const NewLocCard = ({ distance }) => {
     phone: "",
     email: "",
     brand: "",
-    lat: "",
-    long: "",
   };
 
   const [input, setInput] = useState(inputInitialValues);
@@ -42,7 +37,7 @@ const NewLocCard = ({ distance }) => {
   const [card, toggleCard] = useState(cardInitialValues.form);
 
   //initializing new data as object
-  var newData = {};
+  // var newData = {};
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -78,20 +73,18 @@ const NewLocCard = ({ distance }) => {
       ...input,
       [e.target.name]: e.target.value,
       brand: brand.brandName,
-      lat: brandData.stores[0].Location.coords.latitude,
-      long: brandData.stores[0].Location.coords.longitude,
     });
   };
 
   //submitting and sending all the form data on backend and database
   const handleClick = async () => {
     let response = await formInput(input);
-    // setFullName(response?.data?.data?.fullname);
+    setName(response?.data?.data?.fullname);
     console.log(response);
-    // console.log(
-    //   "response?.data?.data?.fullname",
-    //   response?.data?.data?.fullname
-    // );
+    console.log(
+      "response?.data?.data?.fullname",
+      response?.data?.data?.fullname
+    );
     toggleCard(cardInitialValues.thanks);
   };
 
@@ -100,10 +93,16 @@ const NewLocCard = ({ distance }) => {
   return (
     //rendering store not found card component
     <div className=" w-[100%] bg-[#000000] ">
-      <p className="text-[1.5rem] p-4 ml-0">Oops! You're too far</p>
+      {card.view === "form" ? (
+        <p className="text-[1.35rem] ml-[5%]">Oops! The store is too far</p>
+      ) : (
+        <p className="text-[1.35rem] ml-[5%]">
+          Thanks for using ShopOnSpotlight
+        </p>
+      )}
       {card.view === "form" ? (
         distance ? (
-          <div className="card bg-[#5E5BF2] rounded-xl mx-[5%] h-[80%] relative">
+          <div className="card bg-[#5E5BF2] rounded-xl mx-[5%] h-[100vh] relative">
             {/* <img
               src="/images/loc deny form design.png"
               className="absolute bottom-[0%] left-0"
@@ -148,11 +147,7 @@ const NewLocCard = ({ distance }) => {
               size="small"
               className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
             />
-            {phoneError && (
-              <p style={{ color: "red", margin: 0, padding: 0 }}>
-                {phoneError}
-              </p>
-            )}
+            {phoneError && <p className="text-[red] m-0 p-0">{phoneError}</p>}
             <input
               id="outlined-basic"
               onChange={(e) => {
@@ -182,28 +177,48 @@ const NewLocCard = ({ distance }) => {
           <LoadComponent />
         )
       ) : (
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          <img
-            src="/images/Success.png"
-            className="w-[60%] h-[30%] my-6 block mx-auto"
-          />
-          <p className="text-[2rem] font-bold text-center m-2">
-            Congratulations! {fullname}
+        <div className="card bg-[#7E2AE2] rounded-xl mx-[5%] min-h-[100vh]">
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <img
+              src="/Success.svg"
+              className="w-[60%] h-[30%] my-6 block mx-auto"
+            />
+            <p className="text-[2rem] font-bold text-center m-2">
+              Congratulations! {name}
+            </p>
+            <p className="text-[1.25rem] text-center font-semibold p-2">
+              You’ll be the first one to be notified when we launch in Bangalore
+            </p>
+            <button
+              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem] mb-4"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              <a href="https://www.instagram.com/shoponspotlight/">
+                <span className="">Follow us on Instagram</span>
+              </a>
+            </button>
+          </Modal>
+
+          <img src="/new 2 stars.svg" className="block pt-[3rem] pl-[30%]" />
+          {/* <img
+            src="/not found design.svg"
+            className=" absolute bottom-0 left-0"
+          /> */}
+          <p className="text-[1.5rem] text-center mt-[10rem] mb-4 w-[80%] mx-auto">
+            Follow us on instagram for more exclusive deals
           </p>
-          <p className="text-[1.25rem] text-center font-semibold p-2">
-            You’ll be the first one to be notified when we launch in Bangalore
+          <p className="text-[1rem] text-center w-[60%] mx-auto">
+            You'll be the first one to get exclusive notifications
           </p>
-          <button
-            className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
+          <button className="block w-[70%] my-8 mx-auto p-[0.8rem] bg-white text-[1rem] text-black">
             <a href="https://www.instagram.com/shoponspotlight/">
               <span className="">Follow us on Instagram</span>
             </a>
+            <img className="inline ml-2" src="/insta.svg" />
           </button>
-        </Modal>
+        </div>
       )}
     </div>
   );

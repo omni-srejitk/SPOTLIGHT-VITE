@@ -12,6 +12,7 @@ export const LoadComponent = () => {
       // animationData: require("../Loading/LoadingAnimation.json"),
       animationData: LoadComp,
     });
+    // return () => instance.destroy();
   }, []);
   return <div className="h-[100vh]" id="container"></div>;
 };
