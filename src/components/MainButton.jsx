@@ -1,4 +1,3 @@
-// import React from 'react'
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { apiContext } from "../config/RouterConfig";
@@ -6,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
-// import { NewModalLocationDeny } from "./NewModalLocationDeny";
 
 export const MainButton = ({ data, locDeny, setLocDeny }) => {
   const brand = useParams();
@@ -88,9 +86,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
 
   return (
     <div>
-      {/* {locDeny ? (
-        <NewModalLocationDeny />
-      ) : ( */}
       <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
         <img
           src="/new left dots.svg"
@@ -191,7 +186,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           </Modal>
         </button>
       </div>
-      {/* )} */}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 export const Modal = ({ open, children, onClose }) => {
   if (!open) return null;
