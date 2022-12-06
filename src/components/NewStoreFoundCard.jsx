@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
+import { PropaneSharp } from "@mui/icons-material";
 
 // const NewStoreFoundCard = ({ distance, storeName, showButton }) => {
 const NewStoreFoundCard = ({ data }) => {
@@ -69,7 +70,8 @@ const NewStoreFoundCard = ({ data }) => {
   return (
     //rendering store found card component
     <div className="bg-black">
-      {brandData && brandData.stores ? (
+      {/* {brandData && brandData.stores ? ( */}
+      {brandData?.stores[0].storeDistance ? (
         <div className="bg-[#E37353] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem] z-[50]">
           <img
             src="/new left dots.svg"

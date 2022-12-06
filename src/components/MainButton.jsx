@@ -30,6 +30,7 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
 
   const onSuccess = (Location) => {
     // if we get geolocation in navigator
+    console.log("entered in success");
     setLocation({
       loaded: true,
       coordinates: {
@@ -83,32 +84,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
   };
 
   let [isOpen, setIsOpen] = useState(false);
-  // const [locDeny, setLocDeny] = useState(false);
-  // let [modalcondition, setModalCondition] = useState(false);
-
-  // function showModal() {
-  // return (
-  // <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-  //   <img src="/newLoc.svg" className="w-[30%] h-[30%] my-6 block mx-auto" />
-  //   <p className="text-[1.15rem] font-medium text-center m-2">
-  //     You're just a few seconds away
-  //   </p>
-  //   <p className="text-[0.75rem] text-center font-normal p-2">
-  //     We ask for location permission to locate stores near you. Click
-  //     “Allow” once you see a popup. Grant permission
-  //   </p>
-  //   <button
-  //     className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
-  //     onClick={() => {
-  //       // ShowLocationPopUp();
-  //       setIsOpen(false);
-  //     }}
-  //   >
-  //     Grant Permission
-  //   </button>
-  // </Modal>
-  // );
-  // }
 
   return (
     <div>
@@ -203,8 +178,8 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
             <button
               className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
               onClick={() => {
-                console.log("set to false inside ");
                 ShowLocationPopUp();
+                console.log("set to false inside ");
                 setIsOpen(false);
               }}
             >

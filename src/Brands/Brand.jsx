@@ -26,7 +26,8 @@ const Brand = (props) => {
 
   return (
     //Rendering the Brand Page
-    <div className="bg-[#000000]">
+    <div className="bg-[#000000] ">
+      {/* // <div className="max-w-[500px] bg-[#000000] text-[white] my-0 mx-auto p-0"> */}
       <div>
         {props.data.brandLogo ? (
           <>
