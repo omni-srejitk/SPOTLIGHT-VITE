@@ -1,17 +1,18 @@
 // import React from 'react'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { apiContext } from "../config/RouterConfig";
 import { useNavigate } from "react-router-dom";
-// import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
-import { NewModalLocationDeny } from "./NewModalLocationDeny";
+// import { NewModalLocationDeny } from "./NewModalLocationDeny";
 
 export const MainButton = ({ data, locDeny, setLocDeny }) => {
   const brand = useParams();
-  // console.log("data", data);
+
+  const apiValue = useContext(apiContext); //values by context
+  console.log("apiValue", apiValue);
 
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
@@ -117,12 +118,15 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
             />
           </div>
         </div>
-        {/* flex justify-center items-center */}
         <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
-          {/* <div className=" w-[64px] h-[64px] bg-black rounded-[32px]"> */}
-          <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
-          {/* </div> */}
+          <div className=" w-[64px] h-[64px] rounded-[32px]">
+            <img className=" w-[100%] h-[100%]" src={data.brandLogo} alt="/" />
+          </div>
         </div>
+        {(user) => {
+          console.log("user", user);
+          return <p>{user}</p>;
+        }}
 
         <p className="text-[1.45rem] text-center mt-8">
           <span className="font-bold">{brand.brandName} </span> is now
@@ -141,7 +145,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
         </p>
         <button
           className=" relative text-black block w-[80%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
-          // className="bg-[#FCD439] relative text-black px-3 py-4 block w-[85%] m-auto rounded-lg text-center mt-12 font-semibold text-[1rem]"
           onClick={() => {
             // ShowLocationPopUp();
             setIsOpen(true);
@@ -155,7 +158,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           </div>
           <ButtonAnimationComponent />
         </button>
-        {/* {modalcondition ? showModal() : ""} */}
         <button
           onClick={() => {
             console.log("set to false");
@@ -178,7 +180,8 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
             <button
               className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
               onClick={() => {
-                ShowLocationPopUp();
+                // ShowLocationPopUp();
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
                 console.log("set to false inside ");
                 setIsOpen(false);
               }}

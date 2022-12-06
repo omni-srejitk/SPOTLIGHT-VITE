@@ -5,6 +5,7 @@ import { formInput } from "../services/api";
 import { useParams } from "react-router-dom";
 import { Modal } from "./Modal";
 import { LoadComponent } from "./LoadComponent";
+import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 
 const NewStoreNotFoundCard = ({ data }) => {
   const brand = useParams();
@@ -133,8 +134,6 @@ const NewStoreNotFoundCard = ({ data }) => {
   const handleClick = async () => {
     let response = await formInput(input);
     setName(response?.data?.data?.fullname);
-    console.log(response);
-    console.log("response?.data?.data?.name", response?.data?.data?.fullname);
 
     toggleCard(cardInitialValues.thanks);
   };
@@ -152,9 +151,9 @@ const NewStoreNotFoundCard = ({ data }) => {
       {card.view === "form" ? (
         brandData && brandData.stores ? (
           <div>
-            <div className="card bg-[#5E5BF2] rounded-xl m-[5%] pb-[5%]">
+            <div className="card bg-[#5E5BF2] h-full rounded-xl mx-[5%] pb-[5%]">
               <img
-                src="/images/arrow.png"
+                src="/images/arrow.svg"
                 className="w-[30%] sm:w-[20%] m-auto py-[10%]"
               />
               <p className="store text-[1rem] tracking-[4px] text-center">
@@ -163,7 +162,6 @@ const NewStoreNotFoundCard = ({ data }) => {
               <p className="text-center font-bold text-[2.5rem] mt-4 leading-[3rem] text-[#FFFFFF]">
                 {brandData.stores[0].storeDistance} km Away
               </p>
-              {/* <hr className="hr2" /> */}
               <p className="text-center font-medium text-[1.25rem] leading-6 mt-4">
                 How Far Will You Go for Love?
               </p>
@@ -180,7 +178,7 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="fullname"
                 placeholder="Full Name"
-                /*label="Full name"*/ variant="outlined"
+                variant="outlined"
                 size="small"
                 className="bg-[#2D2C73] block w-[80%] m-auto my-4 mt-8 p-[0.5rem] rounded-lg"
               />
@@ -192,7 +190,7 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="phone"
                 placeholder="Phone number"
-                /*label="Phone number"*/ variant="outlined"
+                variant="outlined"
                 size="small"
                 className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
               />
@@ -209,25 +207,34 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="email"
                 placeholder="Email"
-                /*label="Email"*/ variant="outlined"
+                variant="outlined"
                 size="small"
                 className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
               />
               {error && (
                 <p style={{ color: "red", margin: 0, padding: 0 }}>{error}</p>
               )}
-              <button
+              {/* <button
                 className="bg-[#FCD439] text-[#000000] w-[85%] p-[0.75rem] my-6 rounded-lg block mx-auto mb-4"
                 onClick={() => {
                   handleClick();
                 }}
               >
                 <span>Get 25% off on Launch</span>
-                <img
-                  src="../images/discount.svg"
-                  alt="icon"
-                  className="inline"
-                />
+                <img src="/images/discount.svg" alt="icon" className="inline" />
+              </button> */}
+              <button
+                className=" relative text-black block w-[90%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
+                onClick={() => {
+                  handleClick();
+                }}
+                id="button"
+              >
+                <div className="absolute top-[35%] z-[50] left-[15%] lg:top-[40%] lg:left-[25%]">
+                  Get 25% off on Launch
+                  <img src="/images/discount.svg" className="inline ml-2" />
+                </div>
+                <ButtonAnimationComponent />
               </button>
             </div>
           </div>
@@ -281,17 +288,3 @@ const NewStoreNotFoundCard = ({ data }) => {
 };
 
 export default NewStoreNotFoundCard;
-
-// {/* <div className="card">
-//   <h4 style={{ margin: 5, padding: "0px 10px" }}>Congratulations!</h4>
-//   <hr />
-//   <p style={{ margin: 10, paddingRight: 10, paddingLeft: 10 }}>
-//     You’ll be the first one to be notified when we launch in Bangalore
-//   </p>
-//   <Button className="Button-insta">
-//     <a href="https://www.instagram.com/shoponspotlight/">
-//       <img src="/images/instagram.svg" alt="instagram" />
-//       &nbsp; Follow on Instagram
-//     </a>
-//   </Button>
-// </div>; */}

@@ -1,29 +1,15 @@
 //importing dependencies
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-
-//importing components
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import { Carousal } from "../../../components/Carousal";
+import React, { useContext } from "react";
 import NewStoreNotFoundCard from "../../../components/NewStoreNotFoundCard";
+import { apiContext } from "../../../config/RouterConfig";
 
-const StoreNotFound = (props) => {
-  const brand = useParams();
-  const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brand.brandName}`;
-
-  useEffect(() => {
-    //using get request to consume the data from api
-    axios.get(`${brandDetailURL}`).then((resp) => {
-      props.brandName(resp.data);
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+const StoreNotFound = () => {
+  const apiValue = useContext(apiContext);
+  console.log("apiValue", apiValue);
 
   return (
-    //rendering brand stores not found page
-    <div className="bg-[#000000] h-[100vh]">
-      <NewStoreNotFoundCard data={props.data} />
+    <div className="bg-[#000000] h-[100vh] lg:w-[40vw]">
+      <NewStoreNotFoundCard data={apiValue} />
     </div>
   );
 };

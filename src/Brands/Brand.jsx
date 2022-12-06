@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MainButton } from "../components/MainButton";
@@ -13,7 +13,8 @@ import { NewModalLocationDeny } from "../components/NewModalLocationDeny";
 const Brand = (props) => {
   const brand = useParams();
   const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brand.brandName}`;
-
+  const pathName = useLocation();
+  console.log("pathName", pathName);
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
       props.brandName(resp.data);
