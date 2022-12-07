@@ -18,8 +18,8 @@ export const Carousal = ({ data }) => {
         </div>
         <div className="ml-12 mt-8 mb-4 flex h-1/4 w-4/5 flex-row items-center justify-start">
           {/* Todo: => image changes */}
-          <div className="z-10 flex h-[70px] w-[70px] items-center justify-center  rounded-[35px] border-[1px] border-black bg-white ">
-            <img className=" h-[40px] w-[40px] " src={data.brandLogo} alt="/" />
+          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2rem] border-[1px] border-black bg-white ">
+            <img className=" h-12 w-12 " src={data.brandLogo} alt="/" />
           </div>
           <p className="z-10 ml-3 text-[1.25rem] font-semibold text-[black]">
             {brand.brandName}

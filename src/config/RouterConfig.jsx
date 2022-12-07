@@ -9,10 +9,8 @@ export const apiContext = createContext();
 
 export const RouterConfig = () => {
   const [data, setData] = useState({});
-  // Todo => max width with utility classes ?
-
   return (
-    <div className="my-0 mx-auto w-screen max-w-[500px] bg-[#000000] p-0 text-[white]">
+    <div className="my-0 mx-auto w-screen bg-[#000000] p-0 text-[white] sm:max-w-[30rem]">
       <apiContext.Provider value={data}>
         <Router>
           <Routes>
