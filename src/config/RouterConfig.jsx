@@ -10,7 +10,7 @@ export const apiContext = createContext();
 export const RouterConfig = () => {
   const [data, setData] = useState({});
   return (
-    <div className="my-0 mx-auto w-screen bg-[#000000] p-0 text-[white] sm:max-w-[30rem]">
+    <div className="my-0 mx-auto  bg-[#000000] p-0 text-[white] sm:max-w-[30rem]">
       <apiContext.Provider value={data}>
         <Router>
           <Routes>
@@ -27,7 +27,7 @@ export const RouterConfig = () => {
             ></Route>
             <Route
               path={encodeURI(`:brandName/Location_denied`)}
-              element={<LocationDenyPage data={data} />}
+              element={<LocationDenyPage />}
             ></Route>
             <Route
               path={encodeURI(`:brandName/Store_Not_Found`)}

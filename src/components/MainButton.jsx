@@ -107,7 +107,7 @@ export const MainButton = ({ data, setLocDeny }) => {
 
         <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
           <div className=" h-16 w-16 rounded-[32px]">
-            <img className=" h-full w-full" src={data.brandLogo} alt="/" />
+            <img className=" h-full w-full" src={data?.logo} alt="/" />
           </div>
         </div>
 

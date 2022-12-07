@@ -14,13 +14,14 @@ const Brand = (props) => {
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
       props?.brandName(resp?.data);
+      console.log("resp?.data", resp?.data);
     });
   }, []);
   const [locDeny, setLocDeny] = useState(false);
   return (
     <div className="bg-[#000000] ">
       <div>
-        {props?.data?.brandLogo ? (
+        {props?.data?.story ? (
           <>
             {locDeny ? (
               <NewModalLocationDeny />
@@ -28,7 +29,7 @@ const Brand = (props) => {
               <>
                 <Header />
                 <MainButton
-                  data={props?.data}
+                  data={props.data}
                   locDeny={locDeny}
                   setLocDeny={setLocDeny}
                 />
