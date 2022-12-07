@@ -9,8 +9,7 @@ import { Modal } from "./Modal";
 export const MainButton = ({ data, locDeny, setLocDeny }) => {
   const brand = useParams();
 
-  const apiValue = useContext(apiContext); //values by context
-  console.log("apiValue", apiValue);
+  const apiValue = useContext(apiContext);
 
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
@@ -56,8 +55,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
             longitude: element.long,
           }
         );
-
-        //updating all the store distance in the list and converting it in km
         storeDistance.push(Math.round(locationDistance / 1000));
       }
     }
@@ -86,12 +83,13 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
 
   return (
     <div>
-      <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
+      <div className=" relative m-4 h-[60vh] min-h-[30rem] rounded-lg bg-[#613DE5] p-2 pt-12 sm:h-[27rem]">
         <img
           src="/new left dots.svg"
-          className="absolute left-[0%] top-[2%] h-[93%]"
+          className="absolute left-0 top-[2%] h-[93%]"
         />
         <img
+          // Todo what about 93% and negative padding?
           src="/new right dots.svg"
           className="absolute right-[0%] top-[2%] h-[93%]"
         />
@@ -104,42 +102,41 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           className="absolute right-[15%] top-[2%] w-[13%]"
         />
 
-        <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] flex justify-center items-center rounded-[50px] sm:mx-[30%]">
-          <div className="bg-black w-[64px] h-[64px] flex justify-center items-center rounded-[32px]">
-            <img
-              className=" w-[34px] h-[34px]"
-              src="/spotlight white.svg"
-              alt="/"
-            />
+        <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
+          <div className="flex h-16 w-16 items-center justify-center rounded-[32px] bg-black">
+            <div className=" h-9 w-9">
+              <img
+                className=" h-full w-full"
+                src="/spotlight white.svg"
+                alt="/"
+              />
+            </div>
           </div>
         </div>
-        <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
-          <div className=" w-[64px] h-[64px] rounded-[32px]">
-            <img className=" w-[100%] h-[100%]" src={data.brandLogo} alt="/" />
-          </div>
-        </div>
-        {(user) => {
-          console.log("user", user);
-          return <p>{user}</p>;
-        }}
 
-        <p className="text-[1.45rem] text-center mt-8">
+        <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
+          <div className=" h-16 w-16 rounded-[32px]">
+            <img className=" h-full w-full" src={data.brandLogo} alt="/" />
+          </div>
+        </div>
+
+        <p className="mt-8 mb-0 text-center text-[1.45rem]">
           <span className="font-bold">{brand.brandName} </span> is now
         </p>
-        <p className="text-center text-[1.45rem] mt-[-0.45rem]">
+        <p className="mt-[-0.45rem] text-center text-[1.45rem]">
           on <span className=" font-bold">Spotlight</span>
         </p>
 
-        <hr className=" rounded border-t-2 w-[50%] mx-auto mt-2 border-[white]" />
+        <hr className=" mx-auto mt-2 w-48 rounded border-t-2 border-[white]" />
 
-        <p className="mt-4 w-[80%] m-auto text-center text-[1.1rem]">
+        <p className="m-auto mt-4 w-64 text-center text-[1.1rem]">
           Visit the nearest store
         </p>
-        <p className="w-[80%] m-auto text-center mt-[-0.2rem]">
+        <p className="m-auto mt-[-0.2rem] w-64 text-center">
           for exclusive deals
         </p>
         <button
-          className=" relative text-black block w-[80%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
+          className=" relative m-auto mt-8 block w-72 rounded-lg text-center text-[1.2rem] font-semibold text-black"
           onClick={() => {
             // ShowLocationPopUp();
             setIsOpen(true);
@@ -147,9 +144,9 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           }}
           id="button"
         >
-          <div className="absolute top-[35%] z-[50] left-[15%] lg:top-[40%] lg:left-[25%]">
+          <div className="absolute top-11 left-12 z-[15]">
             Find a store near me
-            <img src="/Find a store near me.svg" className="inline ml-2" />
+            <img src="/Find a store near me.svg" className="ml-2 inline" />
           </div>
           <ButtonAnimationComponent />
         </button>
@@ -161,19 +158,16 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           }}
         >
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <img
-              src="/newLoc.svg"
-              className="w-[30%] h-[30%] my-6 block mx-auto"
-            />
-            <p className="text-[1.15rem] font-medium text-center m-2">
+            <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
+            <p className="m-2 text-center text-[1.15rem] font-medium">
               You're just a few seconds away
             </p>
-            <p className="text-[0.75rem] text-center font-normal p-2">
+            <p className="p-2 text-center text-[0.75rem] font-normal">
               We ask for location permission to locate stores near you. Click
               “Allow” once you see a popup. Grant permission
             </p>
             <button
-              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+              className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
                 // ShowLocationPopUp();
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);

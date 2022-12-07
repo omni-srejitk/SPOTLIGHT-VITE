@@ -14,7 +14,7 @@ const NewStoreNotFoundCard = ({ data }) => {
   let [isOpen, setIsOpen] = useState(true);
   const [name, setName] = useState("");
 
-  const [setPhoneMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
   const [phoneError, setPhoneError] = useState(null);
 
   //initializing initial input values as object
@@ -134,38 +134,33 @@ const NewStoreNotFoundCard = ({ data }) => {
   const handleClick = async () => {
     let response = await formInput(input);
     setName(response?.data?.data?.fullname);
-
-    toggleCard(cardInitialValues.thanks);
+    if (phoneMessage && message) {
+      toggleCard(cardInitialValues.thanks);
+    }
   };
 
   return (
-    //rendering store not found card component
-    <div className=" bg-[#000000] py-[2%]">
+    <div className=" bg-[#000000] py-2">
       {card.view === "form" ? (
-        <p className="text-[1.35rem] ml-[5%]">Oops! The store is too far</p>
+        <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
       ) : (
-        <p className="text-[1.35rem] ml-[5%]">
-          Thanks for using ShopOnSpotlight
-        </p>
+        <p className="ml-6 text-[1.35rem]">Thanks for using ShopOnSpotlight</p>
       )}
       {card.view === "form" ? (
         brandData && brandData.stores ? (
           <div>
-            <div className="card bg-[#5E5BF2] h-full rounded-xl mx-[5%] pb-[5%]">
-              <img
-                src="/images/arrow.svg"
-                className="w-[30%] sm:w-[20%] m-auto py-[10%]"
-              />
-              <p className="store text-[1rem] tracking-[4px] text-center">
+            <div className="card mx-5 h-full rounded-xl bg-[#5E5BF2] pb-5">
+              <img src="/images/arrow.svg" className="m-auto w-24 py-12" />
+              <p className="store text-center text-[1rem] tracking-[4px]">
                 THE NEAREST STORE IS
               </p>
-              <p className="text-center font-bold text-[2.5rem] mt-4 leading-[3rem] text-[#FFFFFF]">
+              <p className="mt-4 text-center text-[2.5rem] font-bold leading-[3rem] text-[#FFFFFF]">
                 {brandData.stores[0].storeDistance} km Away
               </p>
-              <p className="text-center font-medium text-[1.25rem] leading-6 mt-4">
+              <p className="mt-4 text-center text-[1.25rem] font-medium leading-6">
                 How Far Will You Go for Love?
               </p>
-              <p className="text-center text-[0.9rem] leading-6 mt-4">
+              <p className="mt-4 text-center text-[0.9rem] leading-6">
                 Instead, let us Notify you when
                 <br />
                 we launch near you.
@@ -180,7 +175,7 @@ const NewStoreNotFoundCard = ({ data }) => {
                 placeholder="Full Name"
                 variant="outlined"
                 size="small"
-                className="bg-[#2D2C73] block w-[80%] m-auto my-4 mt-8 p-[0.5rem] rounded-lg"
+                className="m-auto my-4 mt-8 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
               <input
                 id="outlined-basic"
@@ -192,7 +187,7 @@ const NewStoreNotFoundCard = ({ data }) => {
                 placeholder="Phone number"
                 variant="outlined"
                 size="small"
-                className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
+                className="m-auto my-4 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
               {phoneError && (
                 <p style={{ color: "red", margin: 0, padding: 0 }}>
@@ -209,30 +204,19 @@ const NewStoreNotFoundCard = ({ data }) => {
                 placeholder="Email"
                 variant="outlined"
                 size="small"
-                className="bg-[#2D2C73] block w-[80%] m-auto my-4 p-[0.5rem] rounded-lg"
+                className="m-auto my-4 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
-              {error && (
-                <p style={{ color: "red", margin: 0, padding: 0 }}>{error}</p>
-              )}
-              {/* <button
-                className="bg-[#FCD439] text-[#000000] w-[85%] p-[0.75rem] my-6 rounded-lg block mx-auto mb-4"
-                onClick={() => {
-                  handleClick();
-                }}
-              >
-                <span>Get 25% off on Launch</span>
-                <img src="/images/discount.svg" alt="icon" className="inline" />
-              </button> */}
+              {error && <p className="m-0 p-0 text-[red]">{error}</p>}
               <button
-                className=" relative text-black block w-[90%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
+                className="relative m-auto mt-8 block w-80 rounded-lg text-center text-[1.2rem] font-semibold text-black"
                 onClick={() => {
                   handleClick();
                 }}
                 id="button"
               >
-                <div className="absolute top-[35%] z-[50] left-[15%] lg:top-[40%] lg:left-[25%]">
+                <div className="absolute top-12 left-12 z-[50] ">
                   Get 25% off on Launch
-                  <img src="/images/discount.svg" className="inline ml-2" />
+                  <img src="/images/discount.svg" className="ml-2 inline" />
                 </div>
                 <ButtonAnimationComponent />
               </button>
@@ -242,20 +226,17 @@ const NewStoreNotFoundCard = ({ data }) => {
           <LoadComponent />
         )
       ) : (
-        <div className="card bg-[#7E2AE2] rounded-xl m-[5%] pb-[5%] min-h-[80vh] relative">
+        <div className="card relative m-5 min-h-[80vh] rounded-xl bg-[#7E2AE2] pb-4">
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <img
-              src="/Success.svg"
-              className="w-[60%] h-[30%] my-6 block mx-auto"
-            />
-            <p className="text-[2rem] font-bold text-center m-2">
+            <img src="/Success.svg" className="my-6 mx-auto block h-36 w-56" />
+            <p className="m-2 text-center text-[2rem] font-bold">
               Congratulations! {name}
             </p>
-            <p className="text-[1.25rem] text-center font-semibold p-2">
+            <p className="p-2 text-center text-[1.25rem] font-semibold">
               You’ll be the first one to be notified when we launch in Bangalore
             </p>
             <button
-              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+              className="my-6 mx-auto block w-3/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
                 setIsOpen(false);
               }}
@@ -266,20 +247,20 @@ const NewStoreNotFoundCard = ({ data }) => {
             </button>
           </Modal>
 
-          <img src="/new 2 stars.svg" className="block pt-[3rem] pl-[30%]" />
+          <img src="/new 2 stars.svg" className="block pt-12 pl-20" />
           <img
             src="/not found design.svg"
             className=" absolute bottom-0 left-0 z-0"
           />
-          <p className="text-[1.5rem] text-center mt-[10rem] mb-4 w-[80%] mx-auto">
+          <p className="mx-auto mt-40 mb-4 w-4/5 text-center text-[1.5rem]">
             Follow us on instagram for more exclusive deals
           </p>
-          <p className="text-[1rem] text-center w-[60%] mx-auto">
+          <p className="mx-auto w-3/5 text-center text-[1rem]">
             You'll be the first one to get exclusive notifications
           </p>
-          <button className="block w-[70%] my-8 z-[15] mx-auto p-[0.8rem] bg-white text-[1rem] text-black relative rounded-lg">
+          <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
             Follow us on instagram{" "}
-            <img className="inline ml-2" src="/insta.svg" />
+            <img className="ml-2 inline" src="/insta.svg" />
           </button>
         </div>
       )}

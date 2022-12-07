@@ -9,36 +9,38 @@ export const Carousal = ({ data }) => {
   const slicedArray = modifiedStory.slice(0, 2);
   modifiedStory.splice(0, 2);
 
+  // todo => some changes,doubts here
   return (
-    <div className=" text-[black] text-[1.05rem] p-2 flex h-[250px] w-[93%]  justify-start overflow-x-auto gap-4 no-scrollbar m-[2%] bg-[black]">
-      <div className="h-[100%] min-w-[70%] bg-[#FAE77D] text-center z-10 border-0 outline-none rounded-xl relative">
-        <div className="absolute top-0 right-0 w-auto z-0">
+    <div className=" no-scrollbar m-2 flex h-60 w-[93%] justify-start  gap-4 overflow-x-auto bg-[black] p-2 text-[1.05rem] text-[black]">
+      <div className="relative z-10 h-full min-w-[70%] rounded-xl border-0 bg-[#FAE77D] text-center outline-none">
+        <div className="absolute top-0 right-0 z-0 w-auto">
           <img src="/images/Union.svg" />
         </div>
-        <div className="ml-[10%] mt-[7%] w-[80%] h-[27%] flex flex-row mb-[5%] items-center justify-start">
-          <div className="w-[70px] h-[70px] bg-white flex justify-center items-center  rounded-[35px] border-[1px] border-black z-10 ">
-            <img className=" w-[40px] h-[40px] " src={data.brandLogo} alt="/" />
+        <div className="ml-12 mt-8 mb-4 flex h-1/4 w-4/5 flex-row items-center justify-start">
+          {/* Todo: => image changes */}
+          <div className="z-10 flex h-[70px] w-[70px] items-center justify-center  rounded-[35px] border-[1px] border-black bg-white ">
+            <img className=" h-[40px] w-[40px] " src={data.brandLogo} alt="/" />
           </div>
-          <p className="text-[1.25rem] text-[black] font-semibold z-10 ml-3">
+          <p className="z-10 ml-3 text-[1.25rem] font-semibold text-[black]">
             {brand.brandName}
           </p>
         </div>
         <p className="">{slicedArray[0]}.</p>
-        <div className="absolute bottom-0 left-0 w-[10rem] z-0">
+        <div className="absolute bottom-0 left-0 z-0 w-[10rem]">
           <img src="/images/yellow bar.svg" />
         </div>
       </div>
 
       {modifiedStory.map((str) => {
         return (
-          <div className=" h-[100%] relative min-w-[70%] ">
-            <div className="absolute top-0 right-0 w-auto z-0">
+          <div className=" relative h-full min-w-[70%] ">
+            <div className="absolute top-0 right-0 z-0 w-auto">
               <img src="/images/Union.svg" />
             </div>
-            <div className="p-2 h-[100%] bg-[#FAE77D] text-center flex items-center justify-center border-[white] rounded-xl border-[2px]">
-              <span className="z-[2] relative">{str}.</span>
+            <div className="flex h-full items-center justify-center rounded-xl border-[2px] border-[white] bg-[#FAE77D] p-2 text-center">
+              <span className="relative z-[2]">{str}.</span>
             </div>
-            <div className="absolute bottom-0 w-[90%] z-3">
+            <div className="z-3 absolute bottom-0 w-[90%]">
               <img src="/images/yellow bar.svg" />
             </div>
           </div>

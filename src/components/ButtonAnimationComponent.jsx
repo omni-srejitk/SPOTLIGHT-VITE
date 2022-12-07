@@ -14,7 +14,7 @@ export const ButtonAnimationComponent = ({ text }) => {
   }, []);
   return (
     <>
-      <div className="button top-0 left-0 w-[100%]" id="button"></div>
+      <div className="button top-0 left-0 w-full" id="button"></div>
     </>
   );
 };
