@@ -72,7 +72,7 @@ const NewStoreNotFoundCard = ({ data }) => {
     setPhoneMessage(e.target.value);
   };
 
-  var findDistance = new Promise(function (resolve, reject) {
+  var findDistance = new Promise(function (resolve) {
     navigator.geolocation.getCurrentPosition((Location) => {
       //intializing dist as object and first input as key-value pair of storeDistance with empty string
       const dist = { storeDistance: "", Location };
@@ -116,7 +116,7 @@ const NewStoreNotFoundCard = ({ data }) => {
   newData = data;
 
   //updating the state of brand data with new data as input
-  findDistance.then(function (value) {
+  findDistance.then(function () {
     setBrandData(newData);
   });
   // getting all the inputs from the form
@@ -173,7 +173,6 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="fullname"
                 placeholder="Full Name"
-                variant="outlined"
                 size="small"
                 className="m-auto my-4 mt-8 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
@@ -185,7 +184,6 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="phone"
                 placeholder="Phone number"
-                variant="outlined"
                 size="small"
                 className="m-auto my-4 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
@@ -202,7 +200,6 @@ const NewStoreNotFoundCard = ({ data }) => {
                 }}
                 name="email"
                 placeholder="Email"
-                variant="outlined"
                 size="small"
                 className="m-auto my-4 block w-4/5 rounded-lg bg-[#2D2C73] p-4"
               />
@@ -256,7 +253,7 @@ const NewStoreNotFoundCard = ({ data }) => {
             Follow us on instagram for more exclusive deals
           </p>
           <p className="mx-auto w-3/5 text-center text-[1rem]">
-            You'll be the first one to get exclusive notifications
+            You&#39;ll be the first one to get exclusive notifications
           </p>
           <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
             Follow us on instagram{" "}

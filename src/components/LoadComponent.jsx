@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import lottie from "lottie-web";
 import LoadComp from "../Loading/LoadingAnimation.json";
 

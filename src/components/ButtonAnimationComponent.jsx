@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import lottie from "lottie-web";
 import ButtonAnimate from "../Loading/ButtonAnimation.json";
 
-export const ButtonAnimationComponent = ({ text }) => {
+export const ButtonAnimationComponent = () => {
   useEffect(() => {
     lottie.loadAnimation({
       container: document.getElementById("button"),

@@ -12,7 +12,7 @@ const NewStoreFoundCard = ({ data }) => {
   var newData = {};
 
   //initializing findDistance function
-  var findDistance = new Promise(function (resolve, reject) {
+  var findDistance = new Promise(function (resolve) {
     navigator.geolocation.getCurrentPosition((Location) => {
       currLat = Location.coords.latitude;
       currLong = Location.coords.longitude;
@@ -54,7 +54,7 @@ const NewStoreFoundCard = ({ data }) => {
   });
   //assigning value of new data = data
   newData = data;
-  findDistance.then(function (value) {
+  findDistance.then(function () {
     setBrandData(newData);
   });
   function openGoogleByMethod() {

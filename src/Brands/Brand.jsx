@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MainButton } from "../components/MainButton";
 import Header from "../components/Header";
@@ -13,15 +13,14 @@ const Brand = (props) => {
   const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brand.brandName}`;
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
-      props.brandName(resp.data);
+      props?.brandName(resp?.data);
     });
   }, []);
   const [locDeny, setLocDeny] = useState(false);
-
   return (
     <div className="bg-[#000000] ">
       <div>
-        {props.data.brandLogo ? (
+        {props?.data?.brandLogo ? (
           <>
             {locDeny ? (
               <NewModalLocationDeny />
@@ -29,11 +28,11 @@ const Brand = (props) => {
               <>
                 <Header />
                 <MainButton
-                  data={props.data}
+                  data={props?.data}
                   locDeny={locDeny}
                   setLocDeny={setLocDeny}
                 />
-                <Carousal data={props.data} />
+                <Carousal data={props?.data} />
                 <Footer />
               </>
             )}

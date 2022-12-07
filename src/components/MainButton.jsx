@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { apiContext } from "../config/RouterConfig";
 import { useNavigate } from "react-router-dom";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
 
-export const MainButton = ({ data, locDeny, setLocDeny }) => {
+export const MainButton = ({ data, setLocDeny }) => {
   const brand = useParams();
-
-  const apiValue = useContext(apiContext);
 
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
@@ -24,7 +21,7 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
         message: "Geolocation not supported or denied",
       });
     }
-  }, [Location]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [Location]);
 
   const onSuccess = (Location) => {
     // if we get geolocation in navigator
@@ -39,10 +36,11 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
 
     //initializing store distance in a empty list
     const storeDistance = [];
-    if (data && data.stores) {
+    if (data && data?.stores) {
+      console.log("entered data");
       // for all the stores present in json
-      for (let i = 0; i < data.stores.length; i++) {
-        const element = data.stores[i];
+      for (let i = 0; i < data?.stores?.length; i++) {
+        const element = data?.stores[i];
 
         //calculating distance of stores from your location
         const locationDistance = geolib.getPreciseDistance(
@@ -75,10 +73,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
     navigate("Location_denied");
   };
 
-  const ShowLocationPopUp = () => {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  };
-
   let [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -86,21 +80,18 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
       <div className=" relative m-4 h-[60vh] min-h-[30rem] rounded-lg bg-[#613DE5] p-2 pt-12 sm:h-[27rem]">
         <img
           src="/new left dots.svg"
-          className="absolute left-0 top-[2%] h-[93%]"
+          className="absolute left-0 top-4 h-[93%]"
         />
         <img
           // Todo what about 93% and negative padding?
           src="/new right dots.svg"
-          className="absolute right-[0%] top-[2%] h-[93%]"
+          className="absolute right-0 top-4 h-[93%]"
         />
         <img
           src="/new star.svg"
-          className="absolute left-[-4%] top-[-3%] w-[17%]"
+          className="absolute left-[-4%] top-[-3%] w-14"
         />
-        <img
-          src="/new 2 stars.svg"
-          className="absolute right-[15%] top-[2%] w-[13%]"
-        />
+        <img src="/new 2 stars.svg" className="absolute right-12 top-4 w-10" />
 
         <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
           <div className="flex h-16 w-16 items-center justify-center rounded-[32px] bg-black">
@@ -160,7 +151,7 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
             <p className="m-2 text-center text-[1.15rem] font-medium">
-              You're just a few seconds away
+              You&#39;re just a few seconds away
             </p>
             <p className="p-2 text-center text-[0.75rem] font-normal">
               We ask for location permission to locate stores near you. Click
