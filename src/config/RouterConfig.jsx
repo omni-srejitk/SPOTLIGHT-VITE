@@ -9,9 +9,10 @@ export const apiContext = createContext();
 
 export const RouterConfig = () => {
   const [data, setData] = useState({});
+  // Todo => max width with utility classes ?
 
   return (
-    <div className="max-w-[500px] bg-[#000000] text-[white] my-0 mx-auto p-0">
+    <div className="my-0 mx-auto w-screen max-w-[500px] bg-[#000000] p-0 text-[white]">
       <apiContext.Provider value={data}>
         <Router>
           <Routes>
@@ -24,7 +25,6 @@ export const RouterConfig = () => {
 
             <Route
               path={encodeURI(`:brandName/Stores`)}
-              // Todo => check if it is doing ok regarding props
               element={<BrandStores />}
             ></Route>
             <Route
@@ -35,7 +35,6 @@ export const RouterConfig = () => {
               path={encodeURI(`:brandName/Store_Not_Found`)}
               element={<StoreNotFound />}
             ></Route>
-            {/* </Route> */}
           </Routes>
         </Router>
       </apiContext.Provider>
