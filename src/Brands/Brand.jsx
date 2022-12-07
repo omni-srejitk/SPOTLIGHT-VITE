@@ -14,7 +14,6 @@ const Brand = (props) => {
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
       props?.brandName(resp?.data);
-      console.log("resp?.data", resp?.data);
     });
   }, []);
   const [locDeny, setLocDeny] = useState(false);
