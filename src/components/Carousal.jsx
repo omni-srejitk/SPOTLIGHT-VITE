@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 export const Carousal = ({ data }) => {
   return (
     <div className=" no-scrollbar m-2 flex h-72 w-[93.5%] justify-start  gap-4 overflow-x-auto bg-[black] p-2 text-[1.05rem] text-[black]">
-      <div className="relative z-10 h-full min-w-[85%] rounded-xl border-0 bg-[#FAE77D] text-center outline-none">
+      <div className="relative z-10 h-full min-w-[80%] rounded-xl border-0 bg-[#FAE77D] pb-4 text-center outline-none">
         <div className="absolute top-0 right-0 z-0 w-auto">
           <img src="/images/Union.svg" />
         </div>
@@ -20,26 +20,26 @@ export const Carousal = ({ data }) => {
             {data.name}
           </p>
         </div>
-        <p className="relative z-10 px-4 pb-8">{data?.story}.</p>
+        <p className="relative z-10 px-4 ">{data?.story}.</p>
       </div>
 
-      <div className=" relative h-full min-w-[70%] ">
+      <div className=" relative h-full min-w-[80%] ">
         <div className="absolute top-0 right-0 z-0 w-auto">
           <img src="/images/Union.svg" />
         </div>
 
         <div className=" h-full  rounded-xl border-[2px] border-[white] bg-[#FAE77D] p-2 text-center">
-          <p className="mt-3 p-4 text-[1.35rem] font-semibold">
+          <p className="relative z-10 mt-3 p-4 text-[1.35rem] font-semibold">
             Happy customer
           </p>
           <span className="relative z-10">{data?.testimonial}</span>
         </div>
-        <div className="z-3 absolute bottom-0 w-40">
+        <div className=" absolute bottom-0 w-40">
           <img src="/images/yellow bar.svg" />
         </div>
       </div>
 
-      <div className=" relative h-full min-w-[70%] ">
+      <div className=" relative h-full min-w-[80%] ">
         <div className="absolute top-0 right-0 z-0 w-auto">
           <img src="/images/Union.svg" />
         </div>
