@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
 export const Carousal = ({ data }) => {
   return (
@@ -8,13 +7,20 @@ export const Carousal = ({ data }) => {
         <div className="absolute top-0 right-0 z-0 w-auto">
           <img src="/images/Union.svg" />
         </div>
-        <div className="absolute bottom-0 left-0 z-0 w-[10rem]">
+        <div className="absolute bottom-0 left-0 z-0 w-40">
           <img src="/images/yellow bar.svg" />
         </div>
 
         <div className="ml-6 mt-4 mb-2 flex h-1/4 w-4/5 flex-row items-center justify-start">
-          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2rem] border-[1px] border-black bg-white ">
-            <img className=" h-full w-full " src={data?.logo} alt="/" />
+          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2rem] border-[1px] border-black bg-white p-2">
+            <img
+              className=" h-full w-full "
+              src={data?.logo}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = "/Success.svg";
+              }}
+            />
           </div>
           <p className="z-10 ml-3 text-[1.35rem] font-semibold text-[black]">
             {data.name}

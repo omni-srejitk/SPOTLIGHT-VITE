@@ -94,7 +94,7 @@ export const MainButton = ({ data, setLocDeny }) => {
         <img src="/new 2 stars.svg" className="absolute right-12 top-4 w-10" />
 
         <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
-          <div className="flex h-16 w-16 items-center justify-center rounded-[4rem] bg-black">
+          <div className="flex h-16 w-16 items-center justify-center rounded-[2rem] bg-black">
             <div className=" h-9 w-9">
               <img
                 className=" h-full w-full"
@@ -106,8 +106,15 @@ export const MainButton = ({ data, setLocDeny }) => {
         </div>
 
         <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
-          <div className=" h-16 w-16 rounded-[4rem]">
-            <img className=" h-full w-full" src={data?.logo} alt="/" />
+          <div className=" h-16 w-16 rounded-[2rem]">
+            <img
+              className=" h-full w-full"
+              src={data?.logo}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = "Success.svg";
+              }}
+            />
           </div>
         </div>
 

@@ -18,7 +18,10 @@ export const NewModalLocationDeny = () => {
           Everyone deserves a second chance.
         </p>
         <p className="absolute bottom-[5%] left-[15%] w-[70%] text-center text-[0.9rem] text-[#ADADAD]">
-          <a href="" className="pr-2 underline">
+          <a
+            href="https://support.google.com/chrome/answer/142065?hl=en&co=GENIE.Platform%3DAndroid"
+            className="pr-2 underline"
+          >
             This is how
           </a>
           you can enable location permission again to find stores nearest you
