@@ -12,5 +12,12 @@ export const LoadComponent = () => {
       animationData: LoadComp,
     });
   }, []);
-  return <div className="h-[100vh]" id="container"></div>;
+  return (
+    <div className=" h-[100vh]">
+      <div className="h-[60vh] pt-24" id="container"></div>
+      <p className="mx-auto mt-4 w-full text-center text-[1.5rem] sm:left-[20rem]">
+        Searching store near you...
+      </p>
+    </div>
+  );
 };

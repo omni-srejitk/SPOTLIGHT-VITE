@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
+import { newContext } from "../App";
 
-const NewStoreFoundCard = ({ data }) => {
+const NewStoreFoundCard = () => {
+  let newValue = useContext(newContext);
+  console.log("newValue in newStoreFoundCard is ", newValue.info);
+  let data = newValue.info;
   let currLat;
   let currLong;
   const [brandData, setBrandData] = useState(null);

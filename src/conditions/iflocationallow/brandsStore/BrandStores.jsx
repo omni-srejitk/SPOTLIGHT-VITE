@@ -3,16 +3,18 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import NewStoreFoundCard from "../../../components/NewStoreFoundCard";
 import { Carousal } from "../../../components/Carousal";
-import { apiContext } from "../../../config/RouterConfig";
+// import { apiContext } from "../../../config/RouterConfig";
+import { newContext } from "../../../App";
 
 const BrandStores = () => {
-  const apiValue = useContext(apiContext);
+  // const apiValue = useContext(apiContext);
+  const newValue = useContext(newContext);
 
   return (
     <div>
       <Header />
-      <NewStoreFoundCard data={apiValue} />
-      <Carousal data={apiValue} />
+      <NewStoreFoundCard data={newValue.info} />
+      <Carousal data={newValue.info} />
       <Footer />
     </div>
   );

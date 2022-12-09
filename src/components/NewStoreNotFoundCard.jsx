@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as geolib from "geolib";
 import { useState } from "react";
 import { formInput } from "../services/api";
@@ -6,8 +6,11 @@ import { useParams } from "react-router-dom";
 import { Modal } from "./Modal";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
+import { newContext } from "../App";
 
-const NewStoreNotFoundCard = ({ data }) => {
+const NewStoreNotFoundCard = () => {
+  const newValue = useContext(newContext);
+  let data = newValue.info;
   const brand = useParams();
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
@@ -134,7 +137,7 @@ const NewStoreNotFoundCard = ({ data }) => {
   const handleClick = async () => {
     let response = await formInput(input);
     setName(response?.data?.data?.fullname);
-    if (phoneMessage && message) {
+    if (phoneMessage && message && !error) {
       toggleCard(cardInitialValues.thanks);
     }
   };
@@ -205,17 +208,17 @@ const NewStoreNotFoundCard = ({ data }) => {
               />
               {error && <p className="m-0 p-0 text-[red]">{error}</p>}
               <button
-                className="relative m-auto mt-8 block w-80 rounded-lg text-center text-[1.2rem] font-semibold text-black"
+                // className="relative m-auto mt-8 block w-80 rounded-lg text-center text-[1.2rem] font-semibold text-black"
+                className="m-auto w-full"
                 onClick={() => {
                   handleClick();
                 }}
-                id="button"
+                // id="button"
               >
-                <div className="absolute top-12 left-12 z-[50] ">
-                  Get 25% off on Launch
+                <ButtonAnimationComponent>
+                  <span className="ml-0">Get 25% off on Launch</span>
                   <img src="/images/discount.svg" className="ml-2 inline" />
-                </div>
-                <ButtonAnimationComponent />
+                </ButtonAnimationComponent>
               </button>
             </div>
           </div>
@@ -233,13 +236,14 @@ const NewStoreNotFoundCard = ({ data }) => {
               You’ll be the first one to be notified when we launch in Bangalore
             </p>
             <button
-              className="my-6 mx-auto block w-3/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+              className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
                 setIsOpen(false);
               }}
             >
               <a href="https://www.instagram.com/shoponspotlight/">
                 <span className="">Follow us on Instagram</span>
+                <img src="/images/insta icon dark.svg" className="inline" />
               </a>
             </button>
           </Modal>
@@ -256,7 +260,7 @@ const NewStoreNotFoundCard = ({ data }) => {
             You&#39;ll be the first one to get exclusive notifications
           </p>
           <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
-            Follow us on instagram{" "}
+            Follow us on instagram
             <img className="ml-2 inline" src="/insta.svg" />
           </button>
         </div>

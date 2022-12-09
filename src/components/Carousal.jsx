@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
+import { newContext } from "../App";
 
-export const Carousal = ({ data }) => {
+export const Carousal = () => {
+  let contextInfo = useContext(newContext);
+  let data = contextInfo.info;
+  // console.log("data", data);
+  let rating = data.rating.slice(0, 3);
+  // let rating = 2.6;
+  // console.log("data", data.rating.slice(0, 3));
+  // console.log("data", data.rating);
+
+  const ratingStar = Array.from({ length: 5 }, (elem, index) => {
+    let number = index + 0.5;
+
+    return (
+      <span key={index}>
+        {rating >= index + 1 ? (
+          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star
+          </span>
+        ) : rating >= number ? (
+          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star_half
+          </span>
+        ) : (
+          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star_border
+          </span>
+        )}
+      </span>
+    );
+  });
   return (
     <div className=" no-scrollbar m-2 flex h-72 w-[93.5%] justify-start  gap-4 overflow-x-auto bg-[black] p-2 text-[1.05rem] text-[black]">
       <div className="relative z-10 h-full min-w-[80%] rounded-xl border-0 bg-[#FAE77D] pb-4 text-center outline-none">
@@ -51,6 +81,16 @@ export const Carousal = ({ data }) => {
         </div>
         <div className=" h-full rounded-xl border-[2px] border-[white] bg-[#FAE77D] p-2 text-center">
           <p className="mt-3 p-4 text-[1.35rem] font-semibold">Rating</p>
+          {/* <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star
+          </span>
+          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star_border
+          </span>
+          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+            star_half
+          </span> */}
+          {ratingStar}
           <span className="relative z-10">{data?.rating}</span>
         </div>
         <div className="z-3 absolute bottom-0 w-40">
