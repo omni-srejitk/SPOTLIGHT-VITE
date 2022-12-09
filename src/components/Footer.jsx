@@ -1,7 +1,6 @@
 import React from "react";
 const Footer = () => {
   return (
-    //rendering footer component
     <div className="bg-[black]">
       <footer>
         <hr />

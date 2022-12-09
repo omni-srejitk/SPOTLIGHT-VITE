@@ -7,13 +7,11 @@ import { Modal } from "./Modal";
 import { newContext } from "../App";
 import { ShiningStarsAnimation } from "./ShiningStarsAnimation";
 import { SunAnimation } from "./SunAnimation";
-// import { FaStar } from "react-icons/fa";
 
 export const MainButton = ({ setLocDeny }) => {
   const brand = useParams();
   const newValue = useContext(newContext);
   let data = newValue.info;
-  // console.log("data", data);
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
     loaded: false,
@@ -78,7 +76,6 @@ export const MainButton = ({ setLocDeny }) => {
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
-  // const buttonFunction =
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -94,16 +91,8 @@ export const MainButton = ({ setLocDeny }) => {
           src="/new right dots.svg"
           className="absolute right-0 top-4 h-[93%]"
         />
-        {/* <div className="bg-[yellow]"> */}
-        {/* <img src="/images/star-rating-outline.svg" className="text-[yellow]" /> */}
 
-        {/* </div> */}
-        {/* <img
-          src="/new star.svg"
-          className="absolute left-[-4%] top-[-3%] w-14"
-        /> */}
         <SunAnimation />
-        {/* <img src="/new 2 stars.svg" className="absolute right-12 top-4 w-10" /> */}
         <div className="absolute right-12 top-4 w-[3rem]">
           <ShiningStarsAnimation />
         </div>
@@ -179,7 +168,6 @@ export const MainButton = ({ setLocDeny }) => {
             <button
               className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
-                // ShowLocationPopUp();
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
                 console.log("set to false inside ");
                 setIsOpen(false);
@@ -193,19 +181,3 @@ export const MainButton = ({ setLocDeny }) => {
     </div>
   );
 };
-
-// {/* <button
-//           className=" relative m-auto mt-8 block w-72 rounded-lg text-center text-[1.2rem] font-semibold text-black"
-//           onClick={() => {
-//             // ShowLocationPopUp();
-//             setIsOpen(true);
-//             console.log("button clicked");
-//           }}
-//           id="button"
-//         >
-//           {/* <div className="absolute top-11 left-12 z-[15]">
-//             Find a store near me
-//             <img src="/Find a store near me.svg" className="ml-2 inline" />
-//           </div> */}
-//           <ButtonAnimationComponent />
-//         </button> */}

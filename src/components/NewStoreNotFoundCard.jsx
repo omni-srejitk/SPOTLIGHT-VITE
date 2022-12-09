@@ -208,12 +208,10 @@ const NewStoreNotFoundCard = () => {
               />
               {error && <p className="m-0 p-0 text-[red]">{error}</p>}
               <button
-                // className="relative m-auto mt-8 block w-80 rounded-lg text-center text-[1.2rem] font-semibold text-black"
                 className="m-auto w-full"
                 onClick={() => {
                   handleClick();
                 }}
-                // id="button"
               >
                 <ButtonAnimationComponent>
                   <span className="ml-0">Get 25% off on Launch</span>
@@ -243,7 +241,11 @@ const NewStoreNotFoundCard = () => {
             >
               <a href="https://www.instagram.com/shoponspotlight/">
                 <span className="">Follow us on Instagram</span>
-                <img src="/images/insta icon dark.svg" className="inline" />
+                <img
+                  src="/images/insta icon dark.svg"
+                  className="inline"
+                  alt="/"
+                />
               </a>
             </button>
           </Modal>
