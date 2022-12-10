@@ -144,14 +144,15 @@ const NewStoreNotFoundCard = () => {
 
   return (
     <div className=" bg-[#000000] py-2">
-      {card.view === "form" ? (
+      {/* {card.view === "form" ? (
         <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
       ) : (
         <p className="ml-6 text-[1.35rem]">Thanks for using ShopOnSpotlight</p>
-      )}
+      )} */}
       {card.view === "form" ? (
         brandData && brandData.stores ? (
           <div>
+            <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
             <div className="card mx-5 h-full rounded-xl bg-[#5E5BF2] pb-5">
               <img src="/images/arrow.svg" className="m-auto w-24 py-12" />
               <p className="store text-center text-[1rem] tracking-[4px]">
@@ -224,47 +225,56 @@ const NewStoreNotFoundCard = () => {
           <LoadComponent />
         )
       ) : (
-        <div className="card relative m-5 min-h-[80vh] rounded-xl bg-[#7E2AE2] pb-4">
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <img src="/Success.svg" className="my-6 mx-auto block h-36 w-56" />
-            <p className="m-2 text-center text-[2rem] font-bold">
-              Congratulations! {name}
-            </p>
-            <p className="p-2 text-center text-[1.25rem] font-semibold">
-              You’ll be the first one to be notified when we launch in Bangalore
-            </p>
-            <button
-              className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              <a href="https://www.instagram.com/shoponspotlight/">
-                <span className="">Follow us on Instagram</span>
-                <img
-                  src="/images/insta icon dark.svg"
-                  className="inline"
-                  alt="/"
-                />
-              </a>
-            </button>
-          </Modal>
+        <div>
+          <p className="ml-6 text-[1.35rem]">
+            Thanks for using ShopOnSpotlight
+          </p>
+          <div className="card relative m-5 min-h-[80vh] rounded-xl bg-[#7E2AE2] pb-4">
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+              <img
+                src="/Success.svg"
+                className="my-6 mx-auto block h-36 w-56"
+              />
+              <p className="m-2 text-center text-[2rem] font-bold">
+                Congratulations! {name}
+              </p>
+              <p className="p-2 text-center text-[1.25rem] font-semibold">
+                You’ll be the first one to be notified when we launch in
+                Bangalore
+              </p>
+              <button
+                className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              >
+                <a href="https://www.instagram.com/shoponspotlight/">
+                  <span className="">Follow us on Instagram</span>
+                  <img
+                    src="/images/insta icon dark.svg"
+                    className="inline"
+                    alt="/"
+                  />
+                </a>
+              </button>
+            </Modal>
 
-          <img src="/new 2 stars.svg" className="block pt-12 pl-20" />
-          <img
-            src="/not found design.svg"
-            className=" absolute bottom-0 left-0 z-0"
-          />
-          <p className="mx-auto mt-40 mb-4 w-4/5 text-center text-[1.5rem]">
-            Follow us on instagram for more exclusive deals
-          </p>
-          <p className="mx-auto w-3/5 text-center text-[1rem]">
-            You&#39;ll be the first one to get exclusive notifications
-          </p>
-          <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
-            Follow us on instagram
-            <img className="ml-2 inline" src="/insta.svg" />
-          </button>
+            <img src="/new 2 stars.svg" className="block pt-12 pl-20" />
+            <img
+              src="/not found design.svg"
+              className=" absolute bottom-0 left-0 z-0"
+            />
+            <p className="mx-auto mt-40 mb-4 w-4/5 text-center text-[1.5rem]">
+              Follow us on instagram for more exclusive deals
+            </p>
+            <p className="mx-auto w-3/5 text-center text-[1rem]">
+              You&#39;ll be the first one to get exclusive notifications
+            </p>
+            <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
+              Follow us on instagram
+              <img className="ml-2 inline" src="/insta.svg" />
+            </button>
+          </div>
         </div>
       )}
     </div>

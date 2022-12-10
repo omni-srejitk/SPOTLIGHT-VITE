@@ -4,22 +4,22 @@ import { newContext } from "../App";
 export const Carousal = () => {
   let contextInfo = useContext(newContext);
   let data = contextInfo.info;
-  let rating = data.rating.slice(0, 3);
+  let stars = data.rating.slice(0, 3);
 
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
     return (
       <span key={index}>
-        {rating >= index + 1 ? (
-          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+        {stars >= index + 1 ? (
+          <span className="material-icons-round text-[3rem] text-[#FFA901]">
             star
           </span>
-        ) : rating >= number ? (
-          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+        ) : stars >= number ? (
+          <span className="material-icons-round text-[3rem] text-[#FFA901]">
             star_half
           </span>
         ) : (
-          <span className="material-icons-round text-[4rem] text-[#FFA901]">
+          <span className="material-icons-round text-[3rem] text-[#FFA901]">
             star_border
           </span>
         )}
@@ -77,10 +77,12 @@ export const Carousal = () => {
         </div>
         <div className=" h-full rounded-xl border-[2px] border-[white] bg-[#FAE77D] p-2 text-center">
           <div className="mx-auto mt-8 mb-4 h-fit w-28 rounded border-2 border-black bg-[white] px-4 py-0 text-[3rem] font-extrabold">
-            {rating}
+            {stars}
           </div>
           {ratingStar}
-          <span className="relative z-10 text-[#717171]">{data?.rating}</span>
+          <p className="relative z-10 text-[#717171]">
+            {data?.rating?.slice(5, -2)}
+          </p>
         </div>
         <div className="z-3 absolute bottom-0 w-40">
           <img src="/images/yellow bar.svg" />
