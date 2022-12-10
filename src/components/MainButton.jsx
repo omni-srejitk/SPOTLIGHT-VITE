@@ -29,7 +29,6 @@ export const MainButton = ({ setLocDeny }) => {
 
   const onSuccess = (Location) => {
     // if we get geolocation in navigator
-    console.log("entered in success");
     setLocation({
       loaded: true,
       coordinates: {
@@ -41,7 +40,6 @@ export const MainButton = ({ setLocDeny }) => {
     //initializing store distance in a empty list
     const storeDistance = [];
     if (data && data?.stores) {
-      console.log("entered data");
       // for all the stores present in json
       for (let i = 0; i < data?.stores?.length; i++) {
         const element = data?.stores[i];
@@ -72,7 +70,6 @@ export const MainButton = ({ setLocDeny }) => {
       loaded: true,
       error,
     });
-    console.log(error);
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
@@ -140,7 +137,6 @@ export const MainButton = ({ setLocDeny }) => {
         <button
           onClick={() => {
             setIsOpen(true);
-            console.log("button clicked");
           }}
           className="mx-auto w-full"
         >
@@ -151,7 +147,6 @@ export const MainButton = ({ setLocDeny }) => {
         </button>
         <button
           onClick={() => {
-            console.log("set to false");
             setIsOpen(false);
             setLocDeny(true);
           }}
@@ -169,7 +164,6 @@ export const MainButton = ({ setLocDeny }) => {
               className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                console.log("set to false inside ");
                 setIsOpen(false);
               }}
             >
