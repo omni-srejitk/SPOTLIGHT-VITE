@@ -1,25 +1,25 @@
 import React, { useContext } from "react";
-import { newContext } from "../App";
+import { distanceContext } from "../App";
 
 export const Carousal = () => {
-  let contextInfo = useContext(newContext);
-  let data = contextInfo.info;
-  let stars = data.rating.slice(0, 3);
+  let contextInfo = useContext(distanceContext);
+  let data = contextInfo?.storeDetails?.information;
+  let stars = data?.rating?.slice(0, 3);
 
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
     return (
       <span key={index}>
         {stars >= index + 1 ? (
-          <span className="material-icons-round text-[3rem] text-[#FFA901]">
+          <span className="material-icons-round text-[2.5rem] text-[#FFA901]">
             star
           </span>
         ) : stars >= number ? (
-          <span className="material-icons-round text-[3rem] text-[#FFA901]">
+          <span className="material-icons-round text-[2.5rem] text-[#FFA901]">
             star_half
           </span>
         ) : (
-          <span className="material-icons-round text-[3rem] text-[#FFA901]">
+          <span className="material-icons-round text-[2.5rem] text-[#FFA901]">
             star_border
           </span>
         )}
@@ -37,10 +37,10 @@ export const Carousal = () => {
           <img src="/images/yellow bar.svg" />
         </div>
 
-        <div className="ml-6 mt-4 mb-2 flex h-1/4 w-4/5 flex-row items-center justify-start">
-          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2rem] border-[1px] border-black bg-white p-2">
+        <div className="ml-6 mt-5 mb-2 flex h-1/4 w-4/5 flex-row items-center justify-start">
+          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2.5rem] border-[1px] border-black bg-white p-3">
             <img
-              className=" h-full w-full "
+              className=" object-contain "
               src={data?.logo}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping

@@ -2,17 +2,15 @@ import React, { useContext, useState } from "react";
 import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
-import { newContext } from "../App";
+import { distanceContext } from "../App";
 
 const NewStoreFoundCard = () => {
-  let newValue = useContext(newContext);
-  console.log("newValue in newStoreFoundCard is ", newValue.info);
-  let data = newValue.info;
+  let newValue = useContext(distanceContext);
+  let data = newValue.storeDetails.information;
   let currLat;
   let currLong;
   const [brandData, setBrandData] = useState(null);
 
-  //initializing new data as object
   var newData = {};
 
   //initializing findDistance function
@@ -68,10 +66,10 @@ const NewStoreFoundCard = () => {
   }
   // Todo: height-93%?
   return (
-    //rendering store found card component
+    //rendering store found card component min-h-[30rem]
     <div className="bg-black">
       {brandData?.stores[0].storeDistance ? (
-        <div className="relative z-[50] m-2 mx-5 h-[60vh] min-h-[30rem] rounded-lg bg-[#E37353] p-2 pt-12 sm:h-[27rem]">
+        <div className="relative z-[50] m-2 mx-5 h-[60vh] min-h-[30rem] rounded-lg bg-[#E37353] p-2 pt-12 sm:h-[24rem]">
           <img
             src="/new left dots.svg"
             className="absolute left-[2%] top-[2%] z-10 h-[93%]"
@@ -103,14 +101,14 @@ const NewStoreFoundCard = () => {
             {brandData?.stores[0].storeDistance} km Away
           </p>
           <button
-            className=" relative m-auto mt-12 block w-4/5 rounded-lg text-center text-[1.2rem] font-semibold text-black"
+            className=" relative m-auto mt-0 block w-4/5 rounded-lg text-center text-[1.30rem] font-semibold text-black lg:top-0 lg:mt-0 lg:pt-0"
             onClick={() => {
-              openGoogleByMethod;
+              openGoogleByMethod();
             }}
             id="button"
           >
-            <div className="absolute top-10 left-10 z-[50] lg:left-20 lg:top-14">
-              Find a store near me
+            <div className="absolute top-[4.75rem] left-8 z-[50] mx-auto w-4/5 lg:left-12 lg:top-[5.75rem] ">
+              <span className="">Take me there</span>
               <img src="/Find a store near me.svg" className="ml-2 inline" />
             </div>
             <ButtonAnimationComponent />

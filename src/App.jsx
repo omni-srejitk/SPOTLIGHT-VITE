@@ -1,14 +1,19 @@
 import "./App.css";
 import React, { createContext, useState } from "react";
 import { RouterConfig } from "./config/RouterConfig";
-export const newContext = createContext();
+export const distanceContext = createContext();
 
 function App() {
-  const [info, setInfo] = useState({});
+  const [storeDetails, setStoreDetails] = useState({
+    information: {},
+    distance: 0,
+    storeName: "",
+  });
+
   return (
-    <newContext.Provider value={{ info, setInfo }}>
+    <distanceContext.Provider value={{ storeDetails, setStoreDetails }}>
       <RouterConfig className="m-0 p-0" />
-    </newContext.Provider>
+    </distanceContext.Provider>
   );
 }
 export default App;

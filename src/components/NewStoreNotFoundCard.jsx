@@ -1,16 +1,15 @@
 import React, { useContext } from "react";
-import * as geolib from "geolib";
 import { useState } from "react";
 import { formInput } from "../services/api";
 import { useParams } from "react-router-dom";
 import { Modal } from "./Modal";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
-import { newContext } from "../App";
+import { distanceContext } from "../App";
 
 const NewStoreNotFoundCard = () => {
-  const newValue = useContext(newContext);
-  let data = newValue.info;
+  let doori = useContext(distanceContext);
+  let data = doori.storeDetails.information;
   const brand = useParams();
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
@@ -31,7 +30,6 @@ const NewStoreNotFoundCard = () => {
   };
 
   const [input, setInput] = useState(inputInitialValues);
-  const [brandData, setBrandData] = useState(null);
 
   const cardInitialValues = {
     form: {
@@ -43,9 +41,6 @@ const NewStoreNotFoundCard = () => {
   };
 
   const [card, toggleCard] = useState(cardInitialValues.form);
-
-  //initializing new data as object
-  var newData = {};
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -71,65 +66,13 @@ const NewStoreNotFoundCard = () => {
     } else {
       setPhoneError(null);
     }
-
     setPhoneMessage(e.target.value);
   };
-
-  var findDistance = new Promise(function (resolve) {
-    navigator.geolocation.getCurrentPosition((Location) => {
-      //intializing dist as object and first input as key-value pair of storeDistance with empty string
-      const dist = { storeDistance: "", Location };
-
-      if (data && data.stores) {
-        for (let i = 0; i < data.stores.length; i++) {
-          const element = data.stores[i];
-
-          //calculating distance using lat and long
-          const locationDistance = geolib.getPreciseDistance(
-            {
-              latitude: Location.coords.latitude,
-              longitude: Location.coords.longitude,
-            },
-            {
-              latitude: element.lat,
-              longitude: element.long,
-            }
-          );
-          const distance = Math.round(locationDistance / 1000);
-
-          //updating in dist object
-          dist.storeDistance = distance;
-
-          //adding distance into data.stores
-          Object.assign(element, dist);
-        }
-
-        //sorting with distance
-        var byDistance = data.stores.slice(0);
-        byDistance.sort(function (a, b) {
-          return a.storeDistance - b.storeDistance;
-        });
-
-        data.stores = byDistance;
-        resolve(data);
-      }
-    });
-  });
-
-  newData = data;
-
-  //updating the state of brand data with new data as input
-  findDistance.then(function () {
-    setBrandData(newData);
-  });
-  // getting all the inputs from the form
   const onInputChange = (e) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
       brand: brand.brandName,
-      lat: brandData.stores[0].Location.coords.latitude,
-      long: brandData.stores[0].Location.coords.longitude,
     });
   };
 
@@ -144,13 +87,8 @@ const NewStoreNotFoundCard = () => {
 
   return (
     <div className=" bg-[#000000] py-2">
-      {/* {card.view === "form" ? (
-        <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
-      ) : (
-        <p className="ml-6 text-[1.35rem]">Thanks for using ShopOnSpotlight</p>
-      )} */}
       {card.view === "form" ? (
-        brandData && brandData.stores ? (
+        doori.storeDetails.distance ? (
           <div>
             <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
             <div className="card mx-5 h-full rounded-xl bg-[#5E5BF2] pb-5">
@@ -159,7 +97,7 @@ const NewStoreNotFoundCard = () => {
                 THE NEAREST STORE IS
               </p>
               <p className="mt-4 text-center text-[2.5rem] font-bold leading-[3rem] text-[#FFFFFF]">
-                {brandData.stores[0].storeDistance} km Away
+                {doori.storeDetails.distance} km Away
               </p>
               <p className="mt-4 text-center text-[1.25rem] font-medium leading-6">
                 How Far Will You Go for Love?
@@ -231,32 +169,34 @@ const NewStoreNotFoundCard = () => {
           </p>
           <div className="card relative m-5 min-h-[80vh] rounded-xl bg-[#7E2AE2] pb-4">
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-              <img
-                src="/Success.svg"
-                className="my-6 mx-auto block h-36 w-56"
-              />
-              <p className="m-2 text-center text-[2rem] font-bold">
-                Congratulations! {name}
-              </p>
-              <p className="p-2 text-center text-[1.25rem] font-semibold">
-                You’ll be the first one to be notified when we launch in
-                Bangalore
-              </p>
-              <button
-                className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
-                onClick={() => {
-                  setIsOpen(false);
-                }}
-              >
-                <a href="https://www.instagram.com/shoponspotlight/">
-                  <span className="">Follow us on Instagram</span>
-                  <img
-                    src="/images/insta icon dark.svg"
-                    className="inline"
-                    alt="/"
-                  />
-                </a>
-              </button>
+              <div className="mx-auto w-full">
+                <img
+                  src="/Success.svg"
+                  className="my-6 mx-auto block h-36 w-56"
+                />
+                <p className="m-2 text-center text-[2rem] font-bold">
+                  Congratulations! {name}
+                </p>
+                <p className="p-2 text-center text-[1.25rem] font-semibold">
+                  You’ll be the first one to be notified when we launch in near
+                  you!
+                </p>
+                <button
+                  className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}
+                >
+                  <a href="https://www.instagram.com/shoponspotlight/">
+                    <span className="">Follow us on Instagram</span>
+                    <img
+                      src="/images/insta icon dark.svg"
+                      className="inline pl-2"
+                      alt="/"
+                    />
+                  </a>
+                </button>
+              </div>
             </Modal>
 
             <img src="/new 2 stars.svg" className="block pt-12 pl-20" />

@@ -4,14 +4,13 @@ import { useNavigate } from "react-router-dom";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
-import { newContext } from "../App";
 import { ShiningStarsAnimation } from "./ShiningStarsAnimation";
-import { SunAnimation } from "./SunAnimation";
+import { distanceContext } from "../App";
 
 export const MainButton = ({ setLocDeny }) => {
   const brand = useParams();
-  const newValue = useContext(newContext);
-  let data = newValue.info;
+  let info = useContext(distanceContext);
+  let data = info.storeDetails.information;
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
     loaded: false,
@@ -26,7 +25,6 @@ export const MainButton = ({ setLocDeny }) => {
       });
     }
   }, [Location]);
-
   const onSuccess = (Location) => {
     // if we get geolocation in navigator
     setLocation({
@@ -57,6 +55,10 @@ export const MainButton = ({ setLocDeny }) => {
         );
         storeDistance.push(Math.round(locationDistance / 1000));
       }
+      info.setStoreDetails({
+        ...info.storeDetails,
+        distance: Math.min(...storeDistance),
+      });
     }
     // redirecting to Stores page if nearest store is 50km from user location
     if (Math.min(...storeDistance) <= 50) {
@@ -88,10 +90,11 @@ export const MainButton = ({ setLocDeny }) => {
           src="/new right dots.svg"
           className="absolute right-0 top-4 h-[93%]"
         />
-
-        <SunAnimation />
         <div className="absolute right-12 top-4 w-[3rem]">
           <ShiningStarsAnimation />
+        </div>
+        <div className="absolute left-[-0.6rem] top-[-0.7rem] w-[3.5rem]">
+          <img className="" src="/new star.svg" />
         </div>
 
         <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
@@ -107,9 +110,9 @@ export const MainButton = ({ setLocDeny }) => {
         </div>
 
         <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
-          <div className=" h-16 w-16 rounded-[2rem]">
+          <div className=" rounded-[2rem] object-contain p-1">
             <img
-              className=" h-full w-full"
+              // className=" h-full w-full"
               src={data?.logo}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
