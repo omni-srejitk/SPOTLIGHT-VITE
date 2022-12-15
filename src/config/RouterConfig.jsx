@@ -25,6 +25,7 @@ export const RouterConfig = () => {
             path={encodeURI(`:brandName/Store_Not_Found`)}
             element={<StoreNotFound />}
           ></Route>
+          <Route path="/*" element={<Brand />} />
         </Routes>
       </Router>
     </div>
