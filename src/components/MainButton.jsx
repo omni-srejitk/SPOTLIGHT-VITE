@@ -26,7 +26,7 @@ export const MainButton = ({ setLocDeny }) => {
     }
   }, [Location]);
   const onSuccess = (Location) => {
-    // if we get geolocation in navigator
+    localStorage.setItem("myLat", Location.coords.latitude);
     setLocation({
       loaded: true,
       coordinates: {
@@ -75,10 +75,7 @@ export const MainButton = ({ setLocDeny }) => {
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
-  let [modalCondition, setModalCondition] = useState();
-
   let [isOpen, setIsOpen] = useState(false);
-
   return (
     <div>
       <div className=" relative m-4 h-[60vh] min-h-[30rem] rounded-lg bg-[#613DE5] p-2 pt-12 sm:h-[27rem]">
@@ -140,9 +137,11 @@ export const MainButton = ({ setLocDeny }) => {
         </p>
         <button
           onClick={() => {
-            !"geolocation" in navigator
-              ? setIsOpen(true)
-              : navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            if (!localStorage.getItem("myLat")) {
+              setIsOpen(true);
+            } else {
+              navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
           }}
           className="mx-auto w-full"
         >
@@ -168,7 +167,7 @@ export const MainButton = ({ setLocDeny }) => {
             <button
               className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
-                setModalCondition(true);
+                // setModalCondition(true);
                 setIsOpen(false);
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
               }}
