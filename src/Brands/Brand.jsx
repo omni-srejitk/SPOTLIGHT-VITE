@@ -22,6 +22,7 @@ const Brand = () => {
     });
   }, []);
   const [locDeny, setLocDeny] = useState(false);
+  localStorage.setItem("ModalCondition", true);
 
   return (
     <div className="bg-[#000000] ">

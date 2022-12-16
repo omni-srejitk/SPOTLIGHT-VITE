@@ -75,7 +75,8 @@ export const MainButton = ({ setLocDeny }) => {
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
-  let [modalCondition, setModalCondition] = useState(false);
+  let [modalCondition, setModalCondition] = useState();
+
   let [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -139,12 +140,9 @@ export const MainButton = ({ setLocDeny }) => {
         </p>
         <button
           onClick={() => {
-            // navigator.geolocation.getCurrentPosition(onSuccess, onError);
-            {
-              !"geolocation" in navigator
-                ? setIsOpen(true)
-                : navigator.geolocation.getCurrentPosition(onSuccess, onError);
-            }
+            !"geolocation" in navigator
+              ? setIsOpen(true)
+              : navigator.geolocation.getCurrentPosition(onSuccess, onError);
           }}
           className="mx-auto w-full"
         >
@@ -153,13 +151,9 @@ export const MainButton = ({ setLocDeny }) => {
             <img src="/Find a store near me.svg" className="ml-2 inline" />
           </ButtonAnimationComponent>
         </button>
-        {/* {!modalCondition ? ( */}
-        {/* {!"geolocation" in navigator ? ( */}
         <button
           onClick={() => {
             setIsOpen(false);
-
-            // setLocDeny(true);
           }}
         >
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
@@ -174,18 +168,15 @@ export const MainButton = ({ setLocDeny }) => {
             <button
               className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
-                navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                setIsOpen(false);
                 setModalCondition(true);
+                setIsOpen(false);
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
               }}
             >
               Grant Permission
             </button>
           </Modal>
         </button>
-        {/* ) : (
-          ""
-        )} */}
       </div>
     </div>
   );
