@@ -14,6 +14,7 @@ const NewStoreFoundCard = () => {
   const [brandData, setBrandData] = useState(null);
 
   var newData = {};
+  // console.log("data", data);
 
   //initializing findDistance function
   var findDistance = new Promise(function (resolve) {
@@ -66,7 +67,7 @@ const NewStoreFoundCard = () => {
       `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
     );
   }
-  if (!brandData?.stores[0].storeDistance) {
+  if (Object.keys(data).length === 0) {
     setTimeout(() => {
       navigate("/Auric");
     }, 5000);

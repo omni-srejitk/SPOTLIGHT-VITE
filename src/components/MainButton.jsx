@@ -154,38 +154,38 @@ export const MainButton = ({ setLocDeny }) => {
           </ButtonAnimationComponent>
         </button>
         {/* {!modalCondition ? ( */}
-        {!"geolocation" in navigator ? (
-          <button
-            onClick={() => {
-              setIsOpen(false);
+        {/* {!"geolocation" in navigator ? ( */}
+        <button
+          onClick={() => {
+            setIsOpen(false);
 
-              // setLocDeny(true);
-            }}
-          >
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-              <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
-              <p className="m-2 text-center text-[1.15rem] font-medium">
-                You&#39;re just a few seconds away
-              </p>
-              <p className="p-2 text-center text-[0.75rem] font-normal">
-                We ask for location permission to locate stores near you. Click
-                “Allow” once you see a popup. Grant permission
-              </p>
-              <button
-                className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                  setIsOpen(false);
-                  setModalCondition(true);
-                }}
-              >
-                Grant Permission
-              </button>
-            </Modal>
-          </button>
-        ) : (
+            // setLocDeny(true);
+          }}
+        >
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
+            <p className="m-2 text-center text-[1.15rem] font-medium">
+              You&#39;re just a few seconds away
+            </p>
+            <p className="p-2 text-center text-[0.75rem] font-normal">
+              We ask for location permission to locate stores near you. Click
+              “Allow” once you see a popup. Grant permission
+            </p>
+            <button
+              className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+              onClick={() => {
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                setIsOpen(false);
+                setModalCondition(true);
+              }}
+            >
+              Grant Permission
+            </button>
+          </Modal>
+        </button>
+        {/* ) : (
           ""
-        )}
+        )} */}
       </div>
     </div>
   );
