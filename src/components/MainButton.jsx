@@ -153,8 +153,8 @@ export const MainButton = ({ setLocDeny }) => {
             <img src="/Find a store near me.svg" className="ml-2 inline" />
           </ButtonAnimationComponent>
         </button>
-        {/* {!"geolocation" in navigator ? ( */}
-        {modalCondition == false ? (
+        {/* {!modalCondition ? ( */}
+        {!"geolocation" in navigator ? (
           <button
             onClick={() => {
               setIsOpen(false);
