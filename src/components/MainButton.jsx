@@ -75,7 +75,7 @@ export const MainButton = ({ setLocDeny }) => {
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
-
+  let [modalCondition, setModalCondition] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -139,7 +139,12 @@ export const MainButton = ({ setLocDeny }) => {
         </p>
         <button
           onClick={() => {
-            setIsOpen(true);
+            // navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            {
+              !"geolocation" in navigator
+                ? setIsOpen(true)
+                : navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
           }}
           className="mx-auto w-full"
         >
@@ -148,32 +153,39 @@ export const MainButton = ({ setLocDeny }) => {
             <img src="/Find a store near me.svg" className="ml-2 inline" />
           </ButtonAnimationComponent>
         </button>
-        <button
-          onClick={() => {
-            setIsOpen(false);
-            setLocDeny(true);
-          }}
-        >
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
-            <p className="m-2 text-center text-[1.15rem] font-medium">
-              You&#39;re just a few seconds away
-            </p>
-            <p className="p-2 text-center text-[0.75rem] font-normal">
-              We ask for location permission to locate stores near you. Click
-              “Allow” once you see a popup. Grant permission
-            </p>
-            <button
-              className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
-              onClick={() => {
-                navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                setIsOpen(false);
-              }}
-            >
-              Grant Permission
-            </button>
-          </Modal>
-        </button>
+        {/* {!"geolocation" in navigator ? ( */}
+        {modalCondition == false ? (
+          <button
+            onClick={() => {
+              setIsOpen(false);
+
+              // setLocDeny(true);
+            }}
+          >
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+              <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
+              <p className="m-2 text-center text-[1.15rem] font-medium">
+                You&#39;re just a few seconds away
+              </p>
+              <p className="p-2 text-center text-[0.75rem] font-normal">
+                We ask for location permission to locate stores near you. Click
+                “Allow” once you see a popup. Grant permission
+              </p>
+              <button
+                className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                  setIsOpen(false);
+                  setModalCondition(true);
+                }}
+              >
+                Grant Permission
+              </button>
+            </Modal>
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

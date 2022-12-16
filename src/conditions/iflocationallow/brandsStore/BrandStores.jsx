@@ -8,7 +8,7 @@ const BrandStores = () => {
   return (
     <div>
       <Header />
-      <NewStoreFoundCard />
+      <NewStoreFoundCard signal={signal} />
       <Carousal />
       <Footer />
     </div>

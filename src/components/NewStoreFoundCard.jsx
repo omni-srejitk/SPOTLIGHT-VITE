@@ -3,10 +3,12 @@ import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { distanceContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const NewStoreFoundCard = () => {
+  let navigate = useNavigate();
   let newValue = useContext(distanceContext);
-  let data = newValue.storeDetails.information;
+  let data = { ...newValue.storeDetails.information };
   let currLat;
   let currLong;
   const [brandData, setBrandData] = useState(null);
@@ -63,6 +65,11 @@ const NewStoreFoundCard = () => {
     window.open(
       `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
     );
+  }
+  if (!brandData?.stores[0].storeDistance) {
+    setTimeout(() => {
+      navigate("/Auric");
+    }, 5000);
   }
   // Todo: height-93%?
   return (
