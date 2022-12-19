@@ -30,7 +30,7 @@ export const Carousal = () => {
 
   function changeClass() {
     myRef.current.classList.remove("whitespace-nowrap");
-    myRef.current.classList.remove("line-clamp-3");
+    myRef.current.classList.remove("line-clamp-4");
     myRef.current.classList.add("overflow-y-auto");
   }
 
