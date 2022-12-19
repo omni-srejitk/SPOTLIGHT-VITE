@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { distanceContext } from "../App";
 
 export const Carousal = () => {
   let contextInfo = useContext(distanceContext);
   let data = contextInfo?.storeDetails?.information;
+  let myRef = useRef();
   let stars = data?.rating?.slice(0, 3);
 
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
@@ -27,6 +28,12 @@ export const Carousal = () => {
     );
   });
 
+  function changeClass() {
+    myRef.current.classList.remove("whitespace-nowrap");
+    myRef.current.classList.remove("line-clamp-3");
+    myRef.current.classList.add("overflow-y-auto");
+  }
+
   return (
     <div className=" no-scrollbar m-2 flex h-72 w-[93.5%] justify-start  gap-4 overflow-x-auto bg-[black] p-2 text-[1.05rem] text-[black]">
       <div className="relative z-10 h-full min-w-[80%] rounded-xl border-0 bg-[#FAE77D] pb-4 text-center outline-none">
@@ -44,7 +51,7 @@ export const Carousal = () => {
               src={data?.logo}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = "/Success.svg";
+                currentTarget.src = "/images/Success.svg";
               }}
             />
           </div>
@@ -52,7 +59,16 @@ export const Carousal = () => {
             {data.name}
           </p>
         </div>
-        <p className="relative z-10 px-4 ">{data?.story}.</p>
+        <p
+          ref={myRef}
+          className="relative z-10 max-h-[6rem] w-full overflow-y-auto px-4 text-[1.1rem] leading-6 line-clamp-4"
+          title="title"
+          onClick={() => {
+            changeClass();
+          }}
+        >
+          {data?.story}
+        </p>
       </div>
 
       <div className=" relative h-full min-w-[80%] ">

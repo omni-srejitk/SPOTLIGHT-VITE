@@ -21,10 +21,10 @@ const Footer = () => {
             href="https://www.instagram.com/omniflo.in/"
             className="m-2 inline"
           >
-            <img src="/images/twitter icon.svg" className="inline" />
+            <img src="/images/insta icon.svg" className="inline" />
           </a>
           <a href="https://twitter.com/Omniflo_in" className="inline">
-            <img src="/images/insta icon.svg" className="inline" />
+            <img src="/images/twitter icon.svg" className="inline" />
           </a>
         </div>
         <hr />

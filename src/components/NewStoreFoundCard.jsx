@@ -63,13 +63,14 @@ const NewStoreFoundCard = () => {
     setBrandData(newData);
   });
   function openGoogleByMethod() {
+    window.localStorage.removeItem("myLat");
     window.open(
       `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
     );
   }
   if (Object.keys(data).length === 0) {
     setTimeout(() => {
-      navigate("/Auric");
+      navigate("/");
     }, 5000);
   }
   // Todo: height-93%?

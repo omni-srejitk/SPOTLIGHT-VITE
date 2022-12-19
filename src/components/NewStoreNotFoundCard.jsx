@@ -8,8 +8,7 @@ import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { distanceContext } from "../App";
 
 const NewStoreNotFoundCard = () => {
-  let doori = useContext(distanceContext);
-  let data = doori.storeDetails.information;
+  let info = useContext(distanceContext);
   const brand = useParams();
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
@@ -88,7 +87,7 @@ const NewStoreNotFoundCard = () => {
   return (
     <div className=" bg-[#000000] py-2">
       {card.view === "form" ? (
-        doori.storeDetails.distance ? (
+        info.storeDetails.distance ? (
           <div>
             <p className="ml-6 text-[1.35rem]">Oops! The store is too far</p>
             <div className="card mx-5 h-full rounded-xl bg-[#5E5BF2] pb-5">
@@ -97,7 +96,7 @@ const NewStoreNotFoundCard = () => {
                 THE NEAREST STORE IS
               </p>
               <p className="mt-4 text-center text-[2.5rem] font-bold leading-[3rem] text-[#FFFFFF]">
-                {doori.storeDetails.distance} km Away
+                {info.storeDetails.distance} km Away
               </p>
               <p className="mt-4 text-center text-[1.25rem] font-medium leading-6">
                 How Far Will You Go for Love?
@@ -211,8 +210,13 @@ const NewStoreNotFoundCard = () => {
               You&#39;ll be the first one to get exclusive notifications
             </p>
             <button className="relative z-[15] my-8 mx-auto block w-60 rounded-lg bg-white p-[0.8rem] text-[1rem] text-black">
-              Follow us on instagram
-              <img className="ml-2 inline" src="/insta.svg" />
+              <a
+                href="https://www.instagram.com/omniflo.in/"
+                className="m-2 inline"
+              >
+                Follow us on instagram
+                <img className="ml-2 inline" src="/insta.svg" />
+              </a>
             </button>
           </div>
         </div>

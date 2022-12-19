@@ -7,7 +7,7 @@ import { Modal } from "./Modal";
 import { ShiningStarsAnimation } from "./ShiningStarsAnimation";
 import { distanceContext } from "../App";
 
-export const MainButton = ({ setLocDeny }) => {
+export const MainButton = () => {
   const brand = useParams();
   let info = useContext(distanceContext);
   let data = info.storeDetails.information;
@@ -111,10 +111,11 @@ export const MainButton = ({ setLocDeny }) => {
           <div className=" rounded-[2rem] object-contain p-1">
             <img
               // className=" h-full w-full"
+              className=" object-contain"
               src={data?.logo}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = "Success.svg";
+                currentTarget.src = "/images/Success.svg";
               }}
             />
           </div>
@@ -167,7 +168,6 @@ export const MainButton = ({ setLocDeny }) => {
             <button
               className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
-                // setModalCondition(true);
                 setIsOpen(false);
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
               }}
