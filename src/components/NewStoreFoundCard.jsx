@@ -15,47 +15,97 @@ const NewStoreFoundCard = () => {
   let brand = useParams()
   var newData = {};
 
+
+  function errorCallback_lowAccuracy(error) {
+    var msg = "<p>Can't get your location (low accuracy attempt). Error = ";
+    if (error.code == 1)
+        msg += "PERMISSION_DENIED";
+    else if (error.code == 2)
+        msg += "POSITION_UNAVAILABLE";
+    else if (error.code == 3)
+        msg += "TIMEOUT";
+    msg += ", msg = "+error.message;
+    
+   console.log(msg)
+}
+
+function errorCallback_highAccuracy(error) {
+  if (error.code == error.TIMEOUT)
+  {
+      // Attempt to get GPS loc timed out after 5 seconds, 
+      // try low accuracy location
+  
+      navigator.geolocation.getCurrentPosition(
+             successCallback, 
+             errorCallback_lowAccuracy,
+             {maximumAge:600000, timeout:10000, enableHighAccuracy: false});
+      return;
+  }
+  
+  var msg = "<p>Can't get your location (high accuracy attempt). Error = ";
+  if (error.code == 1)
+      msg += "PERMISSION_DENIED";
+  else if (error.code == 2)
+      msg += "POSITION_UNAVAILABLE";
+  msg += ", msg = "+error.message;
+  
+  console.log(msg)
+}
+
+const successCallback = (Location, resolve) => 
+{
+setCurrLat(Location.coords.latitude)
+setCurrLon(Location.coords.longitude)
+
+
+const dist = { storeDistance: "" };
+
+if (data && data.stores) {
+  //for all the stores in json of data
+  for (let i = 0; i < data.stores.length; i++) {
+    const element = data.stores[i];
+
+    //calculating distance using lat and long
+    const locationDistance = geolib.getPreciseDistance(
+      {
+        latitude: Location.coords.latitude,
+        longitude: Location.coords.longitude,
+      },
+      {
+        latitude: element.lat,
+        longitude: element.long,
+      }
+    );
+    const distance = Math.round(locationDistance / 1000);
+
+    dist.storeDistance = distance;
+
+    //adding distance into data.stores
+    Object.assign(element, dist);
+  }
+  //sorting with distance
+  var byDistance = data.stores.slice(0);
+  byDistance.sort(function (a, b) {
+    return a.storeDistance - b.storeDistance;
+  });
+  data.stores = byDistance;
+  resolve(data);
+}
+}
+
   //initializing findDistance function
   const findDistance = new Promise(function (resolve) {
-    navigator.geolocation.getCurrentPosition((Location) => {
-      setCurrLat(Location.coords.latitude)
-      setCurrLon(Location.coords.longitude)
-
-
-      const dist = { storeDistance: "" };
-
-      if (data && data.stores) {
-        //for all the stores in json of data
-        for (let i = 0; i < data.stores.length; i++) {
-          const element = data.stores[i];
-
-          //calculating distance using lat and long
-          const locationDistance = geolib.getPreciseDistance(
-            {
-              latitude: Location.coords.latitude,
-              longitude: Location.coords.longitude,
-            },
-            {
-              latitude: element.lat,
-              longitude: element.long,
-            }
-          );
-          const distance = Math.round(locationDistance / 1000);
-
-          dist.storeDistance = distance;
-
-          //adding distance into data.stores
-          Object.assign(element, dist);
-        }
-        //sorting with distance
-        var byDistance = data.stores.slice(0);
-        byDistance.sort(function (a, b) {
-          return a.storeDistance - b.storeDistance;
-        });
-        data.stores = byDistance;
-        resolve(data);
+    navigator.geolocation.getCurrentPosition((Location)=>{
+      successCallback(Location,resolve),
+      errorCallback_highAccuracy
+    ,{
+        enableHighAccuracy: true,
+        maximumAge: 10000,
+        timeout:5000
       }
-    });
+    }
+    )
+
   });
   //assigning value of new data = data
   newData = data;
@@ -65,6 +115,7 @@ const NewStoreFoundCard = () => {
   function openGoogleByMethod() {
     window.localStorage.removeItem("myLat");
     window.localStorage.removeItem("myLon");
+
 if(currLat!== 0 && currLon!== 0){
   window.open(
     `https://www.google.com/maps/dir/${currLat},${currLon}/${brandData.stores[0].lat},${brandData.stores[0].long}`
