@@ -57,7 +57,7 @@ export const Carousal = () => {
           </div>
           <p
             className="z-10 ml-3 cursor-pointer text-[1.35rem] font-semibold text-[black]"
-            onClick={() => window.open(`${data.url}`)}
+            onClick={() => window.open(`${data?.url}`)}
           >
             {data.name}
           </p>

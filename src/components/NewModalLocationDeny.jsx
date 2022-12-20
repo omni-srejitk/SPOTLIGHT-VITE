@@ -1,7 +1,6 @@
 import React from "react";
 
 export const NewModalLocationDeny = () => {
-  // Todo => change some % to utility classes
   return (
     <div className="m-0 h-screen p-6">
       <div className="relative m-0 mx-auto rounded-3xl border-[1px] border-white bg-black p-2">
