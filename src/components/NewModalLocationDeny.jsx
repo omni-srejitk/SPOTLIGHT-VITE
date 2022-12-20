@@ -2,22 +2,25 @@ import React from "react";
 
 export const NewModalLocationDeny = () => {
   return (
-    <div className="m-0 p-6 ">
-      <div className="m-0 p-2 mx-auto bg-black border-[1px] border-white relative rounded-3xl">
-        <img src="/map image.svg" className="pt-[15%] block w-[30%] mx-auto" />
+    <div className="m-0 h-screen p-6">
+      <div className="relative m-0 mx-auto rounded-3xl border-[1px] border-white bg-black p-2">
+        <img src="/map image.svg" className="mx-auto block w-24 pt-12" />
         <img src="/earth frame.svg" className="h-[70vh] lg:mt-20" />
-        <p className="absolute top-[30%] left-[10%] text-[2rem] text-center w-[80%]">
-          Well that's one way to go about it!
+        <p className="absolute top-56 left-10 w-4/5 text-center text-[2rem]">
+          Well that&#39;s one way to go about it!
         </p>
-        <p className="text-[white] absolute top-[45%] left-[15%] text-center text-[1.25rem] w-[70%]">
-          Unfotunately, we can't show stores near you if you deny location
+        <p className="absolute top-80 left-[15%] w-[70%] text-center text-[1.25rem] text-[white]">
+          Unfotunately, we can&#39;t show stores near you if you deny location
           permission.
         </p>
-        <p className="text-[#ADADAD] absolute bottom-[14.5%] left-[15%] text-center text-[0.9rem] w-[70%]">
+        <p className="absolute bottom-[14.5%] left-[15%] w-[70%] text-center text-[0.9rem] text-[#ADADAD]">
           Everyone deserves a second chance.
         </p>
-        <p className="text-[#ADADAD] absolute bottom-[5%] left-[15%] text-center text-[0.9rem] w-[70%]">
-          <a href="" className="underline pr-2">
+        <p className="absolute bottom-[5%] left-[15%] w-[70%] text-center text-[0.9rem] text-[#ADADAD]">
+          <a
+            href="https://support.google.com/chrome/answer/142065?hl=en&co=GENIE.Platform%3DAndroid"
+            className="pr-2 underline"
+          >
             This is how
           </a>
           you can enable location permission again to find stores nearest you

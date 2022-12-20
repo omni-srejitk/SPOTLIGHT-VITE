@@ -1,62 +1,64 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { MainButton } from "../components/MainButton";
-import { Modal } from "../components/Modal";
-//importing components
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Carousal } from "../components/Carousal";
-import { LoadComponent } from "../components/LoadComponent";
 import { NewModalLocationDeny } from "../components/NewModalLocationDeny";
+import { distanceContext } from "../App";
+import "./brands.css";
 
-const Brand = (props) => {
+const Brand = () => {
   const brand = useParams();
+  const details = useContext(distanceContext);
   const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brand.brandName}`;
-
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
-      props.brandName(resp.data);
-      // console.log(resp.data);
+      details.setStoreDetails({
+        ...details.storeDetails,
+        information: resp.data,
+      });
     });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  let [isOpen, setIsOpen] = useState(true);
+  }, []);
   const [locDeny, setLocDeny] = useState(false);
+  localStorage.setItem("ModalCondition", true);
 
   return (
-    //Rendering the Brand Page
     <div className="bg-[#000000] ">
-      {/* // <div className="max-w-[500px] bg-[#000000] text-[white] my-0 mx-auto p-0"> */}
       <div>
-        {props.data.brandLogo ? (
+        {Object.keys(details.storeDetails.information).length !== 0 ? (
           <>
             {locDeny ? (
               <NewModalLocationDeny />
             ) : (
               <>
                 <Header />
-                <MainButton
-                  data={props.data}
-                  locDeny={locDeny}
-                  setLocDeny={setLocDeny}
-                />
-                <Carousal data={props.data} />
-                {/* <LoadComponent /> */}
+                <MainButton setLocDeny={setLocDeny} />
+                <Carousal />
                 <Footer />
               </>
             )}
           </>
         ) : (
-          <LoadComponent />
+          <div className="welcome">
+            <span id="splash-overlay" className="splash"></span>
+            <div
+              className="flex h-24 w-24 items-center justify-center rounded-[3rem] bg-black p-2"
+              id="welcome"
+            >
+              <div className=" h-12 w-12">
+                <img
+                  className=" h-full w-full"
+                  src="/spotlight white.svg"
+                  alt="/"
+                />
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
   );
 };
 export default Brand;
-
-// {/* <button onClick={() => setIsOpen(true)}>Open Modal</button>
-// <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-//   Fancy Modal
-// </Modal> */}

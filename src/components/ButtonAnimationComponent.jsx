@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import lottie from "lottie-web";
 import ButtonAnimate from "../Loading/ButtonAnimation.json";
 
-export const ButtonAnimationComponent = ({ text }) => {
+export const ButtonAnimationComponent = ({ children }) => {
   useEffect(() => {
     lottie.loadAnimation({
       container: document.getElementById("button"),
@@ -10,15 +10,15 @@ export const ButtonAnimationComponent = ({ text }) => {
       loop: true,
       autoplay: true,
       animationData: ButtonAnimate,
-      // animationData: require("../Loading/ButtonAnimation.json"),
     });
-    // return () => instance.destroy()
   }, []);
   return (
-    <>
-      <div className="button top-0 left-0 w-[100%]" id="button"></div>
-      {/* <LottieView source={require('../Animations/74468-rocket.json')} autoPlay loop></LottieView> */}
-    </>
+    <div className="relative mx-auto mt-10 flex w-72 flex-col">
+      <div className="w-full" id="button">
+        <p className="absolute top-0 left-0 right-0 bottom-0 z-10 m-auto h-8  text-center text-[1.2rem] font-semibold text-black">
+          {children}
+        </p>
+      </div>
+    </div>
   );
 };
-// return () => instance.destroy();

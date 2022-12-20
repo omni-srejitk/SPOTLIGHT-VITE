@@ -1,18 +1,16 @@
-// import React from 'react'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
-// import { styled, Button } from "@mui/material";
 import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { Modal } from "./Modal";
-import { NewModalLocationDeny } from "./NewModalLocationDeny";
+import { ShiningStarsAnimation } from "./ShiningStarsAnimation";
+import { distanceContext } from "../App";
 
-export const MainButton = ({ data, locDeny, setLocDeny }) => {
+export const MainButton = () => {
   const brand = useParams();
-  // console.log("data", data);
-
+  let info = useContext(distanceContext);
+  let data = info.storeDetails.information;
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
     loaded: false,
@@ -26,11 +24,9 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
         message: "Geolocation not supported or denied",
       });
     }
-  }, [Location]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, [Location]);
   const onSuccess = (Location) => {
-    // if we get geolocation in navigator
-    console.log("entered in success");
+    localStorage.setItem("myLat", Location.coords.latitude);
     setLocation({
       loaded: true,
       coordinates: {
@@ -41,10 +37,10 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
 
     //initializing store distance in a empty list
     const storeDistance = [];
-    if (data && data.stores) {
+    if (data && data?.stores) {
       // for all the stores present in json
-      for (let i = 0; i < data.stores.length; i++) {
-        const element = data.stores[i];
+      for (let i = 0; i < data?.stores?.length; i++) {
+        const element = data?.stores[i];
 
         //calculating distance of stores from your location
         const locationDistance = geolib.getPreciseDistance(
@@ -57,10 +53,12 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
             longitude: element.long,
           }
         );
-
-        //updating all the store distance in the list and converting it in km
         storeDistance.push(Math.round(locationDistance / 1000));
       }
+      info.setStoreDetails({
+        ...info.storeDetails,
+        distance: Math.min(...storeDistance),
+      });
     }
     // redirecting to Stores page if nearest store is 50km from user location
     if (Math.min(...storeDistance) <= 50) {
@@ -74,113 +72,104 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
       loaded: true,
       error,
     });
-    console.log(error);
     //if user denies permission to access their location redirect to Location denied page
     navigate("Location_denied");
   };
-
-  const ShowLocationPopUp = () => {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  };
-
   let [isOpen, setIsOpen] = useState(false);
-
   return (
     <div>
-      {/* {locDeny ? (
-        <NewModalLocationDeny />
-      ) : ( */}
-      <div className="bg-[#613DE5] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem]">
+      <div className=" relative m-4 h-[60vh] min-h-[30rem] rounded-lg bg-[#613DE5] p-2 pt-12 sm:h-[27rem]">
         <img
           src="/new left dots.svg"
-          className="absolute left-[0%] top-[2%] h-[93%]"
+          className="absolute left-0 top-4 h-[93%]"
         />
         <img
+          // Todo what about 93% and negative padding?
           src="/new right dots.svg"
-          className="absolute right-[0%] top-[2%] h-[93%]"
+          className="absolute right-0 top-4 h-[93%]"
         />
-        <img
-          src="/new star.svg"
-          className="absolute left-[-4%] top-[-3%] w-[17%]"
-        />
-        <img
-          src="/new 2 stars.svg"
-          className="absolute right-[15%] top-[2%] w-[13%]"
-        />
+        <div className="absolute right-12 top-4 w-[3rem]">
+          <ShiningStarsAnimation />
+        </div>
+        <div className="absolute left-[-0.6rem] top-[-0.7rem] w-[3.5rem]">
+          <img className="" src="/new star.svg" />
+        </div>
 
-        <div className="w-[100px] h-[100px] bg-white border-[1px] border-black mx-[25%] flex justify-center items-center rounded-[50px] sm:mx-[30%]">
-          <div className="bg-black w-[64px] h-[64px] flex justify-center items-center rounded-[32px]">
+        <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
+          <div className="flex h-16 w-16 items-center justify-center rounded-[2rem] bg-black">
+            <div className=" h-9 w-9">
+              <img
+                className=" h-full w-full"
+                src="/spotlight white.svg"
+                alt="/"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
+          <div className=" rounded-[2rem] object-contain p-1">
             <img
-              className=" w-[34px] h-[34px]"
-              src="/spotlight white.svg"
-              alt="/"
+              // className=" h-full w-full"
+              className=" object-contain"
+              src={data?.logo}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = "/images/Success.svg";
+              }}
             />
           </div>
         </div>
-        {/* flex justify-center items-center */}
-        <div className="w-[100px] h-[100px] bg-white flex justify-center items-center  rounded-[50px] border-[1px] border-black z-10 absolute left-[49%] top-[10%] sm:w-[22%]">
-          {/* <div className=" w-[64px] h-[64px] bg-black rounded-[32px]"> */}
-          <img className=" w-[64px] h-[64px] " src={data.brandLogo} alt="/" />
-          {/* </div> */}
-        </div>
 
-        <p className="text-[1.45rem] text-center mt-8">
+        <p className="mt-8 mb-0 text-center text-[1.45rem]">
           <span className="font-bold">{brand.brandName} </span> is now
         </p>
-        <p className="text-center text-[1.45rem] mt-[-0.45rem]">
+        <p className="mt-[-0.45rem] text-center text-[1.45rem]">
           on <span className=" font-bold">Spotlight</span>
         </p>
 
-        <hr className=" rounded border-t-2 w-[50%] mx-auto mt-2 border-[white]" />
+        <hr className=" mx-auto mt-2 w-48 rounded border-t-2 border-[white]" />
 
-        <p className="mt-4 w-[80%] m-auto text-center text-[1.1rem]">
+        <p className="m-auto mt-4 w-64 text-center text-[1.1rem]">
           Visit the nearest store
         </p>
-        <p className="w-[80%] m-auto text-center mt-[-0.2rem]">
+        <p className="m-auto mt-[-0.2rem] w-64 text-center">
           for exclusive deals
         </p>
         <button
-          className=" relative text-black block w-[80%] m-auto rounded-lg text-center mt-12 font-semibold text-[1.2rem]"
-          // className="bg-[#FCD439] relative text-black px-3 py-4 block w-[85%] m-auto rounded-lg text-center mt-12 font-semibold text-[1rem]"
           onClick={() => {
-            // ShowLocationPopUp();
-            setIsOpen(true);
-            console.log("button clicked");
+            if (!localStorage.getItem("myLat")) {
+              setIsOpen(true);
+            } else {
+              navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
           }}
-          id="button"
+          className="mx-auto w-full"
         >
-          <div className="absolute top-[35%] z-[50] left-[15%] lg:top-[40%] lg:left-[25%]">
-            Find a store near me
-            <img src="/Find a store near me.svg" className="inline ml-2" />
-          </div>
-          <ButtonAnimationComponent />
+          <ButtonAnimationComponent>
+            <span>Find a store near me</span>
+            <img src="/Find a store near me.svg" className="ml-2 inline" />
+          </ButtonAnimationComponent>
         </button>
-        {/* {modalcondition ? showModal() : ""} */}
         <button
           onClick={() => {
-            console.log("set to false");
             setIsOpen(false);
-            setLocDeny(true);
           }}
         >
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <img
-              src="/newLoc.svg"
-              className="w-[30%] h-[30%] my-6 block mx-auto"
-            />
-            <p className="text-[1.15rem] font-medium text-center m-2">
-              You're just a few seconds away
+            <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
+            <p className="m-2 text-center text-[1.15rem] font-medium">
+              You&#39;re just a few seconds away
             </p>
-            <p className="text-[0.75rem] text-center font-normal p-2">
+            <p className="p-2 text-center text-[0.75rem] font-normal">
               We ask for location permission to locate stores near you. Click
               “Allow” once you see a popup. Grant permission
             </p>
             <button
-              className="bg-[#FCD439] p-4 rounded-lg w-[60%] my-[8%] block mx-auto text-[black] font-medium text-[1.15rem]"
+              className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
               onClick={() => {
-                ShowLocationPopUp();
-                console.log("set to false inside ");
                 setIsOpen(false);
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
               }}
             >
               Grant Permission
@@ -188,7 +177,6 @@ export const MainButton = ({ data, locDeny, setLocDeny }) => {
           </Modal>
         </button>
       </div>
-      {/* )} */}
     </div>
   );
 };
