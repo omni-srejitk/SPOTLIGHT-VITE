@@ -61,7 +61,7 @@ export const Carousal = () => {
         </div>
         <p
           ref={myRef}
-          className="relative z-10 max-h-[6rem] w-full overflow-y-auto px-4 text-[1.1rem] leading-6 line-clamp-4"
+          className="relative z-10 max-h-[7rem] w-full overflow-y-auto px-4 text-[1.1rem] leading-6 line-clamp-4"
           title="title"
           onClick={() => {
             changeClass();
