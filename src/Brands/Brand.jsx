@@ -10,9 +10,13 @@ import { distanceContext } from "../App";
 import "./brands.css";
 
 const Brand = () => {
-  const brand = useParams();
+  const brandData = useParams();
   const details = useContext(distanceContext);
-  const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brand.brandName}`;
+  const brandName = String(brandData.brandName.slice(0,1)).toUpperCase() +  brandData.brandName.slice(1)
+
+
+
+  const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brandName}`;
   useEffect(() => {
     axios.get(`${brandDetailURL}`).then((resp) => {
       details.setStoreDetails({
