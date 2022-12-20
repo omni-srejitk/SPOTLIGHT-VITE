@@ -10,7 +10,7 @@ import { distanceContext } from "../App";
 export const MainButton = () => {
   const brand = useParams();
   let info = useContext(distanceContext);
-  let data = info.storeDetails.information;
+  let data = info?.storeDetails?.information;
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
     loaded: false,
@@ -27,6 +27,7 @@ export const MainButton = () => {
   }, [Location]);
   const onSuccess = (Location) => {
     localStorage.setItem("myLat", Location.coords.latitude);
+    localStorage.setItem("myLon", Location.coords.longitude);
     setLocation({
       loaded: true,
       coordinates: {
@@ -138,7 +139,7 @@ export const MainButton = () => {
         </p>
         <button
           onClick={() => {
-            if (!localStorage.getItem("myLat")) {
+            if (!localStorage.getItem("myLat") || !localStorage.getItem("myLon")  ) {
               setIsOpen(true);
             } else {
               navigator.geolocation.getCurrentPosition(onSuccess, onError);

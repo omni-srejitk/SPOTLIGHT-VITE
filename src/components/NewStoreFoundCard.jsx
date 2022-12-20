@@ -3,24 +3,24 @@ import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { distanceContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NewStoreFoundCard = () => {
   let navigate = useNavigate();
   let newValue = useContext(distanceContext);
   let data = { ...newValue.storeDetails.information };
-  let currLat;
-  let currLong;
+  const[currLat, setCurrLat] = useState(0)
+  const[currLon, setCurrLon] = useState(0)
   const [brandData, setBrandData] = useState(null);
-
+  let brand = useParams()
   var newData = {};
-  // console.log("data", data);
 
   //initializing findDistance function
-  var findDistance = new Promise(function (resolve) {
+  const findDistance = new Promise(function (resolve) {
     navigator.geolocation.getCurrentPosition((Location) => {
-      currLat = Location.coords.latitude;
-      currLong = Location.coords.longitude;
+      setCurrLat(Location.coords.latitude)
+      setCurrLon(Location.coords.longitude)
+
 
       const dist = { storeDistance: "" };
 
@@ -64,14 +64,17 @@ const NewStoreFoundCard = () => {
   });
   function openGoogleByMethod() {
     window.localStorage.removeItem("myLat");
-    window.open(
-      `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
-    );
+    window.localStorage.removeItem("myLon");
+if(currLat!== 0 && currLon!== 0){
+  window.open(
+    `https://www.google.com/maps/dir/${currLat},${currLon}/${brandData.stores[0].lat},${brandData.stores[0].long}`
+  );
+}
   }
   if (Object.keys(data).length === 0) {
     setTimeout(() => {
-      navigate("/");
-    }, 5000);
+      navigate(`/${brand?.brandName}`);
+    }, 3000);
   }
   // Todo: height-93%?
   return (
