@@ -5,7 +5,8 @@ export const Carousal = () => {
   let contextInfo = useContext(distanceContext);
   let data = contextInfo?.storeDetails?.information;
   let myRef = useRef();
-  let stars = data?.rating?.slice(0, 3);
+  // let stars = data?.rating?.slice(0, 3);
+  let stars = 4;
 
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
@@ -97,6 +98,7 @@ export const Carousal = () => {
         <div className=" h-full rounded-xl border-[2px] border-[white] bg-[#FAE77D] p-2 text-center">
           <div className="mx-auto mt-8 mb-4 h-fit w-28 rounded border-2 border-black bg-[white] px-4 py-0 text-[3rem] font-extrabold">
             {stars}
+            {/* {4} */}
           </div>
           {ratingStar}
           <p className="relative z-10 text-[#717171]">
