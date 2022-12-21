@@ -10,7 +10,7 @@ import { distanceContext } from "../App";
 export const MainButton = () => {
   const brand = useParams();
   let info = useContext(distanceContext);
-  let data = info.storeDetails.information;
+  let data = info?.storeDetails?.information;
   const navigate = useNavigate();
   const [Location, setLocation] = useState({
     loaded: false,

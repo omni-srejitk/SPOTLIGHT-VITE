@@ -66,16 +66,22 @@ const Brand = () => {
 
   const {data:brandDetail, isLoading : isBrandDetailsLoading} = fetchBrandDetails()
   const {data: liveStoreData, isLoading : isLiveStoreDataLoading} = fetchLiveStoreData(brandName)
-  const storeDetails = {...brandDetail, stores: liveStoreData}
-
-
+  
+const setData = () =>{
+  if(!isBrandDetailsLoading && !isLiveStoreDataLoading){  
+    const storeDetails = {...brandDetail, stores: liveStoreData}
+    
+    details.setStoreDetails({
+    information:storeDetails,
+  })}
+}
 
   useEffect(() => {
-
-if(!isBrandDetailsLoading && !isLiveStoreDataLoading){      details.setStoreDetails({
-        information:storeDetails,
-      })}
-  }, [isBrandDetailsLoading, isLiveStoreDataLoading ,brandDetail,liveStoreData]);
+if(!isBrandDetailsLoading && !isLiveStoreDataLoading){
+  setData()
+}
+   
+  }, [isBrandDetailsLoading,isLiveStoreDataLoading]);
 
 
   const [locDeny, setLocDeny] = useState(false);
