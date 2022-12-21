@@ -9,103 +9,63 @@ const NewStoreFoundCard = () => {
   let navigate = useNavigate();
   let newValue = useContext(distanceContext);
   let data = { ...newValue.storeDetails.information };
-  const[currLat, setCurrLat] = useState(0)
-  const[currLon, setCurrLon] = useState(0)
   const [brandData, setBrandData] = useState(null);
-  let brand = useParams()
+  let brand = useParams();
+  let [currLat, setCurrLat] = useState(0);
+  let [currLong, setCurrLong] = useState(0);
+
   var newData = {};
 
+  const successCallback = (Location, resolve) => {
+    setCurrLat(Location.coords.latitude);
+    setCurrLong(Location.coords.longitude);
 
-  function errorCallback_lowAccuracy(error) {
-    var msg = "<p>Can't get your location (low accuracy attempt). Error = ";
-    if (error.code == 1)
-        msg += "PERMISSION_DENIED";
-    else if (error.code == 2)
-        msg += "POSITION_UNAVAILABLE";
-    else if (error.code == 3)
-        msg += "TIMEOUT";
-    msg += ", msg = "+error.message;
-    
-   console.log(msg)
-}
+    const dist = { storeDistance: "" };
 
-function errorCallback_highAccuracy(error) {
-  if (error.code == error.TIMEOUT)
-  {
-      // Attempt to get GPS loc timed out after 5 seconds, 
-      // try low accuracy location
-  
-      navigator.geolocation.getCurrentPosition(
-             successCallback, 
-             errorCallback_lowAccuracy,
-             {maximumAge:600000, timeout:10000, enableHighAccuracy: false});
-      return;
-  }
-  
-  var msg = "<p>Can't get your location (high accuracy attempt). Error = ";
-  if (error.code == 1)
-      msg += "PERMISSION_DENIED";
-  else if (error.code == 2)
-      msg += "POSITION_UNAVAILABLE";
-  msg += ", msg = "+error.message;
-  
-  console.log(msg)
-}
+    if (data && data.stores) {
+      //for all the stores in json of data
+      for (let i = 0; i < data.stores.length; i++) {
+        const element = data.stores[i];
 
-const successCallback = (Location, resolve) => 
-{
-setCurrLat(Location.coords.latitude)
-setCurrLon(Location.coords.longitude)
+        //calculating distance using lat and long
+        const locationDistance = geolib.getPreciseDistance(
+          {
+            latitude: Location.coords.latitude,
+            longitude: Location.coords.longitude,
+          },
+          {
+            latitude: element.latitude,
+            longitude: element.longitude,
+          }
+        );
+        const distance = Math.round(locationDistance / 1000);
 
+        dist.storeDistance = distance;
 
-const dist = { storeDistance: "" };
-
-if (data && data.stores) {
-  //for all the stores in json of data
-  for (let i = 0; i < data.stores.length; i++) {
-    const element = data.stores[i];
-
-    //calculating distance using lat and long
-    const locationDistance = geolib.getPreciseDistance(
-      {
-        latitude: Location.coords.latitude,
-        longitude: Location.coords.longitude,
-      },
-      {
-        latitude: element.lat,
-        longitude: element.long,
+        //adding distance into data.stores
+        Object.assign(element, dist);
       }
-    );
-    const distance = Math.round(locationDistance / 1000);
-
-    dist.storeDistance = distance;
-
-    //adding distance into data.stores
-    Object.assign(element, dist);
-  }
-  //sorting with distance
-  var byDistance = data.stores.slice(0);
-  byDistance.sort(function (a, b) {
-    return a.storeDistance - b.storeDistance;
-  });
-  data.stores = byDistance;
-  resolve(data);
-}
-}
+      //sorting with distance
+      var byDistance = data.stores.slice(0);
+      byDistance.sort(function (a, b) {
+        return a.storeDistance - b.storeDistance;
+      });
+      data.stores = byDistance;
+      resolve(data);
+    }
+  };
 
   //initializing findDistance function
-  const findDistance = new Promise(function (resolve) {
-    navigator.geolocation.getCurrentPosition((Location)=>{
-      successCallback(Location,resolve),
-      errorCallback_highAccuracy
-    ,{
+  var findDistance = new Promise(function (resolve) {
+    navigator.geolocation.getCurrentPosition(
+      (Location) => successCallback(Location, resolve),
+      null,
+      {
         enableHighAccuracy: true,
+        timeout: 3000,
         maximumAge: 10000,
-        timeout:5000
       }
-    }
-    )
-
+    );
   });
   //assigning value of new data = data
   newData = data;
@@ -113,18 +73,16 @@ if (data && data.stores) {
     setBrandData(newData);
   });
   function openGoogleByMethod() {
-    window.localStorage.removeItem("myLat");
-    window.localStorage.removeItem("myLon");
-
-if(currLat!== 0 && currLon!== 0){
-  window.open(
-    `https://www.google.com/maps/dir/${currLat},${currLon}/${brandData.stores[0].lat},${brandData.stores[0].long}`
-  );
-}
+    if (currLat != 0 && currLong != 0) {
+      window.localStorage.removeItem("myLat");
+      window.open(
+        `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].latitude},${brandData.stores[0].longitude}`
+      );
+    }
   }
   if (Object.keys(data).length === 0) {
     setTimeout(() => {
-      navigate(`/${brand?.brandName}`);
+      navigate(`/${brand.brandName}`);
     }, 3000);
   }
   // Todo: height-93%?
@@ -158,7 +116,7 @@ if(currLat!== 0 && currLon!== 0){
             </div>
           </div>
           <p className="mx-auto mt-10 w-4/5 text-center text-[1.5rem] font-bold tracking-[2px] text-[#1D1D1D]">
-            {brandData?.stores[0].storeName}
+            {brandData?.stores[0].customer_name}
           </p>
           <p className="max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#1D1D1D]">
             {brandData?.stores[0].storeDistance} km Away
