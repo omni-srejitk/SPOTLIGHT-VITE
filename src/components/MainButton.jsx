@@ -17,6 +17,7 @@ export const MainButton = () => {
     coordinates: { lat: "", lng: "" },
   });
 
+
   useEffect(() => {
     if (!("geolocation" in navigator)) {
       onError({
@@ -42,15 +43,16 @@ export const MainButton = () => {
       for (let i = 0; i < data?.stores?.length; i++) {
         const element = data?.stores[i];
 
+  
         //calculating distance of stores from your location
-        const locationDistance = geolib.getPreciseDistance(
+        const locationDistance = geolib?.getPreciseDistance(
           {
             latitude: Location.coords.latitude,
             longitude: Location.coords.longitude,
           },
           {
-            latitude: element.lat,
-            longitude: element.long,
+            latitude: element?.latitude,
+            longitude: element?.longitude,
           }
         );
         storeDistance.push(Math.round(locationDistance / 1000));
@@ -60,6 +62,8 @@ export const MainButton = () => {
         distance: Math.min(...storeDistance),
       });
     }
+
+
     // redirecting to Stores page if nearest store is 50km from user location
     if (Math.min(...storeDistance) <= 50) {
       navigate("Stores");
