@@ -1,20 +1,20 @@
 import React, { createContext, useContext, useState } from "react";
-import StoreNotFound from "../conditions/iflocationallow/brandsStoreNotFound/StoreNotFound";
 
 const StoreContext = createContext();
 
-const useStore = () => useContext(StoreNotFound)
+const useStore = () => useContext(StoreNotFound);
 
-const [storeDetails, setStoreDetails] = useState({
+const StoreProvider = ({ children }) => {
+  const [storeDetails, setStoreDetails] = useState({
     information: {},
     distance: 0,
     storeName: "",
   });
+  return (
+    <StoreContext.Provider value={{ storeDetails, setStoreDetails }}>
+      {children}
+    </StoreContext.Provider>
+  );
+};
 
-const StoreProvider = ({children}) =>{
-    return <StoreContext.Provider value={{storeDetails, setStoreDetails}}>{children}</StoreContext.Provider>
-
-} 
-
-
-export default { StoreProvider, useStore}
+export { StoreProvider, useStore };

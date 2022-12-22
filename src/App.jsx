@@ -2,16 +2,18 @@ import "./App.css";
 import React from "react";
 import { RouterConfig } from "./config/RouterConfig";
 import { QueryClient, QueryClientProvider } from "react-query";
-import StoreContext from "./context/storeContext";
-
+import { BrowserRouter as Router } from "react-router-dom";
+import { StoreProvider } from "./context/storeContext";
 function App() {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <StoreContext>
-        <RouterConfig />
-      </StoreContext>
-    </QueryClientProvider>
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <StoreProvider>
+          <RouterConfig />
+        </StoreProvider>
+      </QueryClientProvider>
+    </Router>
   );
 }
 export default App;
