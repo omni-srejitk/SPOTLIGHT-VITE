@@ -13,12 +13,14 @@ const Header = () => {
     greet = "Good Evening";
   }
   return (
-    <div className="m-0 flex flex-col items-start justify-center bg-[black] pl-0">
-      <p className="p-4 pb-0 text-[1.5rem] font-bold">{greet}, &#128075;</p>
-      <p className="m-0 mb-0 p-4 pb-0 pt-0 text-[1rem] font-semibold">
+    <header className="max-w-screen absolute top-0 m-0 flex h-24 w-full flex-col items-start justify-center bg-black py-8 pl-0">
+      <p className="p-4 pb-0 text-[1.5rem] font-bold text-white">
+        {greet}, &#128075;
+      </p>
+      <p className="m-0 mb-0 p-4 pb-0 pt-0 text-[1rem] font-semibold text-white">
         We are glad to have you here
       </p>
-    </div>
+    </header>
   );
 };
 export default Header;
