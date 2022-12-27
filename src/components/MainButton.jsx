@@ -1,153 +1,68 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import * as geolib from "geolib";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
-import { Modal } from "./Modal";
-import { ShiningStarsAnimation } from "./ShiningStarsAnimation";
-import { distanceContext } from "../App";
+import { useStore } from "../context/storeContext";
+import { Modal } from "./Modal/Modal";
+import { useShopStore } from "../store/ShopStore";
+import { Banner } from "./Cards/Banner";
+import { useFetchLocation } from "./utils/useFetchLocation";
 
 export const MainButton = () => {
-  const brand = useParams();
-  let info = useContext(distanceContext);
-  let data = info?.storeDetails?.information;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { brand } = useParams();
+  const { storeDetails } = useStore();
+  const { information } = storeDetails;
+
   const navigate = useNavigate();
-  const [Location, setLocation] = useState({
-    loaded: false,
-    coordinates: { lat: "", lng: "" },
-  });
+  const { calculateDistance } = useFetchLocation();
+  const storeFound = useShopStore((state) => state.storeFound);
 
-
-  useEffect(() => {
-    if (!("geolocation" in navigator)) {
-      onError({
-        code: 0,
-        message: "Geolocation not supported or denied",
-      });
-    }
-  }, [Location]);
-  const onSuccess = (Location) => {
-    localStorage.setItem("myLat", Location.coords.latitude);
-    localStorage.setItem("myLon", Location.coords.longitude);
-    setLocation({
-      loaded: true,
-      coordinates: {
-        lat: Location.coords.latitude,
-        lng: Location.coords.longitude,
-      },
-    });
-
-    //initializing store distance in a empty list
-    const storeDistance = [];
-    if (data && data?.stores) {
-      // for all the stores present in json
-      for (let i = 0; i < data?.stores?.length; i++) {
-        const element = data?.stores[i];
-
-  
-        //calculating distance of stores from your location
-        const locationDistance = geolib?.getPreciseDistance(
-          {
-            latitude: Location.coords.latitude,
-            longitude: Location.coords.longitude,
-          },
-          {
-            latitude: element?.latitude,
-            longitude: element?.longitude,
-          }
-        );
-        storeDistance.push(Math.round(locationDistance / 1000));
-      }
-      info.setStoreDetails({
-        ...info.storeDetails,
-        distance: Math.min(...storeDistance),
-      });
-    }
-
-
-    // redirecting to Stores page if nearest store is 50km from user location
-    if (Math.min(...storeDistance) <= 50) {
-      navigate("Stores");
-    } else {
-      navigate("Store_Not_Found");
-    }
-  };
-  const onError = (error) => {
-    setLocation({
-      loaded: true,
-      error,
-    });
-    //if user denies permission to access their location redirect to Location denied page
-    navigate("Location_denied");
-  };
-  let [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
-      <div className=" relative m-4 h-[60vh] min-h-[30rem] rounded-lg bg-[#613DE5] p-2 pt-12 sm:h-[27rem]">
-        <img
-          src="/new left dots.svg"
-          className="absolute left-0 top-4 h-[93%]"
-        />
-        <img
-          // Todo what about 93% and negative padding?
-          src="/new right dots.svg"
-          className="absolute right-0 top-4 h-[93%]"
-        />
-        <div className="absolute right-12 top-4 w-[3rem]">
-          <ShiningStarsAnimation />
-        </div>
-        <div className="absolute left-[-0.6rem] top-[-0.7rem] w-[3.5rem]">
-          <img className="" src="/new star.svg" />
-        </div>
+    <div className="flex h-full w-full flex-grow">
+      <Banner color={"bg-indigo-600"}>
+        <div className="flex h-fit w-fit -space-x-8">
+          <div className="flex h-24 w-24 items-center justify-center rounded-full border-[1px] bg-white">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black">
+              <div className=" h-9 w-9">
+                <img
+                  className=" h-full w-full"
+                  src="/spotlight white.svg"
+                  alt="/"
+                />
+              </div>
+            </div>
+          </div>
 
-        <div className="mx-24 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:mx-[30%]">
-          <div className="flex h-16 w-16 items-center justify-center rounded-[2rem] bg-black">
-            <div className=" h-9 w-9">
-              <img
-                className=" h-full w-full"
-                src="/spotlight white.svg"
-                alt="/"
-              />
+          <div className="flex h-24 w-24 items-center justify-center rounded-full  bg-white ">
+            <div className=" rounded-full object-contain p-1">
+              <img className=" object-contain" src={information?.logo} />
             </div>
           </div>
         </div>
-
-        <div className="absolute left-44 top-12 z-10 flex h-24 w-24 items-center justify-center rounded-[3rem] border-[1px] border-black bg-white sm:left-56 ">
-          <div className=" rounded-[2rem] object-contain p-1">
-            <img
-              // className=" h-full w-full"
-              className=" object-contain"
-              src={data?.logo}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = "/images/Success.svg";
-              }}
-            />
-          </div>
-        </div>
-
         <p className="mt-8 mb-0 text-center text-[1.45rem]">
-          <span className="font-bold">{brand.brandName} </span> is now
+          <span className="font-bold">{brand} </span> is now
         </p>
         <p className="mt-[-0.45rem] text-center text-[1.45rem]">
           on <span className=" font-bold">Spotlight</span>
         </p>
-
-        <hr className=" mx-auto mt-2 w-48 rounded border-t-2 border-[white]" />
-
-        <p className="m-auto mt-4 w-64 text-center text-[1.1rem]">
+        <hr className=" mx-auto mt-2 w-48 rounded border-t-2 border-white" />
+        <p className="m-auto mt-4 w-64 text-center text-base">
           Visit the nearest store
         </p>
-        <p className="m-auto mt-[-0.2rem] w-64 text-center">
-          for exclusive deals
-        </p>
+        for exclusive deals
         <button
           onClick={() => {
-            if (!localStorage.getItem("myLat") || !localStorage.getItem("myLon")  ) {
-              setIsOpen(true);
+            if (
+              localStorage.getItem("myLat") &&
+              localStorage.getItem("myLon")
+            ) {
+              calculateDistance(true);
             } else {
-              navigator.geolocation.getCurrentPosition(onSuccess, onError);
+              setIsOpen(true);
             }
+            storeFound ? navigate("Stores") : navigate("Not Found");
           }}
           className="mx-auto w-full"
         >
@@ -160,28 +75,37 @@ export const MainButton = () => {
           onClick={() => {
             setIsOpen(false);
           }}
-        >
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        ></button>
+      </Banner>
+      {isOpen ? (
+        <Modal isModalOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <div className="relative h-full w-full min-w-[80vw] rounded-lg bg-white p-10 lg:w-[30vw] lg:min-w-[30vw]">
+            <div
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200"
+            >
+              <span className="material-icons-round">close</span>
+            </div>
             <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
-            <p className="m-2 text-center text-[1.15rem] font-medium">
+            <p className="m-2 text-center text-lg font-medium">
               You&#39;re just a few seconds away
             </p>
-            <p className="p-2 text-center text-[0.75rem] font-normal">
+            <p className="p-2 text-center text-base font-normal">
               We ask for location permission to locate stores near you. Click
               “Allow” once you see a popup. Grant permission
             </p>
             <button
-              className="my-8 mx-auto block w-52 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+              className="my-8 mx-auto block w-52 rounded-lg bg-yellow-500 p-4 text-lg font-medium text-black"
               onClick={() => {
                 setIsOpen(false);
-                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                calculateDistance(true);
               }}
             >
               Grant Permission
             </button>
-          </Modal>
-        </button>
-      </div>
+          </div>
+        </Modal>
+      ) : null}
     </div>
   );
 };
