@@ -13,7 +13,7 @@ const Header = () => {
     greet = "Good Evening";
   }
   return (
-    <header className="max-w-screen absolute top-0 m-0 flex h-24 w-full flex-col items-start justify-center bg-black py-8 pl-0">
+    <header className="max-w-screen mb-0 flex h-24 w-full flex-col items-start justify-center bg-black py-8 pl-0">
       <p className="p-4 pb-0 text-[1.5rem] font-bold text-white">
         {greet}, &#128075;
       </p>

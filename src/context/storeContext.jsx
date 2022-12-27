@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const StoreContext = createContext();
 
-const useStore = () => useContext(StoreNotFound);
+const useStore = () => useContext(StoreContext);
 
 const StoreProvider = ({ children }) => {
   const [storeDetails, setStoreDetails] = useState({

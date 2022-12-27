@@ -12,6 +12,7 @@ export const ButtonAnimationComponent = ({ children }) => {
       animationData: ButtonAnimate,
     });
   }, []);
+
   return (
     <div className="relative mx-auto mt-10 flex w-72 flex-col">
       <div className="w-full" id="button">

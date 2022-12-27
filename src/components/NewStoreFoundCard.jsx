@@ -17,11 +17,14 @@ const NewStoreFoundCard = () => {
   var newData = {};
 
   const successCallback = (Location, resolve) => {
+    // Our Location
     setCurrLat(Location.coords.latitude);
     setCurrLong(Location.coords.longitude);
 
+    // ! Dist why?
     const dist = { storeDistance: "" };
 
+    // ? sTORE dETAILS iNFO
     if (data && data.stores) {
       //for all the stores in json of data
       for (let i = 0; i < data.stores.length; i++) {
@@ -38,18 +41,21 @@ const NewStoreFoundCard = () => {
             longitude: element.longitude,
           }
         );
+        //  ? individual Store Distance
         const distance = Math.round(locationDistance / 1000);
 
         dist.storeDistance = distance;
 
-        //adding distance into data.stores
+        //adding distance into data.stores Individual store
         Object.assign(element, dist);
       }
       //sorting with distance
+      // Copy
       var byDistance = data.stores.slice(0);
       byDistance.sort(function (a, b) {
         return a.storeDistance - b.storeDistance;
       });
+
       data.stores = byDistance;
       resolve(data);
     }
@@ -69,9 +75,10 @@ const NewStoreFoundCard = () => {
   });
   //assigning value of new data = data
   newData = data;
-  findDistance.then(function () {
-    setBrandData(newData);
-  });
+
+  //
+  findDistance.then((data) => setBrandData(data));
+
   function openGoogleByMethod() {
     if (currLat != 0 && currLong != 0) {
       window.localStorage.removeItem("myLat");

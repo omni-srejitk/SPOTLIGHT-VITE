@@ -92,11 +92,9 @@ const Brand = () => {
   localStorage.setItem("ModalCondition", true);
 
   return (
-    <div className="min-w-screen relative flex h-fit min-h-screen w-full flex-col items-center justify-start">
-      <Header />
+    <div className="min-w-screen relative flex h-full min-h-screen w-full flex-grow flex-col items-center justify-start bg-black">
       <MainButton setLocDeny={setLocDeny} />
       <Carousal />
-      {/* <Footer /> */}
     </div>
   );
 
