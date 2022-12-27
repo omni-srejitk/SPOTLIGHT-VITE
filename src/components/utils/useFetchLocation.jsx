@@ -10,6 +10,7 @@ export const useFetchLocation = () => {
   const { storeDetails } = useStore();
   const { information: data } = storeDetails;
   const setStoreData = useShopStore((state) => state.setStoreData);
+  const setStoreFound = useShopStore((state) => state.setStoreFound);
   const navigate = useNavigate();
   const successCallback = (Location, resolve) => {
     setCurrLat(Location.coords.latitude);
@@ -68,7 +69,7 @@ export const useFetchLocation = () => {
       });
 
       findDistance.then((data) => setStoreData(data.stores[0]));
-      navigate("Stores");
+      setStoreFound(true);
     }
   };
 
