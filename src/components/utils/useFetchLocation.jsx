@@ -1,20 +1,15 @@
 import * as geolib from "geolib";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../context/storeContext";
 import { useShopStore } from "../../store/ShopStore";
 
 export const useFetchLocation = () => {
-  const [currLat, setCurrLat] = useState("");
-  const [currLon, setCurrLon] = useState("");
   const { storeDetails } = useStore();
   const { information: data } = storeDetails;
   const setStoreData = useShopStore((state) => state.setStoreData);
   const setStoreFound = useShopStore((state) => state.setStoreFound);
   const navigate = useNavigate();
   const successCallback = (Location, resolve) => {
-    setCurrLat(Location.coords.latitude);
-    setCurrLon(Location.coords.longitude);
     localStorage.setItem("myLat", Location.coords.latitude);
     localStorage.setItem("myLon", Location.coords.longitude);
 
@@ -54,8 +49,8 @@ export const useFetchLocation = () => {
     }
   };
 
-  const calculateDistance = (vale) => {
-    if (vale) {
+  const calculateDistance = (value, type = "") => {
+    if (value) {
       const findDistance = new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(
           (Location) => successCallback(Location, resolve),
@@ -70,6 +65,10 @@ export const useFetchLocation = () => {
 
       findDistance.then((data) => setStoreData(data.stores[0]));
       setStoreFound(true);
+
+      if (type === "STORES") {
+        navigate("Stores");
+      }
     }
   };
 
