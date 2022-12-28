@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import lottie from "lottie-web";
 import ButtonAnimate from "../Loading/ButtonAnimation.json";
 
-export const ButtonAnimationComponent = ({ children }) => {
+export const ButtonAnimationComponent = ({ children, onClick, ...props }) => {
   useEffect(() => {
     lottie.loadAnimation({
       container: document.getElementById("button"),
@@ -11,15 +11,20 @@ export const ButtonAnimationComponent = ({ children }) => {
       autoplay: true,
       animationData: ButtonAnimate,
     });
+
+    return () => {
+      lottie.destroy();
+    };
   }, []);
 
   return (
-    <div className="relative mx-auto mt-10 flex w-72 flex-col">
-      <div className="w-full" id="button">
-        <p className="absolute top-0 left-0 right-0 bottom-0 z-10 m-auto h-8  text-center text-[1.2rem] font-semibold text-black">
-          {children}
-        </p>
-      </div>
-    </div>
+    <button
+      onClick={onClick}
+      id="button"
+      className="relative mx-auto mt-10 inline  w-72"
+      {...props}
+    >
+      <div className="absolute z-20 h-full w-full">{children}</div>
+    </button>
   );
 };
