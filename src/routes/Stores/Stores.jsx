@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useShopStore } from "../../store/ShopStore";
-import { useStore } from "../../context/storeContext";
 import { Banner } from "../../components/Cards/Banner";
 import { ButtonAnimationComponent } from "../../components/ButtonAnimationComponent";
 import { Carousal } from "../../components/Carousal";
