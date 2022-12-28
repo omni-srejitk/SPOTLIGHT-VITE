@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 const Home = () => {
   let navigate = useNavigate();
   const { pathname } = useLocation();
@@ -15,11 +16,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-red-500">
+    <motion.div
+      key="splash"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex h-screen w-screen items-center justify-center bg-white"
+    >
       <button>
-        <img src="/Main screen svg.svg" alt="/Main screen svg.svg" />
+        <img src="/Main screen svg.svg" alt="loading-animation" />
       </button>
-    </div>
+    </motion.div>
   );
 };
 export default Home;

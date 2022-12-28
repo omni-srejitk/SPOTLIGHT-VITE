@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
 import { useStore } from "../context/storeContext";
 import { Modal } from "./Modal/Modal";
-import { useShopStore } from "../store/ShopStore";
 import { Banner } from "./Cards/Banner";
 import { useFetchLocation } from "./utils/useFetchLocation";
 
@@ -15,9 +13,7 @@ export const MainButton = () => {
   const { storeDetails } = useStore();
   const { information } = storeDetails;
 
-  const navigate = useNavigate();
   const { calculateDistance } = useFetchLocation();
-  const storeFound = useShopStore((state) => state.storeFound);
 
   return (
     <div className="flex h-full w-full flex-grow">
@@ -41,36 +37,37 @@ export const MainButton = () => {
             </div>
           </div>
         </div>
-        <p className="mt-8 mb-0 text-center text-[1.45rem]">
-          <span className="font-bold">{brand} </span> is now
+        <p className="mt-8 text-center text-[1.45rem]">
+          <span className="font-bold capitalize">{brand} </span> is now
         </p>
-        <p className="mt-[-0.45rem] text-center text-[1.45rem]">
+        <p className="text-center text-[1.45rem]">
           on <span className=" font-bold">Spotlight</span>
         </p>
-        <hr className=" mx-auto mt-2 w-48 rounded border-t-2 border-white" />
-        <p className="m-auto mt-4 w-64 text-center text-base">
+        <hr className=" mx-auto my-2 w-48 rounded border-t-2 border-white/30" />
+        <p className="m-auto w-64 text-center text-base">
           Visit the nearest store
         </p>
-        for exclusive deals
-        <button
+        for exclusive deals.
+        <ButtonAnimationComponent
           onClick={() => {
             if (
               localStorage.getItem("myLat") &&
               localStorage.getItem("myLon")
             ) {
-              calculateDistance(true);
+              calculateDistance(true, "STORES");
             } else {
               setIsOpen(true);
             }
-            storeFound ? navigate("Stores") : navigate("Not Found");
           }}
-          className="mx-auto w-full"
         >
-          <ButtonAnimationComponent>
-            <span>Find a store near me</span>
-            <img src="/Find a store near me.svg" className="ml-2 inline" />
-          </ButtonAnimationComponent>
-        </button>
+          <div className="group flex h-full w-full items-center justify-center gap-2 ">
+            <p>Find a store near me</p>
+            <img
+              src="/Find a store near me.svg"
+              className="ml-2 inline  group-hover:ml-6"
+            />
+          </div>
+        </ButtonAnimationComponent>
         <button
           onClick={() => {
             setIsOpen(false);
@@ -78,8 +75,12 @@ export const MainButton = () => {
         ></button>
       </Banner>
       {isOpen ? (
-        <Modal isModalOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <div className="relative h-full w-full min-w-[80vw] rounded-lg bg-white p-10 lg:w-[30vw] lg:min-w-[30vw]">
+        <Modal
+          isModalOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          position={"bottom-0 left-0 right-0 mx-auto"}
+        >
+          <div className="relative h-[30rem] w-full min-w-[80vw] rounded-lg bg-white p-10 text-black drop-shadow-lg lg:w-[58vw] lg:min-w-[30vw]">
             <div
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200"
@@ -87,18 +88,20 @@ export const MainButton = () => {
               <span className="material-icons-round">close</span>
             </div>
             <img src="/newLoc.svg" className="my-6 mx-auto block h-40 w-24" />
-            <p className="m-2 text-center text-lg font-medium">
+            <p className="m-2 text-center text-xl font-medium">
               You&#39;re just a few seconds away
             </p>
-            <p className="p-2 text-center text-base font-normal">
-              We ask for location permission to locate stores near you. Click
-              “Allow” once you see a popup. Grant permission
+            <p className="px-4 py-2 text-center text-base font-normal">
+              We ask for location permission to locate stores near you
+            </p>
+            <p className="px-12 text-center text-base font-normal">
+              Click “Allow” once you see a popup.
             </p>
             <button
-              className="my-8 mx-auto block w-52 rounded-lg bg-yellow-500 p-4 text-lg font-medium text-black"
+              className="my-8 mx-auto block w-52 rounded-lg bg-yellow-400 p-4 text-lg font-medium text-black hover:bg-yellow-500/80"
               onClick={() => {
                 setIsOpen(false);
-                calculateDistance(true);
+                calculateDistance(true, "STORES");
               }}
             >
               Grant Permission

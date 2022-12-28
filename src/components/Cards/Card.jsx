@@ -2,7 +2,7 @@ import React from "react";
 
 export const Card = ({ children }) => {
   return (
-    <div className="relative h-full min-w-[80%] ">
+    <div className="relative h-full min-w-[80%] scrollbar-none ">
       <div className="absolute top-0 right-0 z-0 w-auto">
         <img src="/images/Union.svg" />
       </div>

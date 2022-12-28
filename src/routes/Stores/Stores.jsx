@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useShopStore } from "../../store/ShopStore";
 import { useStore } from "../../context/storeContext";
@@ -9,19 +9,15 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { Modal } from "../../components/Modal/Modal";
 import { useFetchLocation } from "../../components/utils/useFetchLocation";
+import Header from "../../components/Header";
 
 export const Stores = () => {
-  // TODO If the store is found show a page, if not found
-
-  const { storeDetails } = useStore();
-  const { information } = storeDetails;
   const { calculateDistance } = useFetchLocation();
   const storeData = useShopStore((state) => state.storeData);
   const storeFound = useShopStore((state) => state.storeFound);
   const isStoreLoading = useShopStore((state) => state.isStoreLoading);
   const latitude = localStorage.getItem("myLat");
   const longitude = localStorage.getItem("myLon");
-  const navigate = useNavigate();
 
   const brand = useParams();
   let [isOpen, setIsOpen] = useState(false);
@@ -30,7 +26,7 @@ export const Stores = () => {
   const [phoneError, setPhoneError] = useState("");
   const [nameError, setNameError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  //initializing initial input values as object
+
   const inputInitialValues = {
     fullname: "",
     phone: "",
@@ -45,12 +41,18 @@ export const Stores = () => {
   const CAN_SUBMIT = input.fullname && input.phone && input.email;
 
   const NO_ERRORS = !error && !phoneError && !nameError;
+
+  useEffect(() => {
+    calculateDistance(true, "");
+  }, []);
+
   function openGoogleByMethod() {
-    if (currLat != 0 && currLong != 0) {
+    if (latitude != 0 && longitude != 0) {
       window.open(
         `https://www.google.com/maps/dir/${latitude},${longitude}/${storeData.latitude},${storeData.longitude}`
       );
       window.localStorage.removeItem("myLat");
+      window.localStorage.removeItem("myLon");
     }
   }
 
@@ -127,7 +129,8 @@ export const Stores = () => {
   };
 
   const NEARBY_STORE = (
-    <div className="flex h-full w-full flex-grow flex-col bg-black p-4">
+    <div className="mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 pt-0 lg:w-[60vw]">
+      <Header />
       <Banner color="bg-rose-500">
         <div className="flex h-fit w-fit -space-x-8">
           <div className="flex h-24 w-24 items-center justify-center rounded-full border-[1px] bg-white">
@@ -146,33 +149,30 @@ export const Stores = () => {
           {storeData?.customer_name}
         </p>
         <p className="max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#1D1D1D]">
-          {storeData?.storeDistance} km Away
+          {storeData?.storeDistance || 0} km Away
         </p>
-        <button
-          className=" relative m-auto mt-0 block w-4/5 rounded-lg text-center text-[1.30rem] font-semibold text-black lg:top-0 lg:mt-0 lg:pt-0"
+        <ButtonAnimationComponent
           onClick={() => {
             openGoogleByMethod();
           }}
-          id="button"
         >
-          <div className="absolute top-[4.75rem] left-8 z-[50] mx-auto w-4/5 lg:left-12 lg:top-[5.75rem] ">
-            <span className="">Take me there</span>
-            <img src="/Find a store near me.svg" className="ml-2 inline" />
+          <div className="group flex h-full w-full items-center justify-center gap-2 ">
+            <p>Take me there</p>
+            <img
+              src="/Find a store near me.svg"
+              className="ml-2 inline  group-hover:ml-6"
+            />
           </div>
-          <ButtonAnimationComponent />
-        </button>
+        </ButtonAnimationComponent>
       </Banner>
       <Carousal />
     </div>
   );
 
-  return (
-    <div className="flex h-full w-full flex-grow flex-col bg-black p-4">
+  const FARAWAY_STORE = (
+    <div className="mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 lg:w-[60vw]">
       <div className="h-full w-full">
-        <p className="my-4 ml-6 text-xl text-white">
-          Oops! The store is too far
-        </p>
-        <div className="card mx-5 h-full rounded-xl bg-[#5E5BF2] pb-5">
+        <div className="card mx-2 h-full rounded-xl bg-indigo-500 pb-5">
           <img src="/images/arrow.svg" className="m-auto w-24 py-12" />
           <p className="store text-center text-base tracking-[4px] text-white">
             THE NEAREST STORE IS
@@ -234,12 +234,16 @@ export const Stores = () => {
             {errorMessage && (
               <p className="m-0 w-4/5 p-0 text-white">{errorMessage}</p>
             )}
-            <button className="m-auto w-full" type="submit">
-              <ButtonAnimationComponent>
-                <span className="ml-0">Get 25% off on Launch</span>
-                <img src="/images/discount.svg" className="ml-2 inline" />
-              </ButtonAnimationComponent>
-            </button>
+
+            <ButtonAnimationComponent type="submit">
+              <div className="group flex h-full w-full items-center justify-center gap-2 ">
+                <p>Get 25% off on Launch</p>
+                <img
+                  src="/Find a store near me.svg"
+                  className="ml-2 inline  group-hover:ml-6"
+                />
+              </div>
+            </ButtonAnimationComponent>
           </form>
         </div>
       </div>
@@ -292,4 +296,6 @@ export const Stores = () => {
       ) : null}
     </div>
   );
+
+  return storeData?.storeDistance > 50 ? FARAWAY_STORE : NEARBY_STORE;
 };
