@@ -1,5 +1,6 @@
+import { AnimatePresence } from "framer-motion";
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import LocationDenyPage from "../components/LocationDenyPage";
 import { Error } from "../routes/404/Error";
 import Brand from "../routes/Brand/Brand";
@@ -7,13 +8,16 @@ import Home from "../routes/Home/Home";
 import { Stores } from "../routes/Stores/Stores";
 
 export const RouterConfig = () => {
+  const location = useLocation();
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/:brand" element={<Brand />} />
-      <Route path="/:brand/Stores" element={<Stores />} />
-      <Route path="/:brand/Location_Denied" element={<LocationDenyPage />} />
-      <Route path="/:brand/*" element={<Error />} />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes key={location?.pathname} location={location}>
+        <Route path="/" element={<Home />} />
+        <Route path="/:brand" element={<Brand />} />
+        <Route path="/:brand/Stores" element={<Stores />} />
+        <Route path="/:brand/Location_Denied" element={<LocationDenyPage />} />
+        <Route path="/:brand/*" element={<Error />} />
+      </Routes>
+    </AnimatePresence>
   );
 };
