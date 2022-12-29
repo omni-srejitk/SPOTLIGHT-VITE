@@ -8,53 +8,81 @@ export const useFetchLocation = () => {
   const { information: data } = storeDetails;
   const setStoreData = useShopStore((state) => state.setStoreData);
   const setStoreFound = useShopStore((state) => state.setStoreFound);
+  const setStoreLoading = useShopStore((state) => state.setIsStoreLoading);
+  const currLatitude = localStorage.getItem("myLat");
+  const currLongitude = localStorage.getItem("myLon");
+
   const navigate = useNavigate();
   const successCallback = (Location, resolve) => {
-    localStorage.setItem("myLat", Location.coords.latitude);
-    localStorage.setItem("myLon", Location.coords.longitude);
+    try {
+      setStoreLoading(true);
 
-    const dist = { storeDistance: "" };
-
-    if (data && data.stores) {
-      //for all the stores in json of data
-      for (let i = 0; i < data.stores.length; i++) {
-        const element = data.stores[i];
-
-        //calculating distance using lat and long
-        const locationDistance = geolib.getPreciseDistance(
-          {
-            latitude: Location.coords.latitude,
-            longitude: Location.coords.longitude,
-          },
-          {
-            latitude: element.latitude,
-            longitude: element.longitude,
-          }
-        );
-        //  ? individual Store Distance
-        const distance = Math.round(locationDistance / 1000);
-
-        dist.storeDistance = distance;
-
-        //adding distance into data.stores Individual store
-        Object.assign(element, dist);
+      if (currLatitude && currLongitude) {
+        if (
+          !currLatitude === Location.coords.latitude &&
+          !currLongitude === Location.coords.longitude
+        ) {
+          localStorage.setItem("myLat", Location.coords.latitude);
+          localStorage.setItem("myLon", Location.coords.longitude);
+        }
+      } else {
+        localStorage.setItem("myLat", Location.coords.latitude);
+        localStorage.setItem("myLon", Location.coords.longitude);
       }
-      //sorting with distance
-      // Copy
-      var byDistance = data.stores.slice(0);
-      byDistance.sort((a, b) => a.storeDistance - b.storeDistance);
 
-      data.stores = byDistance;
-      resolve(data);
+      const dist = { storeDistance: "" };
+
+      if (data && data.stores) {
+        //for all the stores in json of data
+        for (let i = 0; i < data.stores.length; i++) {
+          const element = data.stores[i];
+
+          //calculating distance using lat and long
+          const locationDistance = geolib.getPreciseDistance(
+            {
+              latitude: Location.coords.latitude,
+              longitude: Location.coords.longitude,
+            },
+            {
+              latitude: element.latitude,
+              longitude: element.longitude,
+            }
+          );
+          //  ? individual Store Distance
+          const distance = Math.round(locationDistance / 1000);
+
+          dist.storeDistance = distance;
+
+          //adding distance into data.stores Individual store
+          Object.assign(element, dist);
+        }
+        //sorting with distance
+        // Copy
+        var byDistance = data.stores.slice(0);
+        byDistance.sort((a, b) => a.storeDistance - b.storeDistance);
+
+        data.stores = byDistance;
+        resolve(data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setStoreLoading(false);
     }
   };
 
-  const calculateDistance = (value, type = "") => {
+  const errorCallback = (error) => {
+    console.log(error);
+    navigate("Location_Denied");
+  };
+
+  const calculateDistance = async (value, type = "") => {
+    setStoreLoading(true);
     if (value) {
       const findDistance = new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(
           (Location) => successCallback(Location, resolve),
-          null,
+          errorCallback,
           {
             enableHighAccuracy: true,
             timeout: 3000,
@@ -63,8 +91,10 @@ export const useFetchLocation = () => {
         );
       });
 
-      findDistance.then((data) => setStoreData(data.stores[0]));
+      const data = await findDistance;
+      setStoreData(data.stores[0]);
       setStoreFound(true);
+      setStoreLoading(false);
 
       if (type === "STORES") {
         navigate("Stores");
