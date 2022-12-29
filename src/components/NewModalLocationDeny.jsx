@@ -1,8 +1,8 @@
 import React from "react";
 
-export const LocationDenied = () => {
+export const LocationDeniedInfo = () => {
   return (
-    <div className="relative m-0 mx-auto flex h-full min-h-screen w-full flex-col items-center justify-center rounded-3xl border-2  bg-black p-2">
+    <div className="relative m-0 mx-auto flex h-full min-h-[40rem] w-full flex-grow flex-col items-center justify-center rounded-3xl border-2  bg-black p-2">
       <img
         src="/map image.svg"
         className="absolute top-10 mx-auto block w-24 pt-12"

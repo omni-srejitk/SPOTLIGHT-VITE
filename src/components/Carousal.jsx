@@ -30,7 +30,7 @@ export const Carousal = () => {
   });
 
   return (
-    <div className="my-4 flex h-72 w-full justify-start gap-4  overflow-x-auto bg-black px-0 py-2  text-base text-black scrollbar-none">
+    <div className="my-4 flex h-72 w-full justify-start gap-4 overflow-x-auto bg-black  px-0 py-2 text-base text-black  scrollbar-none lg:grid lg:grid-cols-3">
       <Card>
         <div className="relative h-full rounded-lg border-2 border-yellow-500/20 bg-yellow-200 p-2 text-center text-black">
           <div className="absolute bottom-0 left-0 z-0 w-40">

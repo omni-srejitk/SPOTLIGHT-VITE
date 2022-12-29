@@ -9,6 +9,7 @@ import axios from "axios";
 import { Modal } from "../../components/Modal/Modal";
 import { useFetchLocation } from "../../components/utils/useFetchLocation";
 import Header from "../../components/Header";
+import { LoadComponent } from "../../components/LoadComponent";
 
 export const Stores = () => {
   const { calculateDistance } = useFetchLocation();
@@ -39,8 +40,6 @@ export const Stores = () => {
 
   const CAN_SUBMIT = input.fullname && input.phone && input.email;
 
-  const NO_ERRORS = !error && !phoneError && !nameError;
-
   useEffect(() => {
     calculateDistance(true, "");
   }, []);
@@ -50,8 +49,6 @@ export const Stores = () => {
       window.open(
         `https://www.google.com/maps/dir/${latitude},${longitude}/${storeData.latitude},${storeData.longitude}`
       );
-      window.localStorage.removeItem("myLat");
-      window.localStorage.removeItem("myLon");
     }
   }
 
@@ -296,5 +293,13 @@ export const Stores = () => {
     </div>
   );
 
-  return storeData?.storeDistance > 50 ? FARAWAY_STORE : NEARBY_STORE;
+  console.log(isStoreLoading);
+
+  return isStoreLoading ? (
+    <LoadComponent />
+  ) : storeData?.storeDistance > 50 ? (
+    FARAWAY_STORE
+  ) : (
+    NEARBY_STORE
+  );
 };
