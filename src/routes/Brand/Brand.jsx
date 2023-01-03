@@ -78,7 +78,7 @@ const Brand = () => {
               ? { latitude: store.latitude, longitude: store.longitude }
               : false
           ),
-        enabled: loading,
+        enabled: !loading,
       }
     );
   };
