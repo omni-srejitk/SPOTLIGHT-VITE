@@ -23,9 +23,11 @@ const Home = () => {
       exit={{ opacity: 0 }}
       className="flex h-screen w-screen items-center justify-center bg-white"
     >
-      <button>
-        <img src="/Main screen svg.svg" alt="loading-animation" />
-      </button>
+      <img
+        src="/Main Screen svg.svg"
+        className="h-20 w-20"
+        alt="loading-animation"
+      />
     </motion.div>
   );
 };
