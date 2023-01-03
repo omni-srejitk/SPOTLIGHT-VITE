@@ -32,22 +32,23 @@ export const MainButton = () => {
           </div>
 
           <div className="flex h-24 w-24 items-center justify-center rounded-full  bg-white ">
-            <div className=" rounded-full object-contain p-1">
+            <div className="overflow-hidden rounded-full object-cover p-4">
               <img className=" object-contain" src={information?.logo} />
             </div>
           </div>
         </div>
-        <p className="mt-8 text-center text-[1.45rem]">
-          <span className="font-bold capitalize">{brand} </span> is now
+        <p className="mt-8 text-center text-[1.45rem] text-white">
+          <span className="font-bold capitalize">{information?.name} </span> is
+          now
         </p>
-        <p className="text-center text-[1.45rem]">
-          on <span className=" font-bold">Spotlight</span>
+        <p className="text-center text-[1.45rem] text-white">
+          on <span className="font-bold text-white">Spotlight</span>
         </p>
-        <hr className=" mx-auto my-2 w-48 rounded border-t-2 border-white/30" />
-        <p className="m-auto w-64 text-center text-base">
+        <hr className=" mx-auto my-2  w-48 rounded border-t-2 border-white/30 text-lg text-white" />
+        <p className="m-auto w-64 text-center text-xl text-white">
           Visit the nearest store
         </p>
-        for exclusive deals.
+        <p className="text-xl text-white"> for exclusive deals.</p>
         <ButtonAnimationComponent
           onClick={() => {
             if (
@@ -60,7 +61,7 @@ export const MainButton = () => {
             }
           }}
         >
-          <div className="group flex h-full w-full items-center justify-center gap-2 ">
+          <div className=" group  flex h-full w-full items-center justify-center gap-2 text-lg font-medium ">
             <p>Find a store near me</p>
             <img
               src="/Find a store near me.svg"
@@ -80,7 +81,7 @@ export const MainButton = () => {
           onClose={() => setIsOpen(false)}
           position={"bottom-0 left-0 right-0 mx-auto"}
         >
-          <div className="relative h-[30rem] w-full min-w-[80vw] rounded-lg bg-white p-10 text-black drop-shadow-lg lg:w-[58vw] lg:min-w-[30vw]">
+          <div className="relative h-[33rem] w-full min-w-[80vw] rounded-lg bg-white p-10 text-black drop-shadow-lg lg:w-[58vw] lg:min-w-[30vw]">
             <div
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200"
@@ -94,11 +95,11 @@ export const MainButton = () => {
             <p className="px-4 py-2 text-center text-base font-normal">
               We ask for location permission to locate stores near you
             </p>
-            <p className="px-12 text-center text-base font-normal">
+            <p className="px-8 text-center text-base font-normal">
               Click “Allow” once you see a popup.
             </p>
             <button
-              className="my-8 mx-auto block w-52 rounded-lg bg-yellow-400 p-4 text-lg font-medium text-black hover:bg-yellow-500/80"
+              className="my-8 mx-auto mb-12 block w-52 rounded-lg bg-yellow-400 p-4 text-lg font-medium text-black hover:bg-yellow-500/80"
               onClick={() => {
                 setIsOpen(false);
                 calculateDistance(true, "STORES");

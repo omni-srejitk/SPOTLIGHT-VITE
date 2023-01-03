@@ -10,6 +10,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { useFetchLocation } from "../../components/utils/useFetchLocation";
 import Header from "../../components/Header";
 import { LoadComponent } from "../../components/LoadComponent";
+import { useRef } from "react";
 
 export const Stores = () => {
   const { calculateDistance } = useFetchLocation();
@@ -293,9 +294,19 @@ export const Stores = () => {
     </div>
   );
 
-  console.log(isStoreLoading);
+  const [showAnim, setShowAnim] = useState(true);
+  const timerRef = useRef();
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      setShowAnim(false);
+    }, 5000);
 
-  return isStoreLoading ? (
+    return () => {
+      timerRef && clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  return !isStoreLoading && showAnim ? (
     <LoadComponent />
   ) : storeData?.storeDistance > 50 ? (
     FARAWAY_STORE

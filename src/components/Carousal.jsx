@@ -15,6 +15,8 @@ export const Carousal = () => {
   const controls = useAnimation();
   const storyControls = useAnimation();
   const LEFT_OFFSET = -260;
+  const testimonyRef = useRef();
+  const storyRef = useRef();
 
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
@@ -36,6 +38,21 @@ export const Carousal = () => {
       </span>
     );
   });
+
+  useEffect(() => {
+    testimonyRef.current = setInterval(() => {
+      setTestimony((prev) => (prev >= 2 ? 0 : prev + 1));
+    }, 3000);
+
+    storyRef.current = setInterval(() => {
+      setStory((prev) => (prev >= 1 ? 0 : prev + 1));
+    }, 5000);
+
+    return () => {
+      testimonyRef && clearTimeout(testimonyRef.current);
+      storyRef && clearTimeout(storyRef.current);
+    };
+  }, []);
 
   return (
     <div className="my-4 flex h-72 w-full justify-start gap-4 overflow-x-auto bg-black  px-0 py-2 text-base text-black  scrollbar-none lg:grid lg:grid-cols-3">
