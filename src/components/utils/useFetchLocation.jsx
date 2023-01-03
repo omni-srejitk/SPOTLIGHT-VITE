@@ -1,4 +1,4 @@
-import * as geolib from "geolib";
+import LatLon from "geodesy/latlon-spherical.js";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../context/storeContext";
 import { useShopStore } from "../../store/ShopStore";
@@ -33,31 +33,21 @@ export const useFetchLocation = () => {
       const dist = { storeDistance: "" };
 
       if (data && data.stores) {
-        //for all the stores in json of data
         for (let i = 0; i < data.stores.length; i++) {
-          const element = data.stores[i];
+          const element = data?.stores[i];
 
-          //calculating distance using lat and long
-          const locationDistance = geolib.getPreciseDistance(
-            {
-              latitude: Location.coords.latitude,
-              longitude: Location.coords.longitude,
-            },
-            {
-              latitude: element.latitude,
-              longitude: element.longitude,
-            }
+          const p1 = new LatLon(
+            Location.coords.latitude,
+            Location.coords.longitude
           );
-          //  ? individual Store Distance
-          const distance = Math.round(locationDistance / 1000);
+          const p2 = new LatLon(element?.latitude, element?.longitude);
+
+          const distance = Math.round(p1.distanceTo(p2) / 1000);
 
           dist.storeDistance = distance;
 
-          //adding distance into data.stores Individual store
           Object.assign(element, dist);
         }
-        //sorting with distance
-        // Copy
         var byDistance = data.stores.slice(0);
         byDistance.sort((a, b) => a.storeDistance - b.storeDistance);
 
@@ -80,7 +70,7 @@ export const useFetchLocation = () => {
     setStoreLoading(true);
     if (value) {
       const findDistance = new Promise((resolve) => {
-        navigator.geolocation.getCurrentPosition(
+        navigator?.geolocation?.getCurrentPosition(
           (Location) => successCallback(Location, resolve),
           errorCallback,
           {

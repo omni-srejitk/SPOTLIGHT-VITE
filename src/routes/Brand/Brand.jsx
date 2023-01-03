@@ -85,7 +85,7 @@ const Brand = () => {
   const { data: brandDetail, isLoading: isBrandDetailsLoading } =
     fetchBrandDetails();
   const { data: liveStoreData, isLoading: isLiveStoreDataLoading } =
-    fetchLiveStoreData(brandName);
+    fetchLiveStoreData(brandDetail?.name);
 
   const setData = () => {
     if (!isBrandDetailsLoading && !isLiveStoreDataLoading) {

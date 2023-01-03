@@ -293,9 +293,15 @@ export const Stores = () => {
     </div>
   );
 
-  console.log(isStoreLoading);
+  const [showAnim, setShowAnim] = useState(true);
 
-  return isStoreLoading ? (
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAnim(false);
+    }, 3000);
+  }, []);
+
+  return isStoreLoading || showAnim ? (
     <LoadComponent />
   ) : storeData?.storeDistance > 50 ? (
     FARAWAY_STORE
