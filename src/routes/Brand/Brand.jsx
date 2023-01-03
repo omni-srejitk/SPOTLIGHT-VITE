@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { MainButton } from "../../components/MainButton";
 import { Carousal } from "../../components/Carousal";
@@ -15,7 +15,7 @@ const Brand = () => {
   const brandName = String(brand?.slice(0, 1)).toUpperCase() + brand?.slice(1);
 
   const details = useStore();
-  const brandDetailURL = `https://api.omniflo.in/getbranddata?brandname=${brandName}`;
+  const brandDetailURL = import.meta.env.VITE_SPOTLIGHT_GET + `${brand}`;
 
   const fetchBrandDetails = () => {
     return useQuery(
@@ -28,9 +28,27 @@ const Brand = () => {
       {
         select: (data) => {
           const res = data?.data;
-          const { name, story, testimonial, rating, logo } = res;
+          const {
+            name,
+            story,
+            rating_count,
+            stores,
+            username,
+            testimonial,
+            rating,
+            logo,
+          } = res;
 
-          return { name, story, testimonial, rating, logo };
+          return {
+            name,
+            story,
+            rating_count,
+            stores,
+            username,
+            testimonial,
+            rating,
+            logo,
+          };
         },
       }
     );

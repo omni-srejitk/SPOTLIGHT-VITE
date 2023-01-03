@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-const brandDetailURL = import.meta.env.VITE_OMNIFLO_API;
+const brandDetailURL = import.meta.env.VITE_SPOTLIGHT_GET
 
 
 export const fetchBrandDetails = (brandName) => {
@@ -18,9 +18,23 @@ export const fetchBrandDetails = (brandName) => {
         select: (data) => {
            
           const res = data?.data;
-          const { name, story, testimonial, rating, logo } = res;
+          const { name,
+            story,
+            rating_count,
+            stores,
+            username,
+            testimonial,
+            rating,
+            logo, } = res;
 
-          return { name, story, testimonial, rating, logo };
+          return { name,
+            story,
+            rating_count,
+            stores,
+            username,
+            testimonial,
+            rating,
+            logo, };
         },
       }
     );
