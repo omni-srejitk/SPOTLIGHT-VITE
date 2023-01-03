@@ -306,7 +306,7 @@ export const Stores = () => {
     };
   }, []);
 
-  return isStoreLoading || showAnim ? (
+  return !isStoreLoading && showAnim ? (
     <LoadComponent />
   ) : storeData?.storeDistance > 50 ? (
     FARAWAY_STORE

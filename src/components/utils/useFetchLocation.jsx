@@ -44,6 +44,8 @@ export const useFetchLocation = () => {
 
           const distance = Math.round(p1.distanceTo(p2) / 1000);
 
+          console.log(distance);
+
           dist.storeDistance = distance;
 
           Object.assign(element, dist);

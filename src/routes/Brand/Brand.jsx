@@ -54,7 +54,7 @@ const Brand = () => {
     );
   };
 
-  const fetchLiveStoreData = (BRAND) => {
+  const fetchLiveStoreData = (BRAND, loading) => {
     return useQuery(
       ["livestore_data"],
       () => {
@@ -78,6 +78,7 @@ const Brand = () => {
               ? { latitude: store.latitude, longitude: store.longitude }
               : false
           ),
+        enabled: loading,
       }
     );
   };
@@ -85,7 +86,7 @@ const Brand = () => {
   const { data: brandDetail, isLoading: isBrandDetailsLoading } =
     fetchBrandDetails();
   const { data: liveStoreData, isLoading: isLiveStoreDataLoading } =
-    fetchLiveStoreData(brandDetail?.name);
+    fetchLiveStoreData(brandDetail?.name, isBrandDetailsLoading);
 
   const setData = () => {
     if (!isBrandDetailsLoading && !isLiveStoreDataLoading) {
