@@ -1,116 +1,145 @@
-import React, { useState } from "react";
-import { styled, Button } from "@mui/material";
+import React, { useContext, useState } from "react";
 import * as geolib from "geolib";
 import { LoadComponent } from "./LoadComponent";
+import { ButtonAnimationComponent } from "./ButtonAnimationComponent";
+import { distanceContext } from "../App";
+import { useNavigate, useParams } from "react-router-dom";
 
-const NewStoreFoundCard = ({ data }) => {
+const NewStoreFoundCard = () => {
+  let navigate = useNavigate();
+  let newValue = useContext(distanceContext);
+  let data = { ...newValue.storeDetails.information };
   const [brandData, setBrandData] = useState(null);
+  let brand = useParams();
+  let [currLat, setCurrLat] = useState(0);
+  let [currLong, setCurrLong] = useState(0);
 
-  //N-> declaring variables to get curr lat and curr long
-  let currLat;
-  let currLong;
-
-  //initializing new data as object
   var newData = {};
 
-  //initializing findDistance function
-  var findDistance = new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition((Location) => {
-      currLat = Location.coords.latitude;
-      currLong = Location.coords.longitude;
+  const successCallback = (Location, resolve) => {
+    // Our Location
+    setCurrLat(Location.coords.latitude);
+    setCurrLong(Location.coords.longitude);
 
-      //intializing dist as object and first input as key-value pair of storeDistance with empty string
-      const dist = { storeDistance: "" };
+    // ! Dist why?
+    const dist = { storeDistance: "" };
 
-      if (data && data.stores) {
-        //for all the stores in json of data
-        for (let i = 0; i < data.stores.length; i++) {
-          const element = data.stores[i];
+    // ? sTORE dETAILS iNFO
+    if (data && data.stores) {
+      //for all the stores in json of data
+      for (let i = 0; i < data.stores.length; i++) {
+        const element = data.stores[i];
 
-          //calculating distance using lat and long
-          const locationDistance = geolib.getPreciseDistance(
-            {
-              latitude: Location.coords.latitude,
-              longitude: Location.coords.longitude,
-            },
-            {
-              latitude: element.lat,
-              longitude: element.long,
-            }
-          );
-          const distance = Math.round(locationDistance / 1000);
+        //calculating distance using lat and long
+        const locationDistance = geolib.getPreciseDistance(
+          {
+            latitude: Location.coords.latitude,
+            longitude: Location.coords.longitude,
+          },
+          {
+            latitude: element.latitude,
+            longitude: element.longitude,
+          }
+        );
+        //  ? individual Store Distance
+        const distance = Math.round(locationDistance / 1000);
 
-          //updating in dist object
-          dist.storeDistance = distance;
+        dist.storeDistance = distance;
 
-          //adding distance into data.stores
-          Object.assign(element, dist);
-        }
-        //sorting with distance
-        var byDistance = data.stores.slice(0);
-        byDistance.sort(function (a, b) {
-          return a.storeDistance - b.storeDistance;
-        });
-        data.stores = byDistance;
-
-        resolve(data);
+        //adding distance into data.stores Individual store
+        Object.assign(element, dist);
       }
-    });
+      //sorting with distance
+      // Copy
+      var byDistance = data.stores.slice(0);
+      byDistance.sort(function (a, b) {
+        return a.storeDistance - b.storeDistance;
+      });
+
+      data.stores = byDistance;
+      resolve(data);
+    }
+  };
+
+  //initializing findDistance function
+  var findDistance = new Promise(function (resolve) {
+    navigator.geolocation.getCurrentPosition(
+      (Location) => successCallback(Location, resolve),
+      null,
+      {
+        enableHighAccuracy: true,
+        timeout: 3000,
+        maximumAge: 10000,
+      }
+    );
   });
   //assigning value of new data = data
   newData = data;
-  findDistance.then(function (value) {
-    setBrandData(newData);
-  });
+
+  //
+  findDistance.then((data) => setBrandData(data));
 
   function openGoogleByMethod() {
-    window.open(
-      `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].lat},${brandData.stores[0].long}`
-    );
+    if (currLat != 0 && currLong != 0) {
+      window.localStorage.removeItem("myLat");
+      window.open(
+        `https://www.google.com/maps/dir/${currLat},${currLong}/${brandData.stores[0].latitude},${brandData.stores[0].longitude}`
+      );
+    }
   }
+  if (Object.keys(data).length === 0) {
+    setTimeout(() => {
+      navigate(`/${brand.brandName}`);
+    }, 3000);
+  }
+  // Todo: height-93%?
   return (
-    //rendering store found card component
+    //rendering store found card component min-h-[30rem]
     <div className="bg-black">
-      {brandData && brandData.stores ? (
-        <div className="bg-[#E37353] p-2 pt-[3rem] m-[5%] rounded-lg relative w-[90%] h-[60vh] min-h-[480px] sm:h-[27rem] text-[black]">
+      {brandData?.stores[0].storeDistance ? (
+        <div className="relative z-[50] m-2 mx-5 h-[60vh] min-h-[30rem] rounded-lg bg-[#E37353] p-2 pt-12 sm:h-[24rem]">
           <img
-            src="/images/Left Dots.png"
-            className="absolute left-[2%] top-[2%] h-[93%] z-10"
+            src="/new left dots.svg"
+            className="absolute left-[2%] top-[2%] z-10 h-[93%]"
           />
+
           <img
-            src="/images/Right Dots.png"
+            src="/new right dots.svg"
             className="absolute right-[2%] top-[2%] h-[93%]"
           />
           <img
-            src="/images/2 stars.png"
+            src="/new 2 stars.svg"
             className="absolute left-[20%] top-[5%] w-[13%]"
           />
           <img
-            src="/images/storeFC design.png"
-            className="absolute left-[0%] bottom-[0] w-[50%] z-0"
+            src="/new stores design.svg"
+            className="absolute left-[0%] bottom-[0] z-0 w-[50%]"
           />
-
-          <div className="w-[20%] sm:w-[23%] h-[18%] sm:h-[22%]  bg-white p-[3.5%] mt-[3%] mx-auto rounded-[50%] border-[1px] border-black left-[30%] top-[18%]">
-            <img
-              className=" w-[100%] h-[100%]"
-              src="/images/new Logo.png"
-              alt="/"
-            />
+          <div className="m-auto w-24 p-0">
+            <div className="flex h-24 w-24 items-center justify-center rounded-[12rem] border-[1px] border-black bg-white">
+              <div className="flex h-16 w-16 items-center justify-center rounded-[12rem] bg-black">
+                <img className=" h-8 w-8" src="/spotlight white.svg" alt="/" />
+              </div>
+            </div>
           </div>
-
-          <p className="mt-[10%] text-center w-[80%] mx-auto text-[1.35rem] font-semibold">
-            {brandData.stores[0].storeName}
+          <p className="mx-auto mt-10 w-4/5 text-center text-[1.5rem] font-bold tracking-[2px] text-[#1D1D1D]">
+            {brandData?.stores[0].customer_name}
           </p>
-
-          <p className="mt-[2%] text-center w-[80%] mx-auto text-[2rem] font-bold">
-            {brandData.stores[0].storeDistance}km Away
+          <p className="max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#1D1D1D]">
+            {brandData?.stores[0].storeDistance} km Away
           </p>
-
           <button
-            className="bg-[#FCD439] text-black px-4 py-4 block w-[65%] m-auto rounded-lg text-center top-[70.5%] left-[17.5%]  absolute z-10"
-            onClick={openGoogleByMethod}
+            className=" relative m-auto mt-0 block w-4/5 rounded-lg text-center text-[1.30rem] font-semibold text-black lg:top-0 lg:mt-0 lg:pt-0"
+            onClick={() => {
+              openGoogleByMethod();
+            }}
+            id="button"
           >
-            Find a store near me
+            <div className="absolute top-[4.75rem] left-8 z-[50] mx-auto w-4/5 lg:left-12 lg:top-[5.75rem] ">
+              <span className="">Take me there</span>
+              <img src="/Find a store near me.svg" className="ml-2 inline" />
+            </div>
+            <ButtonAnimationComponent />
           </button>
         </div>
       ) : (
@@ -120,14 +149,3 @@ const NewStoreFoundCard = ({ data }) => {
   );
 };
 export default NewStoreFoundCard;
-
-// Todo => take ideas
-// <div className="card">
-//   <p className="distance">{brandData.stores[0].storeDistance}km Away</p>
-//   <p className="name">{brandData.stores[0].storeName}</p>
-//   <p className="location">Bengaluru</p>
-//   <Button onClick={openGoogleByMethod}>
-//     <img src="../images/location.svg" alt="icon" />
-//     <span>Take me there</span>
-//   </Button>
-// </div>

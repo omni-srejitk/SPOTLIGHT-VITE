@@ -1,82 +1,168 @@
+import { motion, useAnimation } from "framer-motion";
 import React from "react";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { fetchBrandDetails } from "../services/api";
+import { Card } from "./Cards/Card";
 
-export const Carousal = ({ data }) => {
-  let brand = useParams();
+export const Carousal = () => {
+  const { brand } = useParams();
+  const { data } = fetchBrandDetails(brand);
+  const [testimony, setTestimony] = useState(0);
+  const [story, setStory] = useState(0);
+  let stars = data?.rating;
+  const controls = useAnimation();
+  const storyControls = useAnimation();
+  const LEFT_OFFSET = -260;
 
-  const Story = decodeURIComponent(data?.story);
-  const modifiedStory = Story.split("!").join(".").split(".");
-  const slicedArray = modifiedStory.slice(0, 2);
-  modifiedStory.splice(0, 2);
+  const ratingStar = Array.from({ length: 5 }, (elem, index) => {
+    let number = index + 0.5;
+    return (
+      <span key={index}>
+        {stars >= index + 1 ? (
+          <span className="material-icons-round text-4xl text-yellow-500">
+            star
+          </span>
+        ) : stars >= number ? (
+          <span className="material-icons-round text-4xl text-yellow-500">
+            star_half
+          </span>
+        ) : (
+          <span className="material-icons-round text-4xl text-yellow-500">
+            star_border
+          </span>
+        )}
+      </span>
+    );
+  });
 
   return (
-    <div className=" text-[black] text-[1.05rem] p-2 flex h-[250px] w-[93%] justify-start overflow-x-auto gap-4 no-scrollbar m-[2%] bg-[black]">
-      {/* <Carousel swipeable  emulateTouch showThumbs={false} showIndicators={false} showStatus={false} showArrows={true} infiniteLoop={true} className=' w-[28rem] m-auto  rounded-xl'> */}
-
-      <div className="h-[100%] min-w-[70%] bg-[#FAE77D] text-center z-10 border-0 outline-none rounded-xl relative">
-        <div className="absolute top-0 right-0 w-auto z-0">
-          <img src="/images/Union Rings.png" />
-        </div>
-        <div className="ml-[10%] mt-[7%] w-[80%] h-[27%] flex flex-row mb-[5%] items-center">
-          <div className="w-[33%] h-[100%] p-[3px] bg-white rounded-[50%] border-[1px] border-black mr-4">
-            <img className="w-[100%] h-[100%]" src={data?.brandLogo} alt="/" />
+    <div className="my-4 flex h-72 w-full justify-start gap-4 overflow-x-auto bg-black  px-0 py-2 text-base text-black  scrollbar-none lg:grid lg:grid-cols-3">
+      <Card>
+        <div className="relative h-full rounded-lg border-2 border-yellow-500/20 text-center text-black">
+          <div className="absolute bottom-0 left-0 z-0 w-40">
+            <img src="/images/yellow bar.svg" />
           </div>
-          <p className="text-[1.25rem] text-[black] font-bold z-10">
-            {brand.brandName}
+
+          <div className="mt-5 mb-2 flex h-1/4 w-full flex-row items-center justify-start px-2">
+            <div className="z-10 flex h-16 w-16 items-center justify-center rounded-[2.5rem] border-[1px] border-black bg-white p-3">
+              <img className=" object-contain " src={data?.logo} />
+            </div>
+            <p
+              className="z-10 ml-3 cursor-pointer select-none text-xl font-semibold capitalize text-[black]"
+              onClick={() => window.open(`${data?.url}`)}
+            >
+              {data?.name}
+            </p>
+          </div>
+
+          <div className="z-10 flex w-full flex-col items-start justify-between">
+            <motion.div
+              animate={storyControls}
+              onPan={(e, pointInfo) => {
+                const x = pointInfo.offset.x;
+
+                if (x < -250) {
+                  storyControls.set({ x: x < LEFT_OFFSET ? x : LEFT_OFFSET });
+                }
+              }}
+              onPanEnd={(e, pointInfo) => {
+                const x = pointInfo.offset.x;
+
+                if (x >= LEFT_OFFSET) {
+                  setStory((prev) => (prev >= 1 ? 0 : prev + 1));
+                } else {
+                  storyControls.start({ x: 0 });
+                }
+              }}
+              className="relative  h-32 cursor-grab select-none px-4 text-left text-black"
+              title={data?.story[story]}
+            >
+              {data?.story[story]}
+            </motion.div>
+            <div className="z-10 flex justify-evenly gap-2 px-4">
+              <div
+                className={`h-2 w-2 rounded-full  ${
+                  story === 0 ? "bg-yellow-500" : "bg-yellow-400"
+                } `}
+              ></div>
+              <div
+                className={`h-2 w-2 rounded-full  ${
+                  story === 1 ? "bg-yellow-500" : "bg-yellow-400"
+                } `}
+              ></div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="relative z-10 h-full rounded-lg border-2 border-yellow-500/20  p-2 text-start text-yellow-400">
+          <p className="relative z-10 mt-3 select-none p-4 text-xl font-semibold text-black">
+            Happy customer
+          </p>
+          <motion.div
+            animate={controls}
+            onPan={(e, pointInfo) => {
+              const x = pointInfo.offset.x;
+
+              if (x < -250) {
+                controls.set({ x: x < LEFT_OFFSET ? x : LEFT_OFFSET });
+              }
+            }}
+            onPanEnd={(e, pointInfo) => {
+              const x = pointInfo.offset.x;
+
+              if (x >= LEFT_OFFSET) {
+                setTestimony((prev) => (prev >= 2 ? 0 : prev + 1));
+              } else {
+                controls.start({ x: 0 });
+              }
+            }}
+            className="flex w-full flex-col"
+          >
+            <p className="pointer-events-none relative z-10 h-32 cursor-grab select-none p-4 text-left text-black">
+              {data?.testimonial[testimony]?.split("-")[0]}
+            </p>
+            <div className="flex w-full items-center justify-between px-4">
+              <div className="flex justify-evenly gap-2">
+                <div
+                  className={`h-2 w-2 rounded-full  ${
+                    testimony === 0 ? "bg-yellow-500" : "bg-yellow-400"
+                  } `}
+                ></div>
+                <div
+                  className={`h-2 w-2 rounded-full  ${
+                    testimony === 1 ? "bg-yellow-500" : "bg-yellow-400"
+                  } `}
+                ></div>
+                <div
+                  className={`h-2 w-2 rounded-full  ${
+                    testimony === 2 ? "bg-yellow-500" : "bg-yellow-400"
+                  } `}
+                ></div>
+              </div>
+
+              <p className="relative z-10 px-4 text-right text-black">
+                -{data?.testimonial[testimony]?.split("-")[1]}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </Card>
+
+      <Card>
+        <div className=" flex h-full flex-col items-center justify-center rounded-xl bg-yellow-200 p-2 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/40 px-4 py-0 text-7xl font-medium text-yellow-500">
+            {stars}
+          </div>
+          <div className="mt-4 flex">{ratingStar}</div>
+          <p className="relative z-10 text-gray-700">
+            Based on {data?.rating_count} reviews.*
           </p>
         </div>
-        <p className="">{slicedArray[0]}.</p>
-        <div className="absolute bottom-0 left-0 w-[10rem] z-0">
-          <img src="/images/yellow bar.png" />
-        </div>
-      </div>
-
-      {/* <div className='p-10 pr-16 pt-6 h-[100%] bg-[#FAE77D] z-10 border-0 outline-none rounded-xl'>
-          <div className='absolute top-0 right-0 w-[7rem] z-0'>
-            <img src='/images/Union Rings.png'/>
-          </div>           
-            <p className='text-[1.25rem] text-[black] font-semibold mb-[1rem]'>Happy Customer</p>        
-          <p className=''>{slicedArray[1]}.</p>
-          <div className='absolute bottom-0 left-0 w-[10rem] z-0'>
-            <img src='/images/yellow bar.png'/>
-          </div>
-        </div> */}
-
-      {/* <div className='p-10 pr-16 h-[100%] bg-[#FAE77D] text-center flex items-center justify-center z-10'>{slicedArray[1]}</div> */}
-
-      {modifiedStory.map((str) => {
-        return (
-          <div className=" h-[100%] relative min-w-[70%] ">
-            <div className="absolute top-0 right-0 w-auto z-0">
-              <img src="/images/Union Rings.png" />
-            </div>
-            <div className="p-2 h-[100%] bg-[#FAE77D] text-center flex items-center justify-center border-[white] rounded-xl border-[2px]">
-              <span className="z-[2] relative">{str}.</span>
-            </div>
-            <div className="absolute bottom-0 w-[90%] z-3">
-              <img src="/images/yellow bar.png" />
-            </div>
-          </div>
-        );
-      })}
-      {/* </Carousel> */}
+      </Card>
     </div>
   );
 };
-//  w-[10rem] centerMode={true}  ={true} min-h-[20rem] min-h-[20rem] 32rem border-[white] rounded-xl
-
-// {modifiedStory.map(str => {
-//   return (
-//     <div className='h-[100%] relative'>
-//       <div className='absolute top-0 right-0 w-[7rem] z-0'>
-//         <img src='/images/Union Rings.png'/>
-//       </div>
-//       <div className='p-10 pr-16 h-[100%] bg-[#FAE77D] text-center flex items-center justify-center border-[white] border-[2px] rounded-xl relative'><span className='z-[2]'>{str}.</span></div>
-//       <div className='absolute bottom-0 w-[10rem] z-0'>
-//         <img src='/images/yellow bar.png'/>
-//       </div>
-//     </div>
-//   )
-// })}
