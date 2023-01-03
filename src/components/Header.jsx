@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRef } from "react";
 
 const Header = () => {
   var today = new Date();
@@ -12,13 +14,29 @@ const Header = () => {
   } else {
     greet = "Good Evening";
   }
+
+  const hasRenderedAlready = useRef(false);
+  useEffect(() => {
+    hasRenderedAlready.current = true;
+  }, []);
+
   return (
-    <div className="m-0 flex flex-col items-start justify-center bg-[black] pl-0">
-      <p className="p-4 pb-0 text-[1.5rem] font-bold">{greet}, &#128075;</p>
-      <p className="m-0 mb-0 p-4 pb-0 pt-0 text-[1rem] font-semibold">
-        We are glad to have you here
-      </p>
-    </div>
+    <AnimatePresence>
+      <motion.header
+        initial={hasRenderedAlready.current ? false : { y: -100 }}
+        animate={{ y: 0 }}
+        exit={{ y: -100 }}
+        transition={{ duration: 1 }}
+        className="max-w-screen mx-auto mb-0 flex h-24 w-full flex-col items-start justify-center bg-black py-8 pl-0 lg:w-[60vw]"
+      >
+        <p className="p-4 pb-0 text-[1.5rem] font-bold text-white">
+          {greet} &#128075;
+        </p>
+        <p className="m-0 mb-0 p-4 pb-0 pt-0 text-[1rem] font-semibold text-white">
+          We are glad to have you here
+        </p>
+      </motion.header>
+    </AnimatePresence>
   );
 };
 export default Header;

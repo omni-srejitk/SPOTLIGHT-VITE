@@ -11,6 +11,9 @@ export const ShiningStarsAnimation = () => {
       autoplay: true,
       animationData: StarComp,
     });
+    return () => {
+      lottie.destroy();
+    };
   }, []);
   return <div id="my-container"></div>;
 };
