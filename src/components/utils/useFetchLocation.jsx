@@ -28,7 +28,12 @@ export const useFetchLocation = () => {
     let c = 2 * Math.asin(Math.sqrt(a));
     let r = 6371;
 
-    return c * r;
+    console.log('raw c * r', c * r);
+    if (c * r < 1) {
+      return '0.' + (c * r).toFixed();
+    } else {
+      return (c * r).toFixed();
+    }
   }
 
   const navigate = useNavigate();
@@ -62,7 +67,6 @@ export const useFetchLocation = () => {
             Location.coords.longitude,
             element?.longitude
           );
-          console.log('distance', distance, element?.customer_name);
           // distance = geolib.getPreciseDistance(
           //   {
           //     latitude: Location.coords.latitude,
@@ -73,8 +77,8 @@ export const useFetchLocation = () => {
           //     longitude: Number(element?.longitude),
           //   }
           // );
-          // console.log('distance', distance);
-          dist.storeDistance = distance.toFixed();
+          console.log('distance', distance);
+          dist.storeDistance = distance;
           Object.assign(element, dist);
         }
         var byDistance = data.stores.slice(0);
