@@ -13,6 +13,7 @@
     "axios": "^1.2.0",
     "framer-motion": "^8.0.2",
     "geodesy": "^2.4.0",
+    "geolib": "^3.3.3",
     "lottie-web": "^5.10.0",
     "ngrok": "^4.3.3",
     "react": "^18.2.0",

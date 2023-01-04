@@ -2,6 +2,7 @@ import LatLon from 'geodesy/latlon-spherical.js';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/storeContext';
 import { useShopStore } from '../../store/ShopStore';
+import * as geolib from 'geolib';
 
 export const useFetchLocation = () => {
   const { storeDetails } = useStore();
@@ -12,13 +13,11 @@ export const useFetchLocation = () => {
   const currLatitude = localStorage.getItem('myLat');
   const currLongitude = localStorage.getItem('myLon');
 
-  let distance = 0;
   function myDistFunc(lat1, lat2, lon1, lon2) {
     lon1 = (lon1 * Math.PI) / 180;
     lon2 = (lon2 * Math.PI) / 180;
     lat1 = (lat1 * Math.PI) / 180;
     lat2 = (lat2 * Math.PI) / 180;
-
     // Haversine formula
     let dlon = lon2 - lon1;
     let dlat = lat2 - lat1;
@@ -55,14 +54,26 @@ export const useFetchLocation = () => {
       if (data && data.stores) {
         for (let i = 0; i < data.stores.length; i++) {
           const element = data?.stores[i];
+          let distance = 0;
 
           distance = myDistFunc(
             Location.coords.latitude,
-            Number(element?.latitude),
+            element?.latitude,
             Location.coords.longitude,
-            Number(element?.longitude)
+            element?.longitude
           );
-          // console.log('distance', distance, element?.customer_name);
+          console.log('distance', distance, element?.customer_name);
+          // distance = geolib.getPreciseDistance(
+          //   {
+          //     latitude: Location.coords.latitude,
+          //     longitude: Location.coords.longitude,
+          //   },
+          //   {
+          //     latitude: Number(element?.latitude),
+          //     longitude: Number(element?.longitude),
+          //   }
+          // );
+          // console.log('distance', distance);
           dist.storeDistance = distance.toFixed();
           Object.assign(element, dist);
         }
