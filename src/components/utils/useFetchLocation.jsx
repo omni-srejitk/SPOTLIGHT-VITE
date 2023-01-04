@@ -1,7 +1,7 @@
-import LatLon from "geodesy/latlon-spherical.js";
-import { useNavigate } from "react-router-dom";
-import { useStore } from "../../context/storeContext";
-import { useShopStore } from "../../store/ShopStore";
+import LatLon from 'geodesy/latlon-spherical.js';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../context/storeContext';
+import { useShopStore } from '../../store/ShopStore';
 
 export const useFetchLocation = () => {
   const { storeDetails } = useStore();
@@ -9,8 +9,28 @@ export const useFetchLocation = () => {
   const setStoreData = useShopStore((state) => state.setStoreData);
   const setStoreFound = useShopStore((state) => state.setStoreFound);
   const setStoreLoading = useShopStore((state) => state.setIsStoreLoading);
-  const currLatitude = localStorage.getItem("myLat");
-  const currLongitude = localStorage.getItem("myLon");
+  const currLatitude = localStorage.getItem('myLat');
+  const currLongitude = localStorage.getItem('myLon');
+
+  let distance = 0;
+  function myDistFunc(lat1, lat2, lon1, lon2) {
+    lon1 = (lon1 * Math.PI) / 180;
+    lon2 = (lon2 * Math.PI) / 180;
+    lat1 = (lat1 * Math.PI) / 180;
+    lat2 = (lat2 * Math.PI) / 180;
+
+    // Haversine formula
+    let dlon = lon2 - lon1;
+    let dlat = lat2 - lat1;
+    let a =
+      Math.pow(Math.sin(dlat / 2), 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
+
+    let c = 2 * Math.asin(Math.sqrt(a));
+    let r = 6371;
+
+    return c * r;
+  }
 
   const navigate = useNavigate();
   const successCallback = (Location, resolve) => {
@@ -22,37 +42,32 @@ export const useFetchLocation = () => {
           !currLatitude === Location.coords.latitude &&
           !currLongitude === Location.coords.longitude
         ) {
-          localStorage.setItem("myLat", Location.coords.latitude);
-          localStorage.setItem("myLon", Location.coords.longitude);
+          localStorage.setItem('myLat', Location.coords.latitude);
+          localStorage.setItem('myLon', Location.coords.longitude);
         }
       } else {
-        localStorage.setItem("myLat", Location.coords.latitude);
-        localStorage.setItem("myLon", Location.coords.longitude);
+        localStorage.setItem('myLat', Location.coords.latitude);
+        localStorage.setItem('myLon', Location.coords.longitude);
       }
 
-      const dist = { storeDistance: "" };
+      const dist = { storeDistance: '' };
 
       if (data && data.stores) {
         for (let i = 0; i < data.stores.length; i++) {
           const element = data?.stores[i];
 
-          const p1 = new LatLon(
+          distance = myDistFunc(
             Location.coords.latitude,
-            Location.coords.longitude
+            Number(element?.latitude),
+            Location.coords.longitude,
+            Number(element?.longitude)
           );
-          const p2 = new LatLon(element?.latitude, element?.longitude);
-
-          const distance = Math.round(p1.distanceTo(p2) / 1000);
-
-          console.log(distance);
-
-          dist.storeDistance = distance;
-
+          // console.log('distance', distance, element?.customer_name);
+          dist.storeDistance = distance.toFixed();
           Object.assign(element, dist);
         }
         var byDistance = data.stores.slice(0);
         byDistance.sort((a, b) => a.storeDistance - b.storeDistance);
-
         data.stores = byDistance;
         resolve(data);
       }
@@ -65,10 +80,10 @@ export const useFetchLocation = () => {
 
   const errorCallback = (error) => {
     console.log(error);
-    navigate("Location_Denied");
+    navigate('Location_Denied');
   };
 
-  const calculateDistance = async (value, type = "") => {
+  const calculateDistance = async (value, type = '') => {
     setStoreLoading(true);
     if (value) {
       const findDistance = new Promise((resolve) => {
@@ -88,8 +103,8 @@ export const useFetchLocation = () => {
       setStoreFound(true);
       setStoreLoading(false);
 
-      if (type === "STORES") {
-        navigate("Stores");
+      if (type === 'STORES') {
+        navigate('Stores');
       }
     }
   };
