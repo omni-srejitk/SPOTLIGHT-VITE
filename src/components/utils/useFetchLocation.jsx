@@ -13,29 +13,6 @@ export const useFetchLocation = () => {
   const currLatitude = localStorage.getItem('myLat');
   const currLongitude = localStorage.getItem('myLon');
 
-  function myDistFunc(lat1, lat2, lon1, lon2) {
-    lon1 = (lon1 * Math.PI) / 180;
-    lon2 = (lon2 * Math.PI) / 180;
-    lat1 = (lat1 * Math.PI) / 180;
-    lat2 = (lat2 * Math.PI) / 180;
-    // Haversine formula
-    let dlon = lon2 - lon1;
-    let dlat = lat2 - lat1;
-    let a =
-      Math.pow(Math.sin(dlat / 2), 2) +
-      Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
-
-    let c = 2 * Math.asin(Math.sqrt(a));
-    let r = 6371;
-
-    console.log('raw c * r', c * r);
-    if (c * r < 1) {
-      return '0.' + (c * r).toFixed();
-    } else {
-      return (c * r).toFixed();
-    }
-  }
-
   const navigate = useNavigate();
   const successCallback = (Location, resolve) => {
     try {
@@ -61,24 +38,17 @@ export const useFetchLocation = () => {
           const element = data?.stores[i];
           let distance = 0;
 
-          distance = myDistFunc(
-            Location.coords.latitude,
-            element?.latitude,
-            Location.coords.longitude,
-            element?.longitude
+          distance = geolib.getPreciseDistance(
+            {
+              latitude: Location.coords.latitude,
+              longitude: Location.coords.longitude,
+            },
+            {
+              latitude: Number(element?.latitude),
+              longitude: Number(element?.longitude),
+            }
           );
-          // distance = geolib.getPreciseDistance(
-          //   {
-          //     latitude: Location.coords.latitude,
-          //     longitude: Location.coords.longitude,
-          //   },
-          //   {
-          //     latitude: Number(element?.latitude),
-          //     longitude: Number(element?.longitude),
-          //   }
-          // );
-          console.log('distance', distance);
-          dist.storeDistance = distance;
+          dist.storeDistance = (distance / 1000).toFixed(1);
           Object.assign(element, dist);
         }
         var byDistance = data.stores.slice(0);
