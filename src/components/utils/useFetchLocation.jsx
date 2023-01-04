@@ -37,6 +37,7 @@ export const useFetchLocation = () => {
         for (let i = 0; i < data.stores.length; i++) {
           const element = data?.stores[i];
           let distance = 0;
+          console.log(element);
 
           distance = geolib.getPreciseDistance(
             {

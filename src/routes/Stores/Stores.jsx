@@ -143,7 +143,7 @@ export const Stores = () => {
           </div>
         </div>
         <p className='mx-auto mt-10 w-4/5 text-center text-[1.5rem] font-bold tracking-[2px] text-[#fff]'>
-          {storeData?.customer_name}
+          {storeData?.google_name}
         </p>
         <p className='max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#fff]'>
           {storeData?.storeDistance || 0} km Away
