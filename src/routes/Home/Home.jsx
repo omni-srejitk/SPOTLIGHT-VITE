@@ -37,7 +37,7 @@ const Home = () => {
         alt='loading-animation'
       />
       <button
-        className='rounded-xl bg-black p-2 text-xl text-white'
+        className='rounded-3xl bg-black p-3 text-lg text-white'
         onClick={() => {
           navigate(`${randomBrandsArray[randomnumber]}`);
         }}
