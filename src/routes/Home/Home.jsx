@@ -29,16 +29,21 @@ const Home = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className='flex h-screen w-screen items-center justify-center bg-white'
-      onClick={() => {
-        navigate(`${randomBrandsArray[randomnumber]}`);
-      }}
+      className='flex h-screen w-screen flex-col items-center justify-center gap-10 bg-white'
     >
       <img
         src='/Main Screen svg.svg'
         className='h-20 w-20'
         alt='loading-animation'
       />
+      <button
+        className='rounded-xl bg-black p-2 text-xl text-white'
+        onClick={() => {
+          navigate(`${randomBrandsArray[randomnumber]}`);
+        }}
+      >
+        Search for a random brand
+      </button>
     </motion.div>
   );
 };
