@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useShopStore } from "../../store/ShopStore";
-import { Banner } from "../../components/Cards/Banner";
-import { ButtonAnimationComponent } from "../../components/ButtonAnimationComponent";
-import { Carousal } from "../../components/Carousal";
-import { useMutation } from "react-query";
-import axios from "axios";
-import { Modal } from "../../components/Modal/Modal";
-import { useFetchLocation } from "../../components/utils/useFetchLocation";
-import Header from "../../components/Header";
-import { LoadComponent } from "../../components/LoadComponent";
-import { useRef } from "react";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useShopStore } from '../../store/ShopStore';
+import { Banner } from '../../components/Cards/Banner';
+import { ButtonAnimationComponent } from '../../components/ButtonAnimationComponent';
+import { Carousal } from '../../components/Carousal';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { Modal } from '../../components/Modal/Modal';
+import { useFetchLocation } from '../../components/utils/useFetchLocation';
+import Header from '../../components/Header';
+import { LoadComponent } from '../../components/LoadComponent';
+import { useRef } from 'react';
 
 export const Stores = () => {
   const { calculateDistance } = useFetchLocation();
   const storeData = useShopStore((state) => state.storeData);
   const storeFound = useShopStore((state) => state.storeFound);
   const isStoreLoading = useShopStore((state) => state.isStoreLoading);
-  const latitude = localStorage.getItem("myLat");
-  const longitude = localStorage.getItem("myLon");
+  const latitude = localStorage.getItem('myLat');
+  const longitude = localStorage.getItem('myLon');
 
   const brand = useParams();
   let [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [error, setError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const inputInitialValues = {
-    fullname: "",
-    phone: "",
-    email: "",
-    brand: "",
-    lat: "",
-    long: "",
+    fullname: '',
+    phone: '',
+    email: '',
+    brand: '',
+    lat: '',
+    long: '',
   };
 
   const [input, setInput] = useState(inputInitialValues);
@@ -42,7 +42,7 @@ export const Stores = () => {
   const CAN_SUBMIT = input.fullname && input.phone && input.email;
 
   useEffect(() => {
-    calculateDistance(true, "");
+    calculateDistance(true, '');
   }, []);
 
   function openGoogleByMethod() {
@@ -75,7 +75,7 @@ export const Stores = () => {
 
   const handleEmailChange = (e) => {
     if (!isValidEmail(e.target.value)) {
-      setError("Email is invalid");
+      setError('Email is invalid');
     } else {
       setError(null);
     }
@@ -83,7 +83,7 @@ export const Stores = () => {
 
   const handlePhoneChange = (e) => {
     if (!isValidPhone(e.target.value)) {
-      setPhoneError("Phone is invalid");
+      setPhoneError('Phone is invalid');
     } else {
       setPhoneError(null);
     }
@@ -91,14 +91,14 @@ export const Stores = () => {
 
   const handleNameChange = (e) => {
     if (!isValidName(e.target.value)) {
-      setNameError("Name is invalid");
+      setNameError('Name is invalid');
     } else {
       setNameError(null);
     }
   };
 
   const loginUser = (form) => {
-    return axios.post("https://api.omniflo.in/formentry", form);
+    return axios.post('https://api.omniflo.in/formentry', form);
   };
 
   const { mutate, data: FormDatares, isLoading } = useMutation(loginUser);
@@ -111,41 +111,41 @@ export const Stores = () => {
       mutate(input);
       setName(FormDatares?.data?.data?.fullname);
       setIsOpen(true);
-      setErrorMessage("");
+      setErrorMessage('');
       setInput({
-        fullname: "",
-        phone: "",
-        email: "",
-        brand: "",
-        lat: "",
-        long: "",
+        fullname: '',
+        phone: '',
+        email: '',
+        brand: '',
+        lat: '',
+        long: '',
       });
     } else {
-      setErrorMessage("Please enter all fields");
+      setErrorMessage('Please enter all fields');
     }
   };
 
   const NEARBY_STORE = (
-    <div className="mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 pt-0 lg:w-[60vw]">
+    <div className='mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 pt-0 lg:w-[60vw]'>
       <Header />
-      <Banner color="bg-rose-500">
-        <div className="flex h-fit w-fit -space-x-8">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full border-[1px] bg-white">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black">
-              <div className=" h-9 w-9">
+      <Banner color='bg-rose-500'>
+        <div className='flex h-fit w-fit -space-x-8'>
+          <div className='flex h-24 w-24 items-center justify-center rounded-full border-[1px] bg-white'>
+            <div className='flex h-16 w-16 items-center justify-center rounded-full bg-black'>
+              <div className=' h-9 w-9'>
                 <img
-                  className=" h-full w-full"
-                  src="/spotlight white.svg"
-                  alt="/"
+                  className=' h-full w-full'
+                  src='/spotlight white.svg'
+                  alt='/'
                 />
               </div>
             </div>
           </div>
         </div>
-        <p className="mx-auto mt-10 w-4/5 text-center text-[1.5rem] font-bold tracking-[2px] text-[#1D1D1D]">
-          {storeData?.customer_name}
+        <p className='mx-auto mt-10 w-4/5 text-center text-[1.5rem] font-bold tracking-[2px] text-[#fff]'>
+          {storeData?.google_name}
         </p>
-        <p className="max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#1D1D1D]">
+        <p className='max-w-4/5 mx-auto mt-2 text-center text-[2.5rem] font-semibold text-[#fff]'>
           {storeData?.storeDistance || 0} km Away
         </p>
         <ButtonAnimationComponent
@@ -153,11 +153,11 @@ export const Stores = () => {
             openGoogleByMethod();
           }}
         >
-          <div className="group flex h-full w-full items-center justify-center gap-2 ">
+          <div className='group flex h-full w-full items-center justify-center gap-2 '>
             <p>Take me there</p>
             <img
-              src="/Find a store near me.svg"
-              className="ml-2 inline  group-hover:ml-6"
+              src='/Find a store near me.svg'
+              className='ml-2 inline  group-hover:ml-6'
             />
           </div>
         </ButtonAnimationComponent>
@@ -167,20 +167,20 @@ export const Stores = () => {
   );
 
   const FARAWAY_STORE = (
-    <div className="mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 lg:w-[60vw]">
-      <div className="h-full w-full">
-        <div className="card mx-2 h-full rounded-xl bg-indigo-500 pb-5">
-          <img src="/images/arrow.svg" className="m-auto w-24 py-12" />
-          <p className="store text-center text-base tracking-[4px] text-white">
+    <div className='mx-auto flex h-full w-full flex-grow flex-col bg-black p-4 lg:w-[60vw]'>
+      <div className='h-full w-full'>
+        <div className='card mx-2 h-full rounded-xl bg-indigo-500 pb-5'>
+          <img src='/images/arrow.svg' className='m-auto w-24 py-12' />
+          <p className='store text-center text-base tracking-[4px] text-white'>
             THE NEAREST STORE IS
           </p>
-          <p className="mt-4 text-center text-[2.5rem] font-bold leading-[3rem] text-indigo-900">
+          <p className='mt-4 text-center text-[2.5rem] font-bold leading-[3rem] text-indigo-900'>
             {storeData?.storeDistance} km Away
           </p>
-          <p className="mt-4 text-center text-lg font-medium leading-6 text-indigo-900">
+          <p className='mt-4 text-center text-lg font-medium leading-6 text-indigo-900'>
             How Far Will You Go for Love?
           </p>
-          <p className="mt-4 text-center text-sm font-semibold leading-6 text-white">
+          <p className='mt-4 text-center text-sm font-semibold leading-6 text-white'>
             Instead, let us notify you when
             <br />
             we launch near you.
@@ -188,7 +188,7 @@ export const Stores = () => {
 
           <form
             onSubmit={handleClick}
-            className="flex w-full flex-col items-center justify-center"
+            className='flex w-full flex-col items-center justify-center'
           >
             <input
               onChange={(e) => {
@@ -197,12 +197,12 @@ export const Stores = () => {
                 setName(e.target.value);
               }}
               value={input.fullname}
-              name="fullname"
-              placeholder="Full Name"
-              className="m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900"
+              name='fullname'
+              placeholder='Full Name'
+              className='m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900'
             />
             {nameError && (
-              <p className="m-0 w-4/5 p-0 text-white">{nameError}</p>
+              <p className='m-0 w-4/5 p-0 text-white'>{nameError}</p>
             )}
             <input
               onChange={(e) => {
@@ -210,12 +210,12 @@ export const Stores = () => {
                 handlePhoneChange(e);
               }}
               value={input.phone}
-              name="phone"
-              placeholder="Phone number"
-              className="m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900"
+              name='phone'
+              placeholder='Phone number'
+              className='m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900'
             />
             {phoneError && (
-              <p className="m-0 w-4/5 p-0 text-white">{phoneError}</p>
+              <p className='m-0 w-4/5 p-0 text-white'>{phoneError}</p>
             )}
             <input
               onChange={(e) => {
@@ -223,21 +223,21 @@ export const Stores = () => {
                 handleEmailChange(e);
               }}
               value={input.email}
-              name="email"
-              placeholder="Email"
-              className="m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900"
+              name='email'
+              placeholder='Email'
+              className='m-auto my-4 block w-4/5 rounded-lg border-2 border-transparent bg-indigo-900 p-4 text-white outline-transparent placeholder:text-indigo-300 focus:border-indigo-900 focus-visible:border-indigo-900'
             />
-            {error && <p className="m-0 w-4/5 p-0 text-white">{error}</p>}
+            {error && <p className='m-0 w-4/5 p-0 text-white'>{error}</p>}
             {errorMessage && (
-              <p className="m-0 w-4/5 p-0 text-white">{errorMessage}</p>
+              <p className='m-0 w-4/5 p-0 text-white'>{errorMessage}</p>
             )}
 
-            <ButtonAnimationComponent type="submit">
-              <div className="group flex h-full w-full items-center justify-center gap-2 ">
+            <ButtonAnimationComponent type='submit'>
+              <div className='group flex h-full w-full items-center justify-center gap-2 '>
                 <p>Get 25% off on Launch</p>
                 <img
-                  src="/Find a store near me.svg"
-                  className="ml-2 inline  group-hover:ml-6"
+                  src='/Find a store near me.svg'
+                  className='ml-2 inline  group-hover:ml-6'
                 />
               </div>
             </ButtonAnimationComponent>
@@ -249,42 +249,42 @@ export const Stores = () => {
           isModalOpen={isOpen}
           onClose={() => {
             setInput({
-              fullname: "",
-              phone: "",
-              email: "",
-              brand: "",
-              lat: "",
-              long: "",
+              fullname: '',
+              phone: '',
+              email: '',
+              brand: '',
+              lat: '',
+              long: '',
             });
             setIsOpen(false);
           }}
         >
-          <div className="relative h-full w-full min-w-[80vw] rounded-lg bg-white p-10 lg:w-[30vw] lg:min-w-[30vw]">
+          <div className='relative h-full w-full min-w-[80vw] rounded-lg bg-white p-10 lg:w-[30vw] lg:min-w-[30vw]'>
             <div
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200"
+              className='absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200'
             >
-              <span className="material-icons-round">close</span>
+              <span className='material-icons-round'>close</span>
             </div>
-            <img src="/Success.svg" className="my-6 mx-auto block h-36 w-56" />
-            <p className="m-2 text-center text-[2rem] font-bold">
+            <img src='/Success.svg' className='my-6 mx-auto block h-36 w-56' />
+            <p className='m-2 text-center text-[2rem] font-bold'>
               Congratulations! {name}
             </p>
-            <p className="p-2 text-center text-[1.25rem] font-semibold">
+            <p className='p-2 text-center text-[1.25rem] font-semibold'>
               You’ll be the first one to be notified when we launch in near you!
             </p>
             <button
-              className="my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]"
+              className='my-6 mx-auto block w-4/5 rounded-lg bg-[#FCD439] p-4 text-[1.15rem] font-medium text-[black]'
               onClick={() => {
                 setIsOpen(false);
               }}
             >
-              <a href="https://www.instagram.com/shoponspotlight/">
-                <span className="">Follow us on Instagram</span>
+              <a href='https://www.instagram.com/shoponspotlight/'>
+                <span className=''>Follow us on Instagram</span>
                 <img
-                  src="/images/insta icon dark.svg"
-                  className="inline pl-2"
-                  alt="/"
+                  src='/images/insta icon dark.svg'
+                  className='inline pl-2'
+                  alt='/'
                 />
               </a>
             </button>
