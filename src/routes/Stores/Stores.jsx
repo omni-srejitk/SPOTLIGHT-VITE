@@ -27,6 +27,14 @@ export const Stores = () => {
   const [phoneError, setPhoneError] = useState('');
   const [nameError, setNameError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  let capBrandName =
+    String(brand?.brand?.slice(0, 1)).toUpperCase() + brand?.brand?.slice(1);
+  function setTitle() {
+    document.title = `Spotlight x ${capBrandName} | Store Name`;
+  }
+  useEffect(() => {
+    setTitle();
+  }, []);
 
   const inputInitialValues = {
     fullname: '',
@@ -105,6 +113,7 @@ export const Stores = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
+    document.title = `Spotlight x ${capBrandName} | Success`;
 
     if (CAN_SUBMIT) {
       calculateDistance(true);
@@ -259,7 +268,8 @@ export const Stores = () => {
             setIsOpen(false);
           }}
         >
-          <div className='relative h-full w-full min-w-[80vw] rounded-lg bg-white p-10 lg:w-[30vw] lg:min-w-[30vw]'>
+          <div className='relative mt-[40%] h-full w-full min-w-[80vw] rounded-lg bg-red-400 p-10 md:ml-[7vw] md:mt-[35vh] lg:ml-[35vw] lg:mt-[20vh] lg:w-[30vw] lg:min-w-[30vw]'>
+            {/* <div className='relative h-full w-full min-w-[80vw] rounded-lg p-10 lg:w-[30vw] lg:min-w-[30vw]'> */}
             <div
               onClick={() => setIsOpen(false)}
               className='absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-200'
@@ -308,7 +318,7 @@ export const Stores = () => {
 
   return !isStoreLoading && showAnim ? (
     <LoadComponent />
-  ) : storeData?.storeDistance > 50 ? (
+  ) : storeData?.storeDistance < 50 ? (
     FARAWAY_STORE
   ) : (
     NEARBY_STORE
