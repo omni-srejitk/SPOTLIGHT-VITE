@@ -1,25 +1,31 @@
-import { useParams } from "react-router-dom";
-import React, { useEffect } from "react";
-import axios from "axios";
-import { MainButton } from "../../components/MainButton";
-import { Carousal } from "../../components/Carousal";
+import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { MainButton } from '../../components/MainButton';
+import { Carousal } from '../../components/Carousal';
 
-import { useQuery } from "react-query";
-import { useStore } from "../../context/storeContext";
+import { useQuery } from 'react-query';
+import { useStore } from '../../context/storeContext';
 
-import { SplashScreen } from "../../components/Splash/SplashScreen";
-import Header from "../../components/Header";
+import { SplashScreen } from '../../components/Splash/SplashScreen';
+import Header from '../../components/Header';
 
 const Brand = () => {
   const { brand } = useParams();
   const brandName = String(brand?.slice(0, 1)).toUpperCase() + brand?.slice(1);
+  function setTitle() {
+    document.title = `Spotlight x ${brandName}`;
+  }
+  useEffect(() => {
+    setTitle();
+  }, []);
 
   const details = useStore();
   const brandDetailURL = import.meta.env.VITE_SPOTLIGHT_GET + `${brand}`;
 
   const fetchBrandDetails = () => {
     return useQuery(
-      ["brandDetails"],
+      ['brandDetails'],
 
       () => {
         return axios.get(brandDetailURL);
@@ -56,7 +62,7 @@ const Brand = () => {
 
   const fetchLiveStoreData = (BRAND, loading) => {
     return useQuery(
-      ["livestore_data"],
+      ['livestore_data'],
       () => {
         return axios.get(
           `https://engine.omniflo.in/api/method/omniflo_lead.omniflo_lead.api.frappe_api.customer_profile?brand=${encodeURI(
@@ -109,7 +115,7 @@ const Brand = () => {
   return LOADING ? (
     <SplashScreen loading={LOADING} />
   ) : (
-    <div className="min-w-screen relative mx-auto flex h-full min-h-screen w-full flex-grow flex-col items-center justify-start bg-black p-4 pt-0 lg:w-[60vw]">
+    <div className='min-w-screen relative mx-auto flex h-full min-h-screen w-full flex-grow flex-col items-center justify-start bg-black p-4 pt-0 lg:w-[60vw]'>
       <Header />
       <MainButton />
       <Carousal />
